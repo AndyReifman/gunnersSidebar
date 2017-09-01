@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import requests,re
+import requests,re,datetime
 
 players = [0] * 5
 totalAssists = [0] * 5
@@ -50,7 +50,7 @@ def parseStats(player, i):
     eflCupWebsite = requests.get(eflCup, timeout=15)
     premier_html = premierLeagueWebsite.text
     fa_html = faCupWebsite.text
-    europa_html = europaLeagueWebsite.txt
+    europa_html = europaLeagueWebsite.text
     efl_html = eflCupWebsite.text
     #Premier League
     year = re.findall('<p class="dropdown-value"><span>(.*)</span></p>',premier_html)[1]
@@ -64,7 +64,7 @@ def parseStats(player, i):
         try: 
             body += getStats(player,europa_html,i)
         except:
-            print getTimestamp() + "no Europa League stats found"
+            print getTimestamp() + "No Europa League stats found"
     else:
         body += "|0"
     #FA Cup
@@ -73,7 +73,7 @@ def parseStats(player, i):
         try:
             body += getStats(player,fa_html, i)
         except:
-            print getTimestamp() + "no FA Cup stats found"
+            print getTimestamp() + "No FA Cup stats found"
     else:
         body += "|0"
     #EFL Cup

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-import praw,urllib2,cookielib,re,logging,logging.handlers,datetime,requests,requests.auth,sys,json,unicodedata
+import re,logging,logging.handlers,datetime,requests,requests.auth,sys,json,unicodedata
 from praw.models import Message
 from collections import Counter
 from itertools import groupby
@@ -66,6 +66,25 @@ def teamsAbove(table, index, i):
             points = re.findall('<td class="pts">(.*)</td>',table[x])[0]
             body += "|**"+position+"**|[]"+getSprite(team)+"|"+getSign(goalDiff)+"|"+points+"|\n"
     return body
+
+def discordAbove(table, index, i):
+    body = ""
+    if index < 0:
+        return body
+    elif index == 0:
+        team = re.findall('a href=".*">(.*)<\/a>',table[1])[0]
+        position = re.findall('<td class="pos">(.*)</td>',table[1])[0]
+        goalDiff = re.findall('<td class="gd">(.*)</td>',table[1])[0]
+        points = re.findall('<td class="pts">(.*)</td>',table[1])[0]
+        body += "|**"+position+"**|"+team+"|"+getSign(goalDiff)+"|"+points+"|\n"
+    else:
+        for x in range(index, i):
+            team = re.findall('a href=".*">(.*)<\/a>',table[x])[0]
+            position = re.findall('<td class="pos">(.*)</td>',table[x])[0]
+            goalDiff = re.findall('<td class="gd">(.*)</td>',table[x])[0]
+            points = re.findall('<td class="pts">(.*)</td>',table[x])[0]
+            body += "|**"+position+"**|"+team+"|"+getSign(goalDiff)+"|"+points+"|\n"
+    return body
         
 def teamsBelow(table, index,i):
     body = ""
@@ -79,6 +98,18 @@ def teamsBelow(table, index,i):
             body += "|**"+position+"**|[]"+getSprite(team)+"|"+getSign(goalDiff)+"|"+points+"|\n"
     return body
     
+
+def discordBelow(table, index,i):
+    body = ""
+    if index < 5:
+        index = 5
+    for x in range(i+1, index+1):
+            team = re.findall('a href=".*">(.*)<\/a>',table[x])[0]
+            position = re.findall('<td class="pos">(.*)</td>',table[x])[0]
+            goalDiff = re.findall('<td class="gd">(.*)</td>',table[x])[0]
+            points = re.findall('<td class="pts">(.*)</td>',table[x])[0]
+            body += "|**"+position+"**|"+team+"|"+getSign(goalDiff)+"|"+points+"|\n"
+    return body
 
 def findArsenal(table):
     for index,pos in enumerate(table):
@@ -98,6 +129,25 @@ def findArsenal(table):
     body = above + body + below
     return body
 
+def discordBuild(table):
+    for index,pos in enumerate(table):
+        team = re.findall('a href=".*">(.*)<\/a>',pos)[0]
+        if team == "Arsenal":
+            i = index
+            position = re.findall('<td class="pos">(.*)</td>',pos)[0]
+            goalDiff = re.findall('<td class="gd">(.*)</td>',pos)[0]
+            points = re.findall('<td class="pts">(.*)</td>',pos)[0]
+            body = "|**"+position+"**|**"+team+"**|**"+getSign(goalDiff)+"**|**"+points+"**|\n"
+    topRange = i + 2
+    botRange = i - 2
+    if botRange <= 1:
+        topRange += 1
+    above = discordAbove(table, botRange, i)
+    below = discordBelow(table, topRange, i)
+    body = above + body + below
+    return body
+
+
 def parseWebsite():
     website = "http://www.espnfc.us/english-premier-league/23/table"
     tableWebsite = requests.get(website, timeout=15)
@@ -110,4 +160,10 @@ def parseWebsite():
 def main():
     table = parseWebsite()
     body = findArsenal(table)
+    #return body
+    return body
+
+def discordMain():
+    table = parseWebsite()
+    body = discordBuild(table)
     return body

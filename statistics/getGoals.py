@@ -66,7 +66,7 @@ def parseStats(player, i):
         try:
             body += getStats(player,europa_html,i)
         except:
-            print getTimestamp() + "no Europa League stats found"
+            print getTimestamp() + "No Europa League stats found"
     else:
         body += "|0"
     #FA Cup

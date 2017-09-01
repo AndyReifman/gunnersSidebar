@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import praw,urllib2,cookielib,re,logging,logging.handlers,datetime,requests,requests.auth,sys,json,unicodedata
+import praw,re,logging,logging.handlers,datetime,requests,requests.auth,sys,json,unicodedata
 from praw.models import Message
 from collections import Counter
 from itertools import groupby
@@ -95,6 +95,107 @@ def findNext(fixtures, nextMatch):
     body = results + matches
     return body
 
+def discordNext(fixtures, nextMatch):
+    for index,fixture in enumerate(fixtures):
+        date = re.findall('div class="date">(.*)<\/div>',fixture)[0] 
+        if date == nextMatch.date:
+            i = index
+    matches = discordMatches(fixtures, i)
+    body = matches
+    return body
+
+def discordBefore(fixtures, nextMatch):
+    for index,fixture in enumerate(fixtures):
+        date = re.findall('div class="date">(.*)<\/div>',fixture)[0] 
+        if date == nextMatch.date:
+            i = index
+    results = discordResults(fixtures, i)
+    body = results
+    return body
+
+def discordMatches(fixtures, index):
+    body = ""
+    team = ""
+    x = index + 3
+    for s in range(index, x):
+        date = re.findall('div class="date">(.*)<\/div>',fixtures[s])[0]
+        date = date.split(',')[0]
+        time = re.findall('<div class="time gmt-time" data-time="(.*)">',fixtures[s])[0]
+        time = re.findall('.*T(.*):',time)[0]
+        comp = re.findall('<div class="league">(.*)<\/div>',fixtures[s])[0]
+        teams = re.findall('<div class="team-name.*">(.*)<\/div>',fixtures[s])
+        homeTeam = teams[0]
+        awayTeam = teams[1]
+        homeAway = getLocation(teams)
+        if homeAway == 0:
+            team = awayTeam + " (H)"
+        else:
+            team = homeTeam + " (A)"
+        body += "| " + date + " |  " + time + " | " + team +" | " +comp+" |\n"
+    return body
+
+def discordResults(fixtures,index):
+    body = ""
+    team = ""
+    x = index - 3
+    for s in range(x, index): 
+        result = ""
+        date = re.findall('div class="date">(.*)<\/div>',fixtures[s])[0]
+        date = date.split(',')[0]
+        comp = re.findall('<div class="league">(.*)<\/div>',fixtures[s])[0]
+        teams = re.findall('<div class="team-name.*">(.*)<\/div>',fixtures[s])
+        homeTeam = teams[0]
+        awayTeam = teams[1]
+        if re.findall('<div class="status">(.*)<\/div>',fixtures[s])[0] == "FT-Pens":
+            homeScore = re.findall('<span class="home-score score-value.*">(.*)<',fixtures[s])[0]
+            homePenScore = re.findall('\(([0-9])\)',homeScore)[0]
+            homeScore = re.findall('\s+([0-9])',homeScore)[0]
+            awayScore = re.findall('<span class="away-score score-value.*">(.*)<',fixtures[s])[0]
+            awayPenScore = re.findall('\(([0-9])\)',awayScore)[0]
+            awayScore = re.findall('([0-9])\s+',awayScore)[0]
+            homeAway = getLocation(teams)
+            #0 for home, 1 for away
+            homeAway = getLocation(teams)
+            if homePenScore > awayPenScore:
+                if homeAway == 0:
+                    result += "win) "
+                else:
+                    result += "loss) "
+            elif homePenScore < awayPenScore: 
+                if homeAway == 0:
+                    result += "loss) "
+                else:
+                    result += "win) "
+            result += homeScore + " ("+homePenScore+") - ("+awayPenScore+") "+awayScore
+            if homeAway == 0:
+                team = awayTeam + " (H)"
+            else:
+                team = homeTeam + " (A)"
+        else:
+            homeScore = re.findall('<span class="home-score score-value.*">(.*)<',fixtures[s])[0]
+            awayScore = re.findall('<span class="away-score score-value.*">(.*)<',fixtures[s])[0]
+            homeAway = getLocation(teams)
+            #0 for home, 1 for away
+            homeAway = getLocation(teams)
+            if homeScore > awayScore:
+                if homeAway == 0:
+                    result += "win "
+                else:
+                    result += "loss "
+            elif homeScore < awayScore: 
+                if homeAway == 0:
+                    result += "loss "
+                else:
+                    result += "win "
+            else:
+                result += "draw "
+            result += homeScore +" - "+awayScore
+            if homeAway == 0:
+                team = awayTeam + " (H)"
+            else:
+                team = homeTeam + " (A)"
+        body += "| " + date + " | " + result + " | " + team +" | " +comp+"|\n"
+    return body
 
 
 def findResults(fixtures, index):
@@ -200,3 +301,15 @@ def main():
     nextMatch = parseNext(nextMatch)   
     body = findNext(fixtures,nextMatch)
     return body
+
+def discordFixtures():
+    nextMatch,fixtures = parseWebsite()
+    nextMatch = parseNext(nextMatch)   
+    body = discordNext(fixtures,nextMatch)
+    return body 
+
+def discordResult():
+    nextMatch,fixtures = parseWebsite()
+    nextMatch = parseNext(nextMatch)   
+    body = discordBefore(fixtures,nextMatch)
+    return body 
