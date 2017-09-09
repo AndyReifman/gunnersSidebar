@@ -1,4 +1,4 @@
-#!/usr/local/bin/python
+#!/usr/bin/python2.7
 import getTable
 import europaTable
 from unidecode import unidecode

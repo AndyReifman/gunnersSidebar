@@ -1,4 +1,4 @@
-#!/usr/local/bin/python
+#!/usr/bin/python2.7
 from unidecode import unidecode
 import requests
 import datetime

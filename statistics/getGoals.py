@@ -67,6 +67,7 @@ def parseStats(player, i):
             body += getStats(player,europa_html,i)
         except:
             print getTimestamp() + "No Europa League stats found"
+            body += "|0"
     else:
         body += "|0"
     #FA Cup
@@ -76,6 +77,7 @@ def parseStats(player, i):
             body += getStats(player,fa_html,i)
         except:
             print getTimestamp() + "No FA Cup stats found"
+            body += "|0"
     else:
         body += "|0"
     #EFL Cup
@@ -85,6 +87,7 @@ def parseStats(player, i):
             body += getStats(player,efl_html,i)
         except:
             print getTimestamp() + "No EFL Cup stats found"
+            body += "|0"
     else:
         body += "|0"
     body += "|"+str(totalGoals[i])+"|\n"

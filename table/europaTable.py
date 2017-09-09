@@ -18,9 +18,9 @@ def getTimestamp():
 def getSprite(teamName):
     return {
          "Arsenal": "(#sprite1-p1)",
-         "BATE Borisov":"(#sprite4-43)",
+         "BATE Borisov":"(#sprite4-p43)",
          "FC Cologne":"(#sprite1-p125)",
-         "Red Star Belgrade":"(#sprite1-165)",
+         "Red Star Belgrade":"(#sprite1-p165)",
         }[teamName]
 
 
