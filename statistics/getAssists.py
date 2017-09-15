@@ -55,16 +55,20 @@ def parseStats(player, i):
     #Premier League
     year = re.findall('<p class="dropdown-value"><span>(.*)</span></p>',premier_html)[1]
     if year == "2017/2018":
-        body += getStats(player,premier_html,i)
+        try: 
+            body += getStats(player,premier_html,i)
+        except:
+            print getTimestamp() + "No Premier League assists found"
+            body += "|0"
     else:
-        body += "|0|"
+        body += "|0"
     #Europa League
     year = re.findall('<p class="dropdown-value"><span>(.*)</span></p>',europa_html)[1]
     if year == "2017/2018":
         try: 
             body += getStats(player,europa_html,i)
         except:
-            print getTimestamp() + "No Europa League stats found"
+            print getTimestamp() + "No Europa League assists found"
             body += "|0"
     else:
         body += "|0"
@@ -74,7 +78,7 @@ def parseStats(player, i):
         try:
             body += getStats(player,fa_html, i)
         except:
-            print getTimestamp() + "No FA Cup stats found"
+            print getTimestamp() + "No FA Cup assists found"
             body += "|0"
     else:
         body += "|0"
@@ -84,7 +88,7 @@ def parseStats(player, i):
         try:
             body += getStats(player,efl_html,i)
         except:
-            print getTimestamp() + "no EFL Cup stats found"
+            print getTimestamp() + "no EFL Cup assists found"
             body += "|0"
     else:
         body += "|0"

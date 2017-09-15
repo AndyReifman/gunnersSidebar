@@ -62,7 +62,7 @@ def getSprite(teamName):
          "Swansea City": "(#sprite1-p39)",
          "Tottenham Hotspur": "(#icon-poop)",
          "Watford": "(#sprite1-p112)",
-         "West Bromwich Albion": "(#sprite1-p78)",
+         "West Brom": "(#sprite1-p78)",
          "West Ham United": "(#sprite1-p21)",
         }[teamName]
 
@@ -70,6 +70,7 @@ def getComp(comp):
     return {
         "CC":"(#logo-eflcup)",
         "Emirates Cup":"(#icon-ball)",
+        "English Carabao Cup":"(#logo-eflcup)",
         "Europa League":"(#logo-el)",
         "FA Community Shield":"(#logo-communityshield)",
         "Premier League":"(#logo-pl)",

@@ -1,10 +1,13 @@
 #!/usr/bin/python2.7
+# coding: utf-8
 from unidecode import unidecode
+from time import sleep
 import requests
 import datetime
 import time
 import re
 import praw
+import pyotp
 
 item = dict()
 f = open('/root/reddit/sidebar/injury/api.txt')
@@ -37,8 +40,12 @@ def getTimestamp():
 def loginBot():
     try:
         f = open('/root/reddit/sidebar/login.txt')
+        fkey = open('/root/reddit/sidebar/2fakey.txt')
         admin,username,password,subreddit,user_agent,id,secret,redirect = f.readline().split('||',8)
+        key = fkey.readline().rstrip()
+        password += ':'+pyotp.TOTP(key).now()
         f.close()
+        fkey.close()
         r = praw.Reddit(client_id=id,
              client_secret=secret,
              password=password,
@@ -46,9 +53,12 @@ def loginBot():
              username=username)
         print getTimestamp() + "OAuth session opened as /u/" + r.user.me().name
         return r,admin,username,password,subreddit,user_agent,id,secret,redirect
-    except:
-                print getTimestamp() + "Setup error \n"
-                sleep(10)
+    except Exception, e:
+        if str(e) == 'invalid_grant error processing request':
+            loginBot()
+            return
+        print getTimestamp() + "Setup error \n"
+        sleep(10)
 
 def buildSidebar():
 	injUrl = "http://www.arsenal.com/first-team/players/"
