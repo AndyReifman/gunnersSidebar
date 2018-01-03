@@ -51,9 +51,6 @@ def buildSidebar():
 def updateResults():
     results = buildSidebar()
     r,admin,username,password,subreddit,user_agent,id,secret,redirect = loginBot()
-    #r = loginBot()
-    #settings = r.get_settings('gunners')
-    #settings = r.settings()
     settings = r.subreddit(subreddit).mod.settings()
     contents = settings['description']
     contents = re.sub('\[\/\/\]: # \(Fixtures Table\).*\[\/\/\]: # \(End Fixtures Table\)',results,contents,flags=re.DOTALL)

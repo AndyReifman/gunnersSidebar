@@ -39,6 +39,10 @@ def loginBot():
         return r,admin,username,password,subreddit,user_agent,id,secret,redirect
     except Exception, e:
         print getTimestamp() + str(e)
+        if e == 'invalid_grant error processing request':
+            print getTimestamp() + 'Attempting to log in again.\n'
+            loginBot()
+            return
         print getTimestamp() + "Setup error \n"
         sleep(10)
 
@@ -64,11 +68,14 @@ def buildEuropa():
 #Update the sidebar
 def updateSidebar():
 	eplTable = buildSidebar()		
+	europaTable = buildEuropa()		
         r,admin,username,password,subreddit,user_agent,id,secret,redirect = loginBot()
 	settings = r.subreddit(subreddit).mod.settings()
 	contents = settings['description']
 	#We want to update current sidebar to where injury table goes
 	contents = re.sub('\[\/\/\]: # \(Premier Table\).*\[\/\/\]: # \(End Premier Table\)',eplTable,contents,flags=re.DOTALL)
+	r.subreddit(subreddit).mod.update(description=contents)
+	contents = re.sub('\[\/\/\]: # \(Europa Table\).*\[\/\/\]: # \(End Europa Table\)',europaTable,contents,flags=re.DOTALL)
 	r.subreddit(subreddit).mod.update(description=contents)
 
 def updateEuropa():
@@ -84,5 +91,6 @@ def updateEuropa():
 
 
 updateSidebar()
-updateEuropa()
 print getTimestamp() + "Premier League Table Updated"
+#updateEuropa()
+print getTimestamp() + "Europa League Table Updated"

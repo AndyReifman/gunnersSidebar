@@ -41,29 +41,34 @@ def getSprite(teamName):
     return {
          "Arsenal": "(#sprite1-p1)",
          "Bournemouth": "(#sprite1-p218)",
-         "BATE":"(#sprite4-43)",
+         "BATE":"(#sprite4-p43)",
+         "Brighton":"(#sprite1-p103)",
          "Burnley": "(#sprite1-p156)",
          "Chelsea": "(#sprite1-p4)",
          "Cologne":"(#sprite1-p125)",
-         "Crystal Palace": "(#sprite1-p67)",
+         "C Palace": "(#sprite1-p67)",
          "Doncaster": "(#sprite1-p252)",
          "Everton": "(#sprite1-p15)",
+         "Huddersfield": "(#sprite1-p199)",
          "Hull City": "(#sprite1-p117)",
          "Leicester": "(#sprite1-p87)",
          "Liverpool": "(#sprite1-p3)",
-         "Manchester City": "(#sprite1-p10)",
-         "Manchester United": "(#sprite1-p2)",
+         "Man City": "(#sprite1-p10)",
+         "Man Utd": "(#sprite1-p2)",
          "Middlesbrough": "(#sprite1-p91)",
-         "Red Star Bel":"(#sprite1-165)",
+         "Newcastle": "(#sprite1-p11)",
+         "Norwich": "(#sprite1-p44)",
+         "Nottm Forest": "(#sprite1-p66)",
+         "Red Star Bel":"(#sprite1-p165)",
          "Sevilla": "(#sprite1-p229)",
          "Southampton": "(#sprite1-p38)",
          "Stoke": "(#sprite1-p81)",
          "Sunderland": "(#sprite1-p46)",
-         "Swansea City": "(#sprite1-p39)",
-         "Tottenham Hotspur": "(#icon-poop)",
+         "Swansea": "(#sprite1-p39)",
+         "Tottenham": "(#icon-poop)",
          "Watford": "(#sprite1-p112)",
          "West Brom": "(#sprite1-p78)",
-         "West Ham United": "(#sprite1-p21)",
+         "West Ham": "(#sprite1-p21)",
         }[teamName]
 
 def getComp(comp):
@@ -74,6 +79,7 @@ def getComp(comp):
         "Europa League":"(#logo-el)",
         "FA Community Shield":"(#logo-communityshield)",
         "Premier League":"(#logo-pl)",
+        "English FA Cup":"(#logo-facup)",
       }[comp]
 
 def parseWebsite():
@@ -303,14 +309,3 @@ def main():
     body = findNext(fixtures,nextMatch)
     return body
 
-def discordFixtures():
-    nextMatch,fixtures = parseWebsite()
-    nextMatch = parseNext(nextMatch)   
-    body = discordNext(fixtures,nextMatch)
-    return body 
-
-def discordResult():
-    nextMatch,fixtures = parseWebsite()
-    nextMatch = parseNext(nextMatch)   
-    body = discordBefore(fixtures,nextMatch)
-    return body 

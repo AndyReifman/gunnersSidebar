@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+from unidecode import unidecode
 import requests,re,datetime
 
 players = [0] * 5
@@ -15,6 +16,7 @@ def getTimestamp():
 
 def getStats(player,html,i):
     body = "|"
+    assists = totalAssists[i]
     line = html.split('<div class="stats-top-scores">')[1]
     #playerLine = re.findall('<td headers="player"><a href=.*>(.*)<\/a><\/td>',line)[0]
     playerLine = line.split('<tr>')[2:]
@@ -23,8 +25,8 @@ def getStats(player,html,i):
         if name == player:
             body += re.findall('<td headers="goals">([0-9])</td>',playerLine[x])[0]
             totalAssists[i] += int(re.findall('<td headers="goals">([0-9])</td>',playerLine[x])[0])
-    if totalAssists[i] == 0:
-        body += "0|"
+    if assists == totalAssists[i]:
+        body += "0"
     return body
 
 
@@ -88,7 +90,7 @@ def parseStats(player, i):
         try:
             body += getStats(player,efl_html,i)
         except:
-            print getTimestamp() + "no EFL Cup assists found"
+            print getTimestamp() + "No EFL Cup assists found"
             body += "|0"
     else:
         body += "|0"
@@ -101,10 +103,13 @@ def buildTable(players):
     body = ""
     for i,player in enumerate(players):
         temp = player.replace(' ','-').lower()
+        temp = unidecode(temp)
         newLine = parseStats(player,i)
         if newLine == "":
             continue
         else:  
+            if unidecode(temp) == 'alexis-sanchez':
+                temp = "alexis"
             body += "|["+player+"](http://arsenal.com/first-team/players/"+temp+")"
             body += newLine
     return body
