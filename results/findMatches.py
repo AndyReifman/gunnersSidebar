@@ -2,10 +2,12 @@
 # -*- coding: utf-8 -*-
 
 import praw,re,logging,logging.handlers,datetime,requests,requests.auth,sys,json,unicodedata
+from unidecode import unidecode
 from praw.models import Message
 from collections import Counter
 from itertools import groupby
 from time import sleep
+from bs4 import BeautifulSoup
 
 i = 0
 
@@ -31,7 +33,7 @@ def getTimestamp():
         return dt + t
 
 def getLocation(line):
-    homeTeam = line[0]
+    homeTeam = line[0].text
     if homeTeam == 'Arsenal':
         return 0
     else:
@@ -56,9 +58,11 @@ def getSprite(teamName):
          "Man City": "(#sprite1-p10)",
          "Man Utd": "(#sprite1-p2)",
          "Middlesbrough": "(#sprite1-p91)",
+         "Milan": "(#sprite1-p13)",
          "Newcastle": "(#sprite1-p11)",
          "Norwich": "(#sprite1-p44)",
          "Nottm Forest": "(#sprite1-p66)",
+         "Ostersunds F": "(#sprite2-p48)",
          "Red Star Bel":"(#sprite1-p165)",
          "Sevilla": "(#sprite1-p229)",
          "Southampton": "(#sprite1-p38)",
@@ -86,122 +90,21 @@ def parseWebsite():
     website = "http://www.espnfc.us/club/arsenal/359/fixtures"
     fixturesWebsite = requests.get(website, timeout=15)
     fixture_html = fixturesWebsite.text
-    nextMatch = fixture_html.split('<div class="score-column score-date">')[1]
-    games = fixture_html.split('<div class="games-container">')[1]
-    fixtures = games.split('<div class="score-column score-date">')[1:]
+    soup = BeautifulSoup(fixture_html, "lxml")
+    nextMatch = soup.find("div",{"class","next-match-list games-container"})
+    table = soup.findAll("div",{"class","games-container"})[1]
     #fixtures[0] now holds the next match
-    return nextMatch,fixtures
+    return nextMatch,table
 
-def findNext(fixtures, nextMatch):
+def findNext(table, nextMatch):
+    fixtures = table.findAll("a")
     for index,fixture in enumerate(fixtures):
-        date = re.findall('div class="date">(.*)<\/div>',fixture)[0] 
+        date = fixture.find("div",{"class","date"}).text
         if date == nextMatch.date:
             i = index
     results = findResults(fixtures, i)
     matches = findMatches(fixtures, i)
     body = results + matches
-    return body
-
-def discordNext(fixtures, nextMatch):
-    for index,fixture in enumerate(fixtures):
-        date = re.findall('div class="date">(.*)<\/div>',fixture)[0] 
-        if date == nextMatch.date:
-            i = index
-    matches = discordMatches(fixtures, i)
-    body = matches
-    return body
-
-def discordBefore(fixtures, nextMatch):
-    for index,fixture in enumerate(fixtures):
-        date = re.findall('div class="date">(.*)<\/div>',fixture)[0] 
-        if date == nextMatch.date:
-            i = index
-    results = discordResults(fixtures, i)
-    body = results
-    return body
-
-def discordMatches(fixtures, index):
-    body = ""
-    team = ""
-    x = index + 3
-    for s in range(index, x):
-        date = re.findall('div class="date">(.*)<\/div>',fixtures[s])[0]
-        date = date.split(',')[0]
-        time = re.findall('<div class="time gmt-time" data-time="(.*)">',fixtures[s])[0]
-        time = re.findall('.*T(.*):',time)[0]
-        comp = re.findall('<div class="league">(.*)<\/div>',fixtures[s])[0]
-        teams = re.findall('<div class="team-name.*">(.*)<\/div>',fixtures[s])
-        homeTeam = teams[0]
-        awayTeam = teams[1]
-        homeAway = getLocation(teams)
-        if homeAway == 0:
-            team = awayTeam + " (H)"
-        else:
-            team = homeTeam + " (A)"
-        body += "| " + date + " |  " + time + " | " + team +" | " +comp+" |\n"
-    return body
-
-def discordResults(fixtures,index):
-    body = ""
-    team = ""
-    x = index - 3
-    for s in range(x, index): 
-        result = ""
-        date = re.findall('div class="date">(.*)<\/div>',fixtures[s])[0]
-        date = date.split(',')[0]
-        comp = re.findall('<div class="league">(.*)<\/div>',fixtures[s])[0]
-        teams = re.findall('<div class="team-name.*">(.*)<\/div>',fixtures[s])
-        homeTeam = teams[0]
-        awayTeam = teams[1]
-        if re.findall('<div class="status">(.*)<\/div>',fixtures[s])[0] == "FT-Pens":
-            homeScore = re.findall('<span class="home-score score-value.*">(.*)<',fixtures[s])[0]
-            homePenScore = re.findall('\(([0-9])\)',homeScore)[0]
-            homeScore = re.findall('\s+([0-9])',homeScore)[0]
-            awayScore = re.findall('<span class="away-score score-value.*">(.*)<',fixtures[s])[0]
-            awayPenScore = re.findall('\(([0-9])\)',awayScore)[0]
-            awayScore = re.findall('([0-9])\s+',awayScore)[0]
-            homeAway = getLocation(teams)
-            #0 for home, 1 for away
-            homeAway = getLocation(teams)
-            if homePenScore > awayPenScore:
-                if homeAway == 0:
-                    result += "win) "
-                else:
-                    result += "loss) "
-            elif homePenScore < awayPenScore: 
-                if homeAway == 0:
-                    result += "loss) "
-                else:
-                    result += "win) "
-            result += homeScore + " ("+homePenScore+") - ("+awayPenScore+") "+awayScore
-            if homeAway == 0:
-                team = awayTeam + " (H)"
-            else:
-                team = homeTeam + " (A)"
-        else:
-            homeScore = re.findall('<span class="home-score score-value.*">(.*)<',fixtures[s])[0]
-            awayScore = re.findall('<span class="away-score score-value.*">(.*)<',fixtures[s])[0]
-            homeAway = getLocation(teams)
-            #0 for home, 1 for away
-            homeAway = getLocation(teams)
-            if homeScore > awayScore:
-                if homeAway == 0:
-                    result += "win "
-                else:
-                    result += "loss "
-            elif homeScore < awayScore: 
-                if homeAway == 0:
-                    result += "loss "
-                else:
-                    result += "win "
-            else:
-                result += "draw "
-            result += homeScore +" - "+awayScore
-            if homeAway == 0:
-                team = awayTeam + " (H)"
-            else:
-                team = homeTeam + " (A)"
-        body += "| " + date + " | " + result + " | " + team +" | " +comp+"|\n"
     return body
 
 
@@ -211,22 +114,21 @@ def findResults(fixtures, index):
     x = index - 3
     for s in range(x, index): 
         result = ""
-        date = re.findall('div class="date">(.*)<\/div>',fixtures[s])[0]
+	date = fixtures[s].find("div",{"class","date"}).text
         date = date.split(',')[0]
-        comp = re.findall('<div class="league">(.*)<\/div>',fixtures[s])[0]
-        teams = re.findall('<div class="team-name.*">(.*)<\/div>',fixtures[s])
-        homeTeam = teams[0]
-        awayTeam = teams[1]
-        if re.findall('<div class="status">(.*)<\/div>',fixtures[s])[0] == "FT-Pens":
-            homeScore = re.findall('<span class="home-score score-value.*">(.*)<',fixtures[s])[0]
+	comp = fixtures[s].find("div",{"class","league"}).text
+	teams = fixtures[s].findAll("div",{"class","team-name"})
+        homeTeam = unidecode(teams[0].text)
+        awayTeam = unidecode(teams[1].text)
+	if fixtures[s].find("div",{"class","status"}).text == "FT-Pens":
+            homeScore = fixtures[s].find("span",{"class",re.compile(r'home-score score-value')})[0].text
             homePenScore = re.findall('\(([0-9])\)',homeScore)[0]
             homeScore = re.findall('\s+([0-9])',homeScore)[0]
-            awayScore = re.findall('<span class="away-score score-value.*">(.*)<',fixtures[s])[0]
+	    awayScore = fixtures[s].findAll("span",{"class",re.compile(r'away-score score-value')})[0].text
             awayPenScore = re.findall('\(([0-9])\)',awayScore)[0]
             awayScore = re.findall('([0-9])\s+',awayScore)[0]
             homeAway = getLocation(teams)
             #0 for home, 1 for away
-            homeAway = getLocation(teams)
             if homePenScore > awayPenScore:
                 if homeAway == 0:
                     result += "[](#icon-win) "
@@ -243,8 +145,8 @@ def findResults(fixtures, index):
             else:
                 team = getSprite(homeTeam) + " (A)"
         else:
-            homeScore = re.findall('<span class="home-score score-value.*">(.*)<',fixtures[s])[0]
-            awayScore = re.findall('<span class="away-score score-value.*">(.*)<',fixtures[s])[0]
+            homeScore = fixtures[s].findAll("span",{"class",re.compile(r'home-score score-value')})[0].text
+	    awayScore = fixtures[s].findAll("span",{"class",re.compile(r'away-score score-value')})[0].text
             homeAway = getLocation(teams)
             #0 for home, 1 for away
             homeAway = getLocation(teams)
@@ -274,38 +176,46 @@ def findMatches(fixtures, index):
     body = ""
     team = ""
     x = index + 3
-    for s in range(index, x):
-        date = re.findall('div class="date">(.*)<\/div>',fixtures[s])[0]
+    s = index
+    while s < x:
+	date = fixtures[s].find("div",{"class","date"}).text
         date = date.split(',')[0]
-        time = re.findall('<div class="time gmt-time" data-time="(.*)">',fixtures[s])[0]
-        time = re.findall('.*T(.*):',time)[0]
-        comp = re.findall('<div class="league">(.*)<\/div>',fixtures[s])[0]
-        teams = re.findall('<div class="team-name.*">(.*)<\/div>',fixtures[s])
-        homeTeam = teams[0]
-        awayTeam = teams[1]
+	time = fixtures[s].find("div",{"class","time"}).text
+	print time
+	if time == "TBD":
+	    x += 1
+	    s += 1
+	    continue
+        time = re.search('.*T(.*):',fixtures[s].find("div",{"class","time"})['data-time']).group(1)
+	print time
+	comp = fixtures[s].find("div",{"class","league"}).text
+	teams = fixtures[s].findAll("div",{"class","team-name"})
+        homeTeam = unidecode(teams[0].text)
+        awayTeam = unidecode(teams[1].text)
         homeAway = getLocation(teams)
         if homeAway == 0:
             team = getSprite(awayTeam) + " (H)"
         else:
             team = getSprite(homeTeam)+ " (A)"
         body += "| " + date + " | [](#icon-clock) " + time + " | []" + team +" | []" +getComp(comp)+"|\n"
+	s += 1
     return body
          
 
 def parseNext(nextFixture):
-    date = re.findall('div class="date">(.*)<\/div>',nextFixture)[0]
-    time = re.findall('<div class="time gmt-time" data-time="(.*)">',nextFixture)[0]
-    time = re.findall('.*T(.*):',time)[0]
-    comp = re.findall('<div class="league">(.*)<\/div>',nextFixture)[0]
-    teams = re.findall('<div class="team-name">(.*)<\/div>',nextFixture)
-    homeTeam = teams[0]
-    awayTeam = teams[1]
+    #date = nextFixture.find("span",{"class","time"})['data-time'].split("T")[0]
+    date = nextFixture.find("div",{"class","date"}).text
+    time = re.search('.*T(.*)\.',nextFixture.find("div",{"class","time"})['data-time']).group(1)
+    comp = nextFixture.find("div",{"class","league"}).text
+    teams = nextFixture.findAll("div",{"class","team-name"})
+    homeTeam = teams[0].text
+    awayTeam = teams[1].text
     nextMatch = Match(date,homeTeam,awayTeam,time,comp)
     return nextMatch
 
 def main():
-    nextMatch,fixtures = parseWebsite()
-    nextMatch = parseNext(nextMatch)   
-    body = findNext(fixtures,nextMatch)
+    nextMatch,table = parseWebsite()
+    nextMatch = parseNext(nextMatch)
+    body = findNext(table,nextMatch)
     return body
 
