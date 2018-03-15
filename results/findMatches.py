@@ -181,13 +181,11 @@ def findMatches(fixtures, index):
 	date = fixtures[s].find("div",{"class","date"}).text
         date = date.split(',')[0]
 	time = fixtures[s].find("div",{"class","time"}).text
-	print time
 	if time == "TBD":
 	    x += 1
 	    s += 1
 	    continue
         time = re.search('.*T(.*):',fixtures[s].find("div",{"class","time"})['data-time']).group(1)
-	print time
 	comp = fixtures[s].find("div",{"class","league"}).text
 	teams = fixtures[s].findAll("div",{"class","team-name"})
         homeTeam = unidecode(teams[0].text)

@@ -4,9 +4,26 @@
 from unidecode import unidecode
 import requests,re
 import datetime
+from bs4 import BeautifulSoup
 
-players = [0] * 5
-totalGoals = [0] * 5
+players = []
+
+
+class Player(object):
+    name = ""
+    league = 0
+    europa = 0
+    facup = 0
+    eflcup = 0
+    total = 0
+
+    def __init__(self,name,league,europa,facup,eflcup,total):
+        self.name = name
+        self.league = league
+        self.europa = europa
+        self.facup = facup
+        self.eflcup = eflcup
+        self.total = total
 
 def getTimestamp():
         dt = str(datetime.datetime.now().month) + '/' + str(datetime.datetime.now().day) + ' '
@@ -15,109 +32,50 @@ def getTimestamp():
         t = '[' + hr + ':' + min + '] '
         return dt + t
 
-def getStats(player,html,i):
-    body = "|"
-    goals = totalGoals[i]
-    line = html.split('<div class="stats-top-scores">')[1]
-    #playerLine = re.findall('<td headers="player"><a href=.*>(.*)<\/a><\/td>',line)[0]
-    playerLine = line.split('<tr>')[2:]
-    for x in range(0,len(playerLine)):
-        name = re.findall('<td headers="player"><a href=.*>(.*)<\/a><\/td>',playerLine[x])[0]
-        if name == player:
-            body += re.findall('<td headers="goals">([0-9])</td>',playerLine[x])[0]
-            totalGoals[i] += int(re.findall('<td headers="goals">([0-9])</td>',playerLine[x])[0])
-    if goals == totalGoals[i]:
-        body += "0"
-    return body
-
-
 def parseWebsite():
-    website = "http://www.espnfc.us/club/arsenal/359/statistics/scorers?leagueId=all"
-    goalsWebsite = requests.get(website, timeout=15)
-    goals_html = goalsWebsite.text
-    scorersList = goals_html.split('<div class="stats-top-scores">')[1]
-    topScorers = scorersList.split('<tr>')[2:]
-    for i in range(0,5):
-        players[i] = re.findall('<td headers="player"><a href=.*>(.*)<\/a><\/td>',topScorers[i])[0]
-        #totalGoals[i] = re.findall('<td headers="goals">(.*)<\/td>',topScorers[i])[0]
-    return players
+    website = "https://www.arsenal.com/first-team/statistics"
+    goalsWebsite = requests.get(website,timeout=15)
+    html = goalsWebsite.text
+    soup = BeautifulSoup(html, "lxml")
+    table = soup.find("div",{"class": "card__content"})
+    for row in table.findAll("tr")[2:]:
+        cells = row.findAll("td")
+        name = cells[0].find(text=True)
+        league = cells[2].find(text=True)
+        europa = cells[4].find(text=True)
+        facup = cells[6].find(text=True)
+        eflcup = cells[8].find(text=True)
+        total = cells[12].find(text=True)
+        player = Player(name,league,europa,facup,eflcup,total)
+        if player.total != 0:
+            updateTable(player)
 
-def parseStats(player, i):
-    body = ""
-    premierLeague = "http://www.espnfc.us/club/arsenal/359/statistics/scorers?leagueId=23"
-    faCup = "http://www.espnfc.us/club/arsenal/359/statistics/scorers?leagueId=40"
-    europaLeague = "http://www.espnfc.us/club/arsenal/359/statistics/scorers?leagueId=2310"
-    eflCup = "http://www.espnfc.us/club/arsenal/359/statistics/scorers?leagueId=41"
-    premierLeagueWebsite = requests.get(premierLeague, timeout=15)
-    faCupWebsite = requests.get(faCup, timeout=15)
-    europaLeagueWebsite = requests.get(europaLeague, timeout=15)
-    eflCupWebsite = requests.get(eflCup, timeout=15)
-    premier_html = premierLeagueWebsite.text
-    fa_html = faCupWebsite.text
-    europa_html = europaLeagueWebsite.text
-    efl_html = eflCupWebsite.text
-    #Premier League
-    year = re.findall('<p class="dropdown-value"><span>(.*)<\/span><\/p>',premier_html)[1]
-    if year == "2017/2018":
-        try:
-            body += getStats(player,premier_html,i)
-        except:
-            print getTimestamp() + "No Premier League goals found"
-            body += "|0"
-    else:
-        body += "|0"
-    #Europa League
-    year = re.findall('<p class="dropdown-value"><span>(.*)<\/span><\/p>',europa_html)[1]
-    if year == "2017/2018":
-        try:
-            body += getStats(player,europa_html,i)
-        except:
-            print getTimestamp() + "No Europa League goals found"
-            body += "|0"
-    else:
-        body += "|0"
-    #FA Cup
-    year = re.findall('<p class="dropdown-value"><span>(.*)<\/span><\/p>',fa_html)[1]
-    if year == "2017/2018":
-        try:
-            body += getStats(player,fa_html,i)
-        except:
-            print getTimestamp() + "No FA Cup goals found"
-            body += "|0"
-    else:
-        body += "|0"
-    #EFL Cup
-    year = re.findall('<p class="dropdown-value"><span>(.*)<\/span><\/p>',efl_html)[1]
-    if year == "2017/2018":
-        try:
-            body += getStats(player,efl_html,i)
-        except:
-            print getTimestamp() + "No EFL Cup goals found"
-            body += "|0"
-    else:
-        body += "|0"
-    body += "|"+str(totalGoals[i])+"|\n"
-    if totalGoals[i] == 0:
-        return ""
-    return body
+def updateTable(player):
+    for index,p in enumerate(players):
+        if player.total > p.total:
+            players.insert(index,player)
+            return
+    
+    players.append(player)
+    return
 
-def buildTable(players):
+def printPlayers():
+    for x in range(0, 5):
+        p = players[x]
+        print p.name+": "+p.league+" "+p.europa+" "+p.facup+" "+p.eflcup+" "+p.total
+
+def buildTable():
     body = ""
-    for i,player in enumerate(players):
-        temp = player.replace(' ','-').lower()
-        temp = unidecode(temp)
-        newLine = parseStats(player,i)
-        if newLine == "":
-            continue
-        else:  
-            if unidecode(temp) == 'alexis-sanchez':
-                temp = "alexis"
-            body += "|["+player+"](http://arsenal.com/first-team/players/"+temp+")"
-            body += newLine
+    for x in range(0, 5):
+        p = players[x]
+        temp = p.name.replace(' ','-').lower()
+        body +="|["+p.name+"](http://arsenal.com/first-team/players/"+temp+")"
+        body +="|"+p.league+"|"+p.europa+"|"+p.facup+"|"+p.eflcup+"|"+p.total+"|\n"
     return body
+    
 
 
 def main():
-    players = parseWebsite()
-    body = buildTable(players)
+    parseWebsite()
+    body = buildTable()
     return body
