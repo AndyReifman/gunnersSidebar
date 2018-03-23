@@ -69,7 +69,7 @@ def buildTable():
     for x in range(0, 5):
         p = players[x]
         temp = p.name.replace(' ','-').lower()
-        body +="|["+p.name+"](http://arsenal.com/first-team/players/"+temp+")"
+        body +="|["+p.name+"](http://www.arsenal.com/arsenal/players/"+temp+")"
         body +="|"+p.league+"|"+p.europa+"|"+p.facup+"|"+p.eflcup+"|"+p.total+"|\n"
     return body
     

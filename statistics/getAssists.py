@@ -110,7 +110,7 @@ def buildTable(players):
         else:  
             if unidecode(temp) == 'alexis-sanchez':
                 temp = "alexis"
-            body += "|["+player+"](http://arsenal.com/first-team/players/"+temp+")"
+            body += "|["+player+"](http://www.arsenal.com/arsenal/players/"+temp+")"
             body += newLine
     return body
 

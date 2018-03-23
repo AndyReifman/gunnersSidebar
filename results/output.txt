@@ -1,0 +1,1045 @@
+<div class="accordions">
+ <div class="accordions__item accordion accordion--open">
+  <div class="accordion__divider">
+   <h2 class="accordion__title js-accordion-text" data-content="April 2018">
+    April 2018
+   </h2>
+   <div class="accordion__icon">
+   </div>
+  </div>
+  <div class="accordion__content">
+   <article about="/fixture/arsenal/2018-apr-01/stoke-city" role="article">
+    <div class="card card--dark card--padded fixture-card" data-eq-pts="xsmall: 200, small: 550, medium: 640, large: 768">
+     <header class="card__header">
+      <h3 class="visually-hidden" id="fixture-card-25520">
+       Stoke City -
+       <div>
+        <time datetime="2018-04-01T13:30:00Z">
+         Sun Apr 1 - 13:30
+        </time>
+       </div>
+      </h3>
+      <div class="event-info">
+       <div class="event-info__date">
+        <div>
+         <time datetime="2018-04-01T13:30:00Z">
+          Sun Apr 1 - 13:30
+         </time>
+        </div>
+       </div>
+       <div class="event-info__venue">
+        Emirates Stadium
+       </div>
+       <div class="broadcaster">
+        <img alt="Sky Sports" src="/sites/default/files/styles/small/public/logos/skysports_0.png?itok=Ch5KBROu"/>
+       </div>
+       <div class="event-info__extra">
+        Premier League
+       </div>
+      </div>
+      <img alt="Premier League" class="fixture-card__league-icon" src="/sites/default/files/styles/small/public/logos/comp_8.png?itok=qC1Uy5fx"/>
+     </header>
+     <div class="card__content">
+      <div class="fixture-match" data-eq-pts="small: 250, medium: 465, large: 556">
+       <div class="fixture-match__team">
+        <figure class="team-crest">
+         <img alt="  Arsenal
+   crest" class="team-crest__crest" src="/sites/default/files/styles/feed_crest_thumbnail/public/logos/arsenal.png?itok=gaU3837L"/>
+         <div class="team-crest__content">
+          <figcaption class="team-crest__name">
+           <div class="team-crest__name-value">
+            Arsenal
+           </div>
+          </figcaption>
+         </div>
+        </figure>
+       </div>
+       <div class="fixture-match__versus">
+        <div class="versus-icon">
+        </div>
+       </div>
+       <div class="fixture-match__team">
+        <figure class="team-crest">
+         <img alt="  Stoke City
+   crest" class="team-crest__crest" src="/sites/default/files/styles/feed_crest_thumbnail/public/logos/stokecity.png?itok=Ng0IqNRF"/>
+         <div class="team-crest__content">
+          <figcaption class="team-crest__name">
+           <div class="team-crest__name-value">
+            Stoke City
+           </div>
+          </figcaption>
+         </div>
+        </figure>
+       </div>
+      </div>
+     </div>
+     <footer class="card__footer">
+      <div class="fixture-card__ctas">
+       <a aria-describedby="fixture-card-25520" aria-label="NEWS &amp; VIDEO" class="fixture-card__cta fixture-card__cta--alt button button--alt " href="/fixture/arsenal/2018-apr-01/stoke-city" title="NEWS &amp; VIDEO">
+        NEWS &amp; VIDEO
+       </a>
+       <a aria-describedby="fixture-card-25520" aria-label="TICKETS" class="fixture-card__cta fixture-card__cta--primary button button--primary " href="/tickets/arsenal/2018-Apr-01/stoke-city" title="TICKETS">
+        TICKETS
+       </a>
+       <a aria-describedby="fixture-card-25520" aria-label="TICKET INFO" class="fixture-card__cta fixture-card__cta--primary button button--primary " href="/tickets/arsenal/2018-Apr-01/stoke-city" title="TICKET INFO">
+        TICKET INFO
+       </a>
+      </div>
+      <div class="audio-link">
+       <i class="audio-link__icon icon icon--audio">
+       </i>
+       <span class="audio-link__link">
+        Audio available on Arsenal.com
+       </span>
+      </div>
+      <div class="broadcaster">
+       <img alt="Sky Sports" src="/sites/default/files/styles/small/public/logos/skysports_0.png?itok=Ch5KBROu"/>
+      </div>
+     </footer>
+    </div>
+   </article>
+   <article about="/fixture/arsenal/2018-apr-05/cska-moscow" role="article">
+    <div class="card card--padded fixture-card fixture-card--alt" data-eq-pts="xsmall: 200, small: 550, medium: 640, large: 768">
+     <header class="card__header">
+      <h3 class="visually-hidden" id="fixture-card-25521">
+       CSKA Moscow - Thu Apr 5
+      </h3>
+      <div class="event-info">
+       <div class="event-info__date">
+        <div>
+         Thu Apr 5
+        </div>
+       </div>
+       <div class="event-info__venue">
+        Emirates Stadium
+       </div>
+       <div class="broadcaster">
+        <img alt="BT Sport" src="/sites/default/files/styles/small/public/logos/btsport_0.png?itok=AMZF8X0f"/>
+       </div>
+       <div class="event-info__extra">
+        Europa League
+       </div>
+      </div>
+     </header>
+     <div class="card__content">
+      <div class="u-row">
+       <figure class="team-crest team-crest--alt">
+        <img alt="  CSKA Moscow
+ crest" class="team-crest__crest" src="/sites/default/files/styles/feed_crest_thumbnail/public/logos/cskamoscow.png?itok=f6a3vUY6"/>
+        <div class="team-crest__content">
+         <figcaption class="team-crest__name">
+          <span class="team-crest__name-value">
+           CSKA Moscow
+          </span>
+         </figcaption>
+         <div class="team-crest__extra">
+          <div class="event-info">
+           <div class="event-info__date--no-pipe">
+            <div>
+             Thu Apr 5
+            </div>
+           </div>
+           <div class="event-info__extra">
+            Europa League
+           </div>
+          </div>
+         </div>
+        </div>
+       </figure>
+       <div class="location-icon location-icon--home" title="Home">
+       </div>
+      </div>
+     </div>
+     <footer class="card__footer">
+      <div class="fixture-card__ctas">
+       <a aria-describedby="fixture-card-25521" aria-label="NEWS &amp; VIDEO" class="fixture-card__cta fixture-card__cta--alt button button--alt " href="/fixture/arsenal/2018-apr-05/cska-moscow" title="NEWS &amp; VIDEO">
+        NEWS &amp; VIDEO
+       </a>
+       <a aria-describedby="fixture-card-25521" aria-label="TICKETS" class="fixture-card__cta fixture-card__cta--primary button button--alt " href="/tickets/arsenal/2018-Apr-05/cska-moscow" title="TICKETS">
+        TICKETS
+       </a>
+       <a aria-describedby="fixture-card-25521" aria-label="TICKET INFO" class="fixture-card__cta fixture-card__cta--primary button button--alt " href="/tickets/arsenal/2018-Apr-05/cska-moscow" title="TICKET INFO">
+        TICKET INFO
+       </a>
+      </div>
+      <div class="audio-link">
+       <i class="audio-link__icon icon icon--audio">
+       </i>
+       <span class="audio-link__link">
+        Audio available on Arsenal.com
+       </span>
+      </div>
+      <div class="broadcaster">
+       <img alt="BT Sport" src="/sites/default/files/styles/small/public/logos/btsport_0.png?itok=AMZF8X0f"/>
+      </div>
+     </footer>
+    </div>
+   </article>
+   <article about="/fixture/arsenal/2018-apr-08/southampton" role="article">
+    <div class="card card--padded fixture-card fixture-card--alt" data-eq-pts="xsmall: 200, small: 550, medium: 640, large: 768">
+     <header class="card__header">
+      <h3 class="visually-hidden" id="fixture-card-25522">
+       Southampton -
+       <div>
+        <time datetime="2018-04-08T14:15:00Z">
+         Sun Apr 8 - 14:15
+        </time>
+       </div>
+      </h3>
+      <div class="event-info">
+       <div class="event-info__date">
+        <div>
+         <time datetime="2018-04-08T14:15:00Z">
+          Sun Apr 8 - 14:15
+         </time>
+        </div>
+       </div>
+       <div class="event-info__venue">
+        Emirates Stadium
+       </div>
+       <div class="broadcaster">
+        <img alt="Sky Sports" src="/sites/default/files/styles/small/public/logos/skysports_0.png?itok=Ch5KBROu"/>
+       </div>
+       <div class="event-info__extra">
+        Premier League
+       </div>
+      </div>
+     </header>
+     <div class="card__content">
+      <div class="u-row">
+       <figure class="team-crest team-crest--alt">
+        <img alt="  Southampton
+ crest" class="team-crest__crest" src="/sites/default/files/styles/feed_crest_thumbnail/public/logos/southampton.png?itok=sME_4mJa"/>
+        <div class="team-crest__content">
+         <figcaption class="team-crest__name">
+          <span class="team-crest__name-value">
+           Southampton
+          </span>
+         </figcaption>
+         <div class="team-crest__extra">
+          <div class="event-info">
+           <div class="event-info__date--no-pipe">
+            <div>
+             <time datetime="2018-04-08T14:15:00Z">
+              Sun Apr 8 - 14:15
+             </time>
+            </div>
+           </div>
+           <div class="event-info__extra">
+            Premier League
+           </div>
+          </div>
+         </div>
+        </div>
+       </figure>
+       <div class="location-icon location-icon--home" title="Home">
+       </div>
+      </div>
+     </div>
+     <footer class="card__footer">
+      <div class="fixture-card__ctas">
+       <a aria-describedby="fixture-card-25522" aria-label="NEWS &amp; VIDEO" class="fixture-card__cta fixture-card__cta--alt button button--alt " href="/fixture/arsenal/2018-apr-08/southampton" title="NEWS &amp; VIDEO">
+        NEWS &amp; VIDEO
+       </a>
+       <a aria-describedby="fixture-card-25522" aria-label="TICKETS" class="fixture-card__cta fixture-card__cta--primary button button--alt " href="/tickets/arsenal/2018-Apr-09/southampton" title="TICKETS">
+        TICKETS
+       </a>
+       <a aria-describedby="fixture-card-25522" aria-label="TICKET INFO" class="fixture-card__cta fixture-card__cta--primary button button--alt " href="/tickets/arsenal/2018-Apr-09/southampton" title="TICKET INFO">
+        TICKET INFO
+       </a>
+      </div>
+      <div class="audio-link">
+       <i class="audio-link__icon icon icon--audio">
+       </i>
+       <span class="audio-link__link">
+        Audio available on Arsenal.com
+       </span>
+      </div>
+      <div class="broadcaster">
+       <img alt="Sky Sports" src="/sites/default/files/styles/small/public/logos/skysports_0.png?itok=Ch5KBROu"/>
+      </div>
+     </footer>
+    </div>
+   </article>
+   <article about="/fixture/arsenal/2018-apr-12/cska-moscow" role="article">
+    <div class="card card--padded fixture-card fixture-card--alt" data-eq-pts="xsmall: 200, small: 550, medium: 640, large: 768">
+     <header class="card__header">
+      <h3 class="visually-hidden" id="fixture-card-25523">
+       CSKA Moscow - Thu Apr 12
+      </h3>
+      <div class="event-info">
+       <div class="event-info__date">
+        <div>
+         Thu Apr 12
+        </div>
+       </div>
+       <div class="event-info__venue">
+        VEB Arena
+       </div>
+       <div class="broadcaster">
+        <img alt="BT Sport" src="/sites/default/files/styles/small/public/logos/btsport_0.png?itok=AMZF8X0f"/>
+       </div>
+       <div class="event-info__extra">
+        Europa League
+       </div>
+      </div>
+     </header>
+     <div class="card__content">
+      <div class="u-row">
+       <figure class="team-crest team-crest--alt">
+        <img alt="  CSKA Moscow
+ crest" class="team-crest__crest" src="/sites/default/files/styles/feed_crest_thumbnail/public/logos/cskamoscow.png?itok=f6a3vUY6"/>
+        <div class="team-crest__content">
+         <figcaption class="team-crest__name">
+          <span class="team-crest__name-value">
+           CSKA Moscow
+          </span>
+         </figcaption>
+         <div class="team-crest__extra">
+          <div class="event-info">
+           <div class="event-info__date--no-pipe">
+            <div>
+             Thu Apr 12
+            </div>
+           </div>
+           <div class="event-info__extra">
+            Europa League
+           </div>
+          </div>
+         </div>
+        </div>
+       </figure>
+       <div class="location-icon location-icon--away" title="Away">
+       </div>
+      </div>
+     </div>
+     <footer class="card__footer">
+      <div class="fixture-card__ctas">
+       <a aria-describedby="fixture-card-25523" aria-label="NEWS &amp; VIDEO" class="fixture-card__cta fixture-card__cta--alt button button--alt " href="/fixture/arsenal/2018-apr-12/cska-moscow" title="NEWS &amp; VIDEO">
+        NEWS &amp; VIDEO
+       </a>
+      </div>
+      <div class="audio-link">
+       <i class="audio-link__icon icon icon--audio">
+       </i>
+       <span class="audio-link__link">
+        Audio available on Arsenal.com
+       </span>
+      </div>
+      <div class="broadcaster">
+       <img alt="BT Sport" src="/sites/default/files/styles/small/public/logos/btsport_0.png?itok=AMZF8X0f"/>
+      </div>
+     </footer>
+    </div>
+   </article>
+   <article about="/fixture/arsenal/2018-apr-15/newcastle-united" role="article">
+    <div class="card card--padded fixture-card fixture-card--alt" data-eq-pts="xsmall: 200, small: 550, medium: 640, large: 768">
+     <header class="card__header">
+      <h3 class="visually-hidden" id="fixture-card-25524">
+       Newcastle United -
+       <div>
+        <time datetime="2018-04-15T13:30:00Z">
+         Sun Apr 15 - 13:30
+        </time>
+       </div>
+      </h3>
+      <div class="event-info">
+       <div class="event-info__date">
+        <div>
+         <time datetime="2018-04-15T13:30:00Z">
+          Sun Apr 15 - 13:30
+         </time>
+        </div>
+       </div>
+       <div class="event-info__venue">
+        St. James' Park
+       </div>
+       <div class="broadcaster">
+        <img alt="Sky Sports" src="/sites/default/files/styles/small/public/logos/skysports_0.png?itok=Ch5KBROu"/>
+       </div>
+       <div class="event-info__extra">
+        Premier League
+       </div>
+      </div>
+     </header>
+     <div class="card__content">
+      <div class="u-row">
+       <figure class="team-crest team-crest--alt">
+        <img alt="  Newcastle United
+ crest" class="team-crest__crest" src="/sites/default/files/styles/feed_crest_thumbnail/public/logos/newcastleunited_0.png?itok=iofbCq8L"/>
+        <div class="team-crest__content">
+         <figcaption class="team-crest__name">
+          <span class="team-crest__name-value">
+           Newcastle United
+          </span>
+         </figcaption>
+         <div class="team-crest__extra">
+          <div class="event-info">
+           <div class="event-info__date--no-pipe">
+            <div>
+             <time datetime="2018-04-15T13:30:00Z">
+              Sun Apr 15 - 13:30
+             </time>
+            </div>
+           </div>
+           <div class="event-info__extra">
+            Premier League
+           </div>
+          </div>
+         </div>
+        </div>
+       </figure>
+       <div class="location-icon location-icon--away" title="Away">
+       </div>
+      </div>
+     </div>
+     <footer class="card__footer">
+      <div class="fixture-card__ctas">
+       <a aria-describedby="fixture-card-25524" aria-label="NEWS &amp; VIDEO" class="fixture-card__cta fixture-card__cta--alt button button--alt " href="/fixture/arsenal/2018-apr-15/newcastle-united" title="NEWS &amp; VIDEO">
+        NEWS &amp; VIDEO
+       </a>
+       <a aria-describedby="fixture-card-25524" aria-label="TICKETS" class="fixture-card__cta fixture-card__cta--primary button button--alt " href="/tickets/arsenal/2018-Apr-15/newcastle-united" title="TICKETS">
+        TICKETS
+       </a>
+       <a aria-describedby="fixture-card-25524" aria-label="TICKET INFO" class="fixture-card__cta fixture-card__cta--primary button button--alt " href="/tickets/arsenal/2018-Apr-15/newcastle-united" title="TICKET INFO">
+        TICKET INFO
+       </a>
+      </div>
+      <div class="audio-link">
+       <i class="audio-link__icon icon icon--audio">
+       </i>
+       <span class="audio-link__link">
+        Audio available on Arsenal.com
+       </span>
+      </div>
+      <div class="broadcaster">
+       <img alt="Sky Sports" src="/sites/default/files/styles/small/public/logos/skysports_0.png?itok=Ch5KBROu"/>
+      </div>
+     </footer>
+    </div>
+   </article>
+   <article about="/fixture/arsenal/2018-apr-23/west-ham-united" role="article">
+    <div class="card card--padded fixture-card fixture-card--alt" data-eq-pts="xsmall: 200, small: 550, medium: 640, large: 768">
+     <header class="card__header">
+      <h3 class="visually-hidden" id="fixture-card-25525">
+       West Ham United -
+       <div>
+        <time datetime="2018-04-23T20:00:00Z">
+         Mon Apr 23 - 20:00
+        </time>
+       </div>
+      </h3>
+      <div class="event-info">
+       <div class="event-info__date">
+        <div>
+         <time datetime="2018-04-23T20:00:00Z">
+          Mon Apr 23 - 20:00
+         </time>
+        </div>
+       </div>
+       <div class="event-info__venue">
+        Emirates Stadium
+       </div>
+       <div class="broadcaster">
+        <img alt="Sky Sports" src="/sites/default/files/styles/small/public/logos/skysports_0.png?itok=Ch5KBROu"/>
+       </div>
+       <div class="event-info__extra">
+        Premier League
+       </div>
+      </div>
+     </header>
+     <div class="card__content">
+      <div class="u-row">
+       <figure class="team-crest team-crest--alt">
+        <img alt="  West Ham United
+ crest" class="team-crest__crest" src="/sites/default/files/styles/feed_crest_thumbnail/public/logos/westhamunited.png?itok=Wt2PdprN"/>
+        <div class="team-crest__content">
+         <figcaption class="team-crest__name">
+          <span class="team-crest__name-value">
+           West Ham United
+          </span>
+         </figcaption>
+         <div class="team-crest__extra">
+          <div class="event-info">
+           <div class="event-info__date--no-pipe">
+            <div>
+             <time datetime="2018-04-23T20:00:00Z">
+              Mon Apr 23 - 20:00
+             </time>
+            </div>
+           </div>
+           <div class="event-info__extra">
+            Premier League
+           </div>
+          </div>
+         </div>
+        </div>
+       </figure>
+       <div class="location-icon location-icon--home" title="Home">
+       </div>
+      </div>
+     </div>
+     <footer class="card__footer">
+      <div class="fixture-card__ctas">
+       <a aria-describedby="fixture-card-25525" aria-label="NEWS &amp; VIDEO" class="fixture-card__cta fixture-card__cta--alt button button--alt " href="/fixture/arsenal/2018-apr-23/west-ham-united" title="NEWS &amp; VIDEO">
+        NEWS &amp; VIDEO
+       </a>
+       <a aria-describedby="fixture-card-25525" aria-label="TICKETS" class="fixture-card__cta fixture-card__cta--primary button button--alt " href="/tickets/arsenal/2018-Apr-23/west-ham-united" title="TICKETS">
+        TICKETS
+       </a>
+       <a aria-describedby="fixture-card-25525" aria-label="TICKET INFO" class="fixture-card__cta fixture-card__cta--primary button button--alt " href="/tickets/arsenal/2018-Apr-23/west-ham-united" title="TICKET INFO">
+        TICKET INFO
+       </a>
+      </div>
+      <div class="audio-link">
+       <i class="audio-link__icon icon icon--audio">
+       </i>
+       <span class="audio-link__link">
+        Audio available on Arsenal.com
+       </span>
+      </div>
+      <div class="broadcaster">
+       <img alt="Sky Sports" src="/sites/default/files/styles/small/public/logos/skysports_0.png?itok=Ch5KBROu"/>
+      </div>
+     </footer>
+    </div>
+   </article>
+   <article about="/fixture/arsenal/2018-apr-25/semi-final-1l" role="article">
+    <div class="card card--padded fixture-card fixture-card--alt" data-eq-pts="xsmall: 200, small: 550, medium: 640, large: 768">
+     <header class="card__header">
+      <h3 class="visually-hidden" id="fixture-card-25527">
+       Semi-Final 1L - Thu Apr 26
+      </h3>
+      <div class="event-info">
+       <div class="event-info__date">
+        <div>
+         Thu Apr 26
+        </div>
+       </div>
+       <div class="event-info__venue">
+        TBC
+       </div>
+       <div class="broadcaster">
+        <img alt="BT Sport" src="/sites/default/files/styles/small/public/logos/btsport_0.png?itok=AMZF8X0f"/>
+       </div>
+       <div class="event-info__extra">
+        Europa League
+       </div>
+      </div>
+     </header>
+     <div class="card__content">
+      <div class="u-row">
+       <figure class="team-crest team-crest--alt">
+        <img alt="  Semi-Final 1L
+ crest" class="team-crest__crest" src="/sites/default/files/styles/feed_crest_thumbnail/public/logos/PlaceholderCrest_13.png?itok=N2KdX__W"/>
+        <div class="team-crest__content">
+         <figcaption class="team-crest__name">
+          <span class="team-crest__name-value">
+           Semi-Final 1L
+          </span>
+         </figcaption>
+         <div class="team-crest__extra">
+          <div class="event-info">
+           <div class="event-info__date--no-pipe">
+            <div>
+             Thu Apr 26
+            </div>
+           </div>
+           <div class="event-info__extra">
+            Europa League
+           </div>
+          </div>
+         </div>
+        </div>
+       </figure>
+       <div class="location-icon location-icon--neutral" title="Neutral">
+       </div>
+      </div>
+     </div>
+     <footer class="card__footer">
+      <div class="fixture-card__ctas">
+       <a aria-describedby="fixture-card-25527" aria-label="NEWS &amp; VIDEO" class="fixture-card__cta fixture-card__cta--alt button button--alt " href="/fixture/arsenal/2018-apr-25/semi-final-1l" title="NEWS &amp; VIDEO">
+        NEWS &amp; VIDEO
+       </a>
+      </div>
+      <div class="audio-link">
+       <i class="audio-link__icon icon icon--audio">
+       </i>
+       <span class="audio-link__link">
+        Audio available on Arsenal.com
+       </span>
+      </div>
+      <div class="broadcaster">
+       <img alt="BT Sport" src="/sites/default/files/styles/small/public/logos/btsport_0.png?itok=AMZF8X0f"/>
+      </div>
+     </footer>
+    </div>
+   </article>
+   <article about="/fixture/arsenal/2018-apr-29/manchester-united" role="article">
+    <div class="card card--padded fixture-card fixture-card--alt" data-eq-pts="xsmall: 200, small: 550, medium: 640, large: 768">
+     <header class="card__header">
+      <h3 class="visually-hidden" id="fixture-card-25528">
+       Manchester United -
+       <div>
+        <time datetime="2018-04-29T16:30:00Z">
+         Sun Apr 29 - 16:30
+        </time>
+       </div>
+      </h3>
+      <div class="event-info">
+       <div class="event-info__date">
+        <div>
+         <time datetime="2018-04-29T16:30:00Z">
+          Sun Apr 29 - 16:30
+         </time>
+        </div>
+       </div>
+       <div class="event-info__venue">
+        Old Trafford
+       </div>
+       <div class="broadcaster">
+        <img alt="Sky Sports" src="/sites/default/files/styles/small/public/logos/skysports_0.png?itok=Ch5KBROu"/>
+       </div>
+       <div class="event-info__extra">
+        Premier League
+       </div>
+      </div>
+     </header>
+     <div class="card__content">
+      <div class="u-row">
+       <figure class="team-crest team-crest--alt">
+        <img alt="  Manchester United
+ crest" class="team-crest__crest" src="/sites/default/files/styles/feed_crest_thumbnail/public/logos/manchesterunited.png?itok=RVqLYL-6"/>
+        <div class="team-crest__content">
+         <figcaption class="team-crest__name">
+          <span class="team-crest__name-value">
+           Manchester United
+          </span>
+         </figcaption>
+         <div class="team-crest__extra">
+          <div class="event-info">
+           <div class="event-info__date--no-pipe">
+            <div>
+             <time datetime="2018-04-29T16:30:00Z">
+              Sun Apr 29 - 16:30
+             </time>
+            </div>
+           </div>
+           <div class="event-info__extra">
+            Premier League
+           </div>
+          </div>
+         </div>
+        </div>
+       </figure>
+       <div class="location-icon location-icon--away" title="Away">
+       </div>
+      </div>
+     </div>
+     <footer class="card__footer">
+      <div class="fixture-card__ctas">
+       <a aria-describedby="fixture-card-25528" aria-label="NEWS &amp; VIDEO" class="fixture-card__cta fixture-card__cta--alt button button--alt " href="/fixture/arsenal/2018-apr-29/manchester-united" title="NEWS &amp; VIDEO">
+        NEWS &amp; VIDEO
+       </a>
+      </div>
+      <div class="audio-link">
+       <i class="audio-link__icon icon icon--audio">
+       </i>
+       <span class="audio-link__link">
+        Audio available on Arsenal.com
+       </span>
+      </div>
+      <div class="broadcaster">
+       <img alt="Sky Sports" src="/sites/default/files/styles/small/public/logos/skysports_0.png?itok=Ch5KBROu"/>
+      </div>
+     </footer>
+    </div>
+   </article>
+  </div>
+ </div>
+ <div class="ad ad-tablet" data-device="tablet" data-height="90" data-width="640" id="div-gpt-ad-1490289658507-0" style="width:640px; height:90px;">
+ </div>
+ <div class="ad ad-mobile" data-device="mobile" data-height="100" data-width="320" id="div-gpt-ad-1490289594716-0" style="width:320px; height:100px;">
+ </div>
+ <div class="accordions__item accordion accordion--open">
+  <div class="accordion__divider">
+   <h2 class="accordion__title js-accordion-text" data-content="May 2018">
+    May 2018
+   </h2>
+   <div class="accordion__icon">
+   </div>
+  </div>
+  <div class="accordion__content">
+   <article about="/fixture/arsenal/2018-may-02/semi-final-2l" role="article">
+    <div class="card card--padded fixture-card fixture-card--alt" data-eq-pts="xsmall: 200, small: 550, medium: 640, large: 768">
+     <header class="card__header">
+      <h3 class="visually-hidden" id="fixture-card-25529">
+       Semi-Final 2L - Thu May 3
+      </h3>
+      <div class="event-info">
+       <div class="event-info__date">
+        <div>
+         Thu May 3
+        </div>
+       </div>
+       <div class="event-info__venue">
+        TBC
+       </div>
+       <div class="broadcaster">
+        <img alt="BT Sport" src="/sites/default/files/styles/small/public/logos/btsport_0.png?itok=AMZF8X0f"/>
+       </div>
+       <div class="event-info__extra">
+        Europa League
+       </div>
+      </div>
+     </header>
+     <div class="card__content">
+      <div class="u-row">
+       <figure class="team-crest team-crest--alt">
+        <img alt="  Semi-Final 2L
+ crest" class="team-crest__crest" src="/sites/default/files/styles/feed_crest_thumbnail/public/logos/PlaceholderCrest_14.png?itok=hdd1s5sl"/>
+        <div class="team-crest__content">
+         <figcaption class="team-crest__name">
+          <span class="team-crest__name-value">
+           Semi-Final 2L
+          </span>
+         </figcaption>
+         <div class="team-crest__extra">
+          <div class="event-info">
+           <div class="event-info__date--no-pipe">
+            <div>
+             Thu May 3
+            </div>
+           </div>
+           <div class="event-info__extra">
+            Europa League
+           </div>
+          </div>
+         </div>
+        </div>
+       </figure>
+       <div class="location-icon location-icon--neutral" title="Neutral">
+       </div>
+      </div>
+     </div>
+     <footer class="card__footer">
+      <div class="fixture-card__ctas">
+       <a aria-describedby="fixture-card-25529" aria-label="NEWS &amp; VIDEO" class="fixture-card__cta fixture-card__cta--alt button button--alt " href="/fixture/arsenal/2018-may-02/semi-final-2l" title="NEWS &amp; VIDEO">
+        NEWS &amp; VIDEO
+       </a>
+      </div>
+      <div class="audio-link">
+       <i class="audio-link__icon icon icon--audio">
+       </i>
+       <span class="audio-link__link">
+        Audio available on Arsenal.com
+       </span>
+      </div>
+      <div class="broadcaster">
+       <img alt="BT Sport" src="/sites/default/files/styles/small/public/logos/btsport_0.png?itok=AMZF8X0f"/>
+      </div>
+     </footer>
+    </div>
+   </article>
+   <article about="/fixture/arsenal/2018-may-05/burnley" role="article">
+    <div class="card card--padded fixture-card fixture-card--alt" data-eq-pts="xsmall: 200, small: 550, medium: 640, large: 768">
+     <header class="card__header">
+      <h3 class="visually-hidden" id="fixture-card-25530">
+       Burnley -
+       <div>
+        <time datetime="2018-05-05T15:00:00Z">
+         Sat May 5 - 15:00
+        </time>
+       </div>
+      </h3>
+      <div class="event-info">
+       <div class="event-info__date">
+        <div>
+         <time datetime="2018-05-05T15:00:00Z">
+          Sat May 5 - 15:00
+         </time>
+        </div>
+       </div>
+       <div class="event-info__venue">
+        Emirates Stadium
+       </div>
+       <div class="event-info__extra">
+        Premier League
+       </div>
+      </div>
+     </header>
+     <div class="card__content">
+      <div class="u-row">
+       <figure class="team-crest team-crest--alt">
+        <img alt="  Burnley
+ crest" class="team-crest__crest" src="/sites/default/files/styles/feed_crest_thumbnail/public/logos/burnley.png?itok=SIuwqDts"/>
+        <div class="team-crest__content">
+         <figcaption class="team-crest__name">
+          <span class="team-crest__name-value">
+           Burnley
+          </span>
+         </figcaption>
+         <div class="team-crest__extra">
+          <div class="event-info">
+           <div class="event-info__date--no-pipe">
+            <div>
+             <time datetime="2018-05-05T15:00:00Z">
+              Sat May 5 - 15:00
+             </time>
+            </div>
+           </div>
+           <div class="event-info__extra">
+            Premier League
+           </div>
+          </div>
+         </div>
+        </div>
+       </figure>
+       <div class="location-icon location-icon--home" title="Home">
+       </div>
+      </div>
+     </div>
+     <footer class="card__footer">
+      <div class="fixture-card__ctas">
+       <a aria-describedby="fixture-card-25530" aria-label="NEWS &amp; VIDEO" class="fixture-card__cta fixture-card__cta--alt button button--alt " href="/fixture/arsenal/2018-may-05/burnley" title="NEWS &amp; VIDEO">
+        NEWS &amp; VIDEO
+       </a>
+       <a aria-describedby="fixture-card-25530" aria-label="TICKETS" class="fixture-card__cta fixture-card__cta--primary button button--alt " href="/tickets/arsenal/2018-May-05/burnley" title="TICKETS">
+        TICKETS
+       </a>
+       <a aria-describedby="fixture-card-25530" aria-label="TICKET INFO" class="fixture-card__cta fixture-card__cta--primary button button--alt " href="/tickets/arsenal/2018-May-05/burnley" title="TICKET INFO">
+        TICKET INFO
+       </a>
+      </div>
+      <div class="audio-link">
+       <i class="audio-link__icon icon icon--audio">
+       </i>
+       <span class="audio-link__link">
+        Audio available on Arsenal.com
+       </span>
+      </div>
+     </footer>
+     <div class="alert alert--info card__alert">
+      This game could be moved to Sunday subject to our UEFA Europa League involvement
+     </div>
+    </div>
+   </article>
+   <article about="/fixture/arsenal/2018-may-13/huddersfield-town" role="article">
+    <div class="card card--padded fixture-card fixture-card--alt" data-eq-pts="xsmall: 200, small: 550, medium: 640, large: 768">
+     <header class="card__header">
+      <h3 class="visually-hidden" id="fixture-card-25531">
+       Huddersfield Town -
+       <div>
+        <time datetime="2018-05-13T15:00:00Z">
+         Sun May 13 - 15:00
+        </time>
+       </div>
+      </h3>
+      <div class="event-info">
+       <div class="event-info__date">
+        <div>
+         <time datetime="2018-05-13T15:00:00Z">
+          Sun May 13 - 15:00
+         </time>
+        </div>
+       </div>
+       <div class="event-info__venue">
+        The John Smith's Stadium
+       </div>
+       <div class="event-info__extra">
+        Premier League
+       </div>
+      </div>
+     </header>
+     <div class="card__content">
+      <div class="u-row">
+       <figure class="team-crest team-crest--alt">
+        <img alt="  Huddersfield Town
+ crest" class="team-crest__crest" src="/sites/default/files/styles/feed_crest_thumbnail/public/logos/huddersfieldtown_0.png?itok=2GSDshDL"/>
+        <div class="team-crest__content">
+         <figcaption class="team-crest__name">
+          <span class="team-crest__name-value">
+           Huddersfield Town
+          </span>
+         </figcaption>
+         <div class="team-crest__extra">
+          <div class="event-info">
+           <div class="event-info__date--no-pipe">
+            <div>
+             <time datetime="2018-05-13T15:00:00Z">
+              Sun May 13 - 15:00
+             </time>
+            </div>
+           </div>
+           <div class="event-info__extra">
+            Premier League
+           </div>
+          </div>
+         </div>
+        </div>
+       </figure>
+       <div class="location-icon location-icon--away" title="Away">
+       </div>
+      </div>
+     </div>
+     <footer class="card__footer">
+      <div class="fixture-card__ctas">
+       <a aria-describedby="fixture-card-25531" aria-label="NEWS &amp; VIDEO" class="fixture-card__cta fixture-card__cta--alt button button--alt " href="/fixture/arsenal/2018-may-13/huddersfield-town" title="NEWS &amp; VIDEO">
+        NEWS &amp; VIDEO
+       </a>
+      </div>
+      <div class="audio-link">
+       <i class="audio-link__icon icon icon--audio">
+       </i>
+       <span class="audio-link__link">
+        Audio available on Arsenal.com
+       </span>
+      </div>
+     </footer>
+    </div>
+   </article>
+   <article about="/fixture/arsenal/2018-may-15/final" role="article">
+    <div class="card card--padded fixture-card fixture-card--alt" data-eq-pts="xsmall: 200, small: 550, medium: 640, large: 768">
+     <header class="card__header">
+      <h3 class="visually-hidden" id="fixture-card-25532">
+       Final - Wed May 16
+      </h3>
+      <div class="event-info">
+       <div class="event-info__date">
+        <div>
+         Wed May 16
+        </div>
+       </div>
+       <div class="event-info__venue">
+        Stade de Lyon
+       </div>
+       <div class="broadcaster">
+        <img alt="BT Sport" src="/sites/default/files/styles/small/public/logos/btsport_0.png?itok=AMZF8X0f"/>
+       </div>
+       <div class="event-info__extra">
+        Europa League
+       </div>
+      </div>
+     </header>
+     <div class="card__content">
+      <div class="u-row">
+       <figure class="team-crest team-crest--alt">
+        <img alt="  Final
+ crest" class="team-crest__crest" src="/sites/default/files/styles/feed_crest_thumbnail/public/logos/PlaceholderCrest_15.png?itok=-OXQPmQi"/>
+        <div class="team-crest__content">
+         <figcaption class="team-crest__name">
+          <span class="team-crest__name-value">
+           Final
+          </span>
+         </figcaption>
+         <div class="team-crest__extra">
+          <div class="event-info">
+           <div class="event-info__date--no-pipe">
+            <div>
+             Wed May 16
+            </div>
+           </div>
+           <div class="event-info__extra">
+            Europa League
+           </div>
+          </div>
+         </div>
+        </div>
+       </figure>
+       <div class="location-icon location-icon--neutral" title="Neutral">
+       </div>
+      </div>
+     </div>
+     <footer class="card__footer">
+      <div class="fixture-card__ctas">
+       <a aria-describedby="fixture-card-25532" aria-label="NEWS &amp; VIDEO" class="fixture-card__cta fixture-card__cta--alt button button--alt " href="/fixture/arsenal/2018-may-15/final" title="NEWS &amp; VIDEO">
+        NEWS &amp; VIDEO
+       </a>
+      </div>
+      <div class="audio-link">
+       <i class="audio-link__icon icon icon--audio">
+       </i>
+       <span class="audio-link__link">
+        Audio available on Arsenal.com
+       </span>
+      </div>
+      <div class="broadcaster">
+       <img alt="BT Sport" src="/sites/default/files/styles/small/public/logos/btsport_0.png?itok=AMZF8X0f"/>
+      </div>
+     </footer>
+     <div class="alert alert--info card__alert">
+      At Stade de Lyon, Lyon
+     </div>
+    </div>
+   </article>
+   <article about="/fixture/arsenal/2018-may-19/leicester-city" role="article">
+    <div class="card card--padded fixture-card fixture-card--alt" data-eq-pts="xsmall: 200, small: 550, medium: 640, large: 768">
+     <header class="card__header">
+      <h3 class="visually-hidden" id="fixture-card-25519">
+       Leicester City - TBC
+      </h3>
+      <div class="event-info">
+       <div class="event-info__date">
+        <div>
+         TBC
+        </div>
+       </div>
+       <div class="event-info__venue">
+        King Power Stadium
+       </div>
+       <div class="event-info__extra">
+        Premier League
+       </div>
+      </div>
+     </header>
+     <div class="card__content">
+      <div class="u-row">
+       <figure class="team-crest team-crest--alt">
+        <img alt="  Leicester City
+ crest" class="team-crest__crest" src="/sites/default/files/styles/feed_crest_thumbnail/public/logos/leicestercity.png?itok=VUgEBEB8"/>
+        <div class="team-crest__content">
+         <figcaption class="team-crest__name">
+          <span class="team-crest__name-value">
+           Leicester City
+          </span>
+         </figcaption>
+         <div class="team-crest__extra">
+          <div class="event-info">
+           <div class="event-info__date--no-pipe">
+            <div>
+             TBC
+            </div>
+           </div>
+           <div class="event-info__extra">
+            Premier League
+           </div>
+          </div>
+         </div>
+        </div>
+       </figure>
+       <div class="location-icon location-icon--away" title="Away">
+       </div>
+      </div>
+     </div>
+     <footer class="card__footer">
+      <div class="fixture-card__ctas">
+       <a aria-describedby="fixture-card-25519" aria-label="NEWS &amp; VIDEO" class="fixture-card__cta fixture-card__cta--alt button button--alt " href="/fixture/arsenal/2018-may-19/leicester-city" title="NEWS &amp; VIDEO">
+        NEWS &amp; VIDEO
+       </a>
+       <a aria-describedby="fixture-card-25519" aria-label="TICKETS" class="fixture-card__cta fixture-card__cta--primary button button--alt " href="/tickets/arsenal/2018-Mar-17/leicester-city" title="TICKETS">
+        TICKETS
+       </a>
+       <a aria-describedby="fixture-card-25519" aria-label="TICKET INFO" class="fixture-card__cta fixture-card__cta--primary button button--alt " href="/tickets/arsenal/2018-Mar-17/leicester-city" title="TICKET INFO">
+        TICKET INFO
+       </a>
+      </div>
+     </footer>
+     <div class="alert alert--info card__alert">
+      This match is postponed due to Leicester City's involvement in the FA Cup 6th round.
+     </div>
+    </div>
+   </article>
+  </div>
+ </div>
+</div>
+
