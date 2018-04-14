@@ -45,17 +45,16 @@ def parseWebsite():
         europa = cells[4].find(text=True)
         facup = cells[6].find(text=True)
         eflcup = cells[8].find(text=True)
-        total = cells[12].find(text=True)
+        total = cells[14].find(text=True)
         player = Player(name,league,europa,facup,eflcup,total)
         if player.total != 0:
             updateTable(player)
 
 def updateTable(player):
     for index,p in enumerate(players):
-        if player.total > p.total:
+        if int(player.total) >= int(p.total):
             players.insert(index,player)
             return
-    
     players.append(player)
     return
 
