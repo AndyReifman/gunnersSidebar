@@ -21,9 +21,11 @@ def getSprite(teamName):
          "Arsenal": "(#sprite1-p1)",
          "Brighton & Hove Albion":"(#sprite1-p103)",
          "Burnley": "(#sprite1-p156)",
+         "Cardiff City": "(#sprite1-p80)",
          "Chelsea": "(#sprite1-p4)",
          "Crystal Palace": "(#sprite1-p67)",
          "Everton": "(#sprite1-p15)",
+         "Fulham": "(#sprite1-p29)",
          "Huddersfield Town":"(#sprite1-p199)",
          "Hull City": "(#sprite1-p117)",
          "Leicester City": "(#sprite1-p87)",
@@ -40,6 +42,7 @@ def getSprite(teamName):
          "Watford": "(#sprite1-p112)",
          "West Bromwich Albion": "(#sprite1-p78)",
          "West Ham United": "(#sprite1-p21)",
+         "Wolverhampton Wanderers": "(#sprite1-p70)",
         }[teamName]
 
 
@@ -99,18 +102,6 @@ def teamsBelow(table, index,i):
     return body
     
 
-def discordBelow(table, index,i):
-    body = ""
-    if index < 5:
-        index = 5
-    for x in range(i+1, index+1):
-            team = re.findall('a href=".*">(.*)<\/a>',table[x])[0]
-            position = re.findall('<td class="pos">(.*)</td>',table[x])[0]
-            goalDiff = re.findall('<td class="gd">(.*)</td>',table[x])[0]
-            points = re.findall('<td class="pts">(.*)</td>',table[x])[0]
-            body += "|**"+position+"**|"+team+"|"+getSign(goalDiff)+"|"+points+"|\n"
-    return body
-
 def findArsenal(table):
     for index,pos in enumerate(table):
         team = re.findall('a href=".*">(.*)<\/a>',pos)[0]
@@ -126,24 +117,6 @@ def findArsenal(table):
         topRange += 1
     above = teamsAbove(table, botRange, i)
     below = teamsBelow(table, topRange, i)
-    body = above + body + below
-    return body
-
-def discordBuild(table):
-    for index,pos in enumerate(table):
-        team = re.findall('a href=".*">(.*)<\/a>',pos)[0]
-        if team == "Arsenal":
-            i = index
-            position = re.findall('<td class="pos">(.*)</td>',pos)[0]
-            goalDiff = re.findall('<td class="gd">(.*)</td>',pos)[0]
-            points = re.findall('<td class="pts">(.*)</td>',pos)[0]
-            body = "|**"+position+"**|**"+team+"**|**"+getSign(goalDiff)+"**|**"+points+"**|\n"
-    topRange = i + 2
-    botRange = i - 2
-    if botRange <= 1:
-        topRange += 1
-    above = discordAbove(table, botRange, i)
-    below = discordBelow(table, topRange, i)
     body = above + body + below
     return body
 
@@ -163,7 +136,3 @@ def main():
     #return body
     return body
 
-def discordMain():
-    table = parseWebsite()
-    body = discordBuild(table)
-    return body

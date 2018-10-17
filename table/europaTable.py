@@ -21,6 +21,8 @@ def getSprite(teamName):
          "BATE Borisov":"(#sprite4-p43)",
          "FC Cologne":"(#sprite1-p125)",
          "Red Star Belgrade":"(#sprite1-p165)",
+         "Sporting CP":"(#sprite1-p52)",
+         "Vorskla":"(#sprite4-p342)",
         }[teamName]
 
 
@@ -43,7 +45,7 @@ def buildTable(table):
     return body
 
 def parseWebsite():
-    website = "http://www.espnfc.us/uefa-europa-league/2310/group/8/group-h"
+    website = "http://www.espnfc.us/uefa-europa-league/2310/group/5/group-e"
     tableWebsite = requests.get(website, timeout=15)
     table_html = tableWebsite.text
     table = table_html.split('<tr style="background-color:')[1:]

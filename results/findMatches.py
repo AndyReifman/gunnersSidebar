@@ -43,46 +43,62 @@ def getSprite(teamName):
     return {
          "AC Milan": "(#sprite1-p13)",
          "Arsenal": "(#sprite1-p1)",
+         "Atletico Madrid": "(#sprite1-p76)",
+         "Boreham Wood": "(#sprite4-p375)",
          "Bournemouth": "(#sprite1-p218)",
          "BATE":"(#sprite4-p43)",
+         "Brentford":"(#sprite1-p198)",
          "Brighton & Hove Albion":"(#sprite1-p103)",
          "Burnley": "(#sprite1-p156)",
-         "C Palace": "(#sprite1-p67)",
+         "Crystal Palace": "(#sprite1-p67)",
+         "Cardiff City":"(#sprite1-p80)",
          "Chelsea": "(#sprite1-p4)",
          "Cologne":"(#sprite1-p125)",
          "CSKA Moscow":"(#sprite1-p220)",
          "Doncaster": "(#sprite1-p252)",
          "Everton": "(#sprite1-p15)",
-         "Huddersfield": "(#sprite1-p199)",
+         "FC Vorskla": "(#sprite4-p133)",
+         "Fulham": "(#sprite1-p29)",
+         "Huddersfield Town": "(#sprite1-p199)",
          "Hull City": "(#sprite1-p117)",
-         "Leicester": "(#sprite1-p87)",
+         "Lazio": "(#sprite1-p189)",
+         "Leicester City": "(#sprite1-p87)",
          "Liverpool": "(#sprite1-p3)",
-         "Man City": "(#sprite1-p10)",
-         "Man Utd": "(#sprite1-p2)",
+         "Manchester City": "(#sprite1-p10)",
+         "Manchester United": "(#sprite1-p2)",
+         "Matchday One": "(#sprite1-p02)",
          "Middlesbrough": "(#sprite1-p91)",
          "Newcastle United": "(#sprite1-p11)",
          "Norwich": "(#sprite1-p44)",
          "Nottm Forest": "(#sprite1-p66)",
          "Ostersunds F": "(#sprite2-p48)",
+         "PSG":"(#sprite1-p35)",
+         "Qarabag FK":"(#sprite4-p342)",
          "Red Star Bel":"(#sprite1-p165)",
          "Sevilla": "(#sprite1-p229)",
+         "Semi-Final 1L": "(#sprite1-1)",
+         "Semi-Final 2L": "(#sprite1-1)",
          "Southampton": "(#sprite1-p38)",
+         "Sporting CP": "(#sprite1-p52)",
          "Stoke City": "(#sprite1-p81)",
          "Sunderland": "(#sprite1-p46)",
          "Swansea": "(#sprite1-p39)",
          "Tottenham": "(#icon-poop)",
          "Watford": "(#sprite1-p112)",
          "West Brom": "(#sprite1-p78)",
-         "West Ham": "(#sprite1-p21)",
+         "West Ham United": "(#sprite1-p21)",
         }[teamName]
 
 def getComp(comp):
     return {
         "CC":"(#logo-eflcup)",
+        "Carabao Cup":"(#logo-eflcup)",
         "Emirates Cup":"(#icon-ball)",
         "English Carabao Cup":"(#logo-eflcup)",
         "Europa League":"(#logo-el)",
         "FA Community Shield":"(#logo-communityshield)",
+        "Friendly Match":"(#icon-ball)",
+        "International Champions Cup":"(#icon-ball)",
         "Premier League":"(#logo-pl)",
         "English FA Cup":"(#logo-facup)",
       }[comp]
@@ -169,11 +185,21 @@ def findResults(matches):
         if homeScore > awayScore:
             if location == "Home":
                 result += "[](#icon-win) "
+            elif location == "Neutral":
+                if team == "Arsenal":
+                    result += "[](#icon-loss) "
+                else:
+                    result += "[](#icon-win) "
             else:
                 result += "[](#icon-loss) "
         elif homeScore < awayScore: 
             if location == "Home":
                 result += "[](#icon-loss) "
+            elif location == "Neutral":
+                if team == "Arsenal":
+                    result += "[](#icon-loss)"
+                else:
+                    result += "[](#icon-win)"
             else:
                 result += "[](#icon-win) "
         else:
@@ -223,6 +249,5 @@ def main():
     results = parseResults()
     body = findResults(results)
     body += findFixtures(matches)
-#    body = findNext(table,nextMatch)
     return body
 

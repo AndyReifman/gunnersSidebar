@@ -42,9 +42,9 @@ def parseWebsite():
         cells = row.findAll("td")
         name = cells[0].find(text=True)
         league = cells[2].find(text=True)
-        europa = cells[4].find(text=True)
-        facup = cells[6].find(text=True)
-        eflcup = cells[8].find(text=True)
+        europa = cells[6].find(text=True)
+        facup = cells[8].find(text=True)
+        eflcup = cells[10].find(text=True)
         total = cells[14].find(text=True)
         player = Player(name,league,europa,facup,eflcup,total)
         if player.total != 0:
