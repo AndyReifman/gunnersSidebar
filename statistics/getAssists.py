@@ -41,28 +41,32 @@ def printPlayer(p):
  
 
 def getStats(html,comp):
-    body = "|"
     soup = BeautifulSoup(html, "lxml")
     table = soup.findAll("tbody",{"class":"Table2__tbody"})[1]
     #assists = totalAssists[i]
     player = ""
     for row in table.findAll("tr"):
+        found = 0
         cells = row.findAll("td")
         name = cells[1].find(text=True)
         assists = cells[3].find(text=True)
         #League 
         if comp == 0:
             player = Player(name,assists,0,0,0,int(assists))
+            updateTable(player)
         #Europa
         if comp == 1:
             #Check to see if player already exists in the table
-            for index,p in enumerate(players):
+            for p in players:
                 if p.name == name:
                     p.europa = assists
                     p.total += int(assists)
-                    return
+                    found = 1
+                    break
             #If the player doesn't exist we need to create them.
-            player = Player(name,0,assists,0,0,int(assists))
+            if not found:
+                player = Player(name,0,assists,0,0,int(assists))
+                updateTable(player)
         #FA Cup
         if comp == 2:
             #Check to see if player already exists in the table
@@ -70,9 +74,11 @@ def getStats(html,comp):
                 if p.name == name:
                     p.facup = assists
                     p.total += int(assists)
-                    return
+                    found = 1
+                    break
             #If the player doesn't exist we need to create them.
-            player = Player(name,0,0,assists,0,int(assists))
+            if not found:
+                player = Player(name,0,0,assists,0,int(assists))
         #EFL Cup
         if comp == 3:
             #Check to see if player already exists in the table
@@ -80,10 +86,11 @@ def getStats(html,comp):
                 if p.name == name:
                     p.eflcup = assists
                     p.total += int(assists)
-                    return
+                    found = 1
+                    break
             #If the player doesn't exist we need to create them.
-            player = Player(name,0,0,0,assists,int(assists))
-        updateTable(player)
+            if not found:
+                player = Player(name,0,0,0,assists,int(assists))
     return 
 
 def updateTable(player):
