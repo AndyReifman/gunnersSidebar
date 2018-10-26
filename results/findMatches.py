@@ -44,6 +44,7 @@ def getSprite(teamName):
          "AC Milan": "(#sprite1-p13)",
          "Arsenal": "(#sprite1-p1)",
          "Atletico Madrid": "(#sprite1-p76)",
+         "Blackpool FC": "(#sprite1-p146)",
          "Boreham Wood": "(#sprite4-p375)",
          "Bournemouth": "(#sprite1-p218)",
          "BATE":"(#sprite4-p43)",
