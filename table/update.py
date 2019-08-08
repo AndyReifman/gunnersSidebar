@@ -27,7 +27,8 @@ def loginBot():
         fkey = open('/root/reddit/sidebar/2fakey.txt')
         admin,username,password,subreddit,user_agent,id,secret,redirect = f.readline().split('||',8)
         key = fkey.readline().rstrip()
-        password += ':'+pyotp.TOTP(key).now()
+        totp = pyotp.TOTP(key)
+        password += ':'+totp.now()
         f.close()
         fkey.close()
         r = praw.Reddit(client_id=id,
@@ -39,20 +40,18 @@ def loginBot():
         return r,admin,username,password,subreddit,user_agent,id,secret,redirect
     except Exception, e:
         print getTimestamp() + str(e)
-        if str(e) == 'invalid_grant error processing request':
-            print getTimestamp() + 'Attempting to log in again.\n'
-            loginBot()
-            return
-        print getTimestamp() + "Setup error \n"
+        print getTimestamp() + "Setup error in Table \n"
+        time.sleep(5)
+        exit()
 
 
 def buildSidebar():
-	body = "[//]: # (Premier Table)\n"
-	body += "|\\#| Team | GD | Points \n"
-	body += "|::|:-:|:--:|:--:|\n"
-        body += getTable.main()
-	body += "[//]: # (End Premier Table)"
-	return body
+    body = "[//]: # (Premier Table)\n"
+    body += "|\\#| Team | GD | Points \n"
+    body += "|::|:-:|:--:|:--:|\n"
+    body += getTable.main()
+    body += "[//]: # (End Premier Table)"
+    return body
 
 def buildEuropa():
      body = "[//]: # (Europa Table)\n"
@@ -63,11 +62,10 @@ def buildEuropa():
      return body
 
 
-
 #Update the sidebar
 def updateSidebar():
     eplTable = buildSidebar()		
-    europaTable = buildEuropa()		
+    #europaTable = buildEuropa()		
     r,admin,username,password,subreddit,user_agent,id,secret,redirect = loginBot()
     settings = r.subreddit(subreddit).mod.settings()
     contents = settings['description']
@@ -75,21 +73,8 @@ def updateSidebar():
     contents = re.sub('\[\/\/\]: # \(Premier Table\).*\[\/\/\]: # \(End Premier Table\)',eplTable,contents,flags=re.DOTALL)
     r.subreddit(subreddit).mod.update(description=contents)
     print getTimestamp() + "Premier League Table Updated"
-    contents = re.sub('\[\/\/\]: # \(Europa Table\).*\[\/\/\]: # \(End Europa Table\)',europaTable,contents,flags=re.DOTALL)
-    r.subreddit(subreddit).mod.update(description=contents)
-    print getTimestamp() + "Europa League Table Updated"
-
-def updateEuropa():
-	europaTable = buildEuropa()		
-        r,admin,username,password,subreddit,user_agent,id,secret,redirect = loginBot()
-	settings = r.subreddit(subreddit).mod.settings()
-	contents = settings['description']
-	#We want to update current sidebar to where injury table goes
-	contents = re.sub('\[\/\/\]: # \(Europa Table\).*\[\/\/\]: # \(End Europa Table\)',europaTable,contents,flags=re.DOTALL)
-	r.subreddit(subreddit).mod.update(description=contents)
-
-
-
+#    contents = re.sub('\[\/\/\]: # \(Europa Table\).*\[\/\/\]: # \(End Europa Table\)',europaTable,contents,flags=re.DOTALL)
+#    r.subreddit(subreddit).mod.update(description=contents)
+#    print getTimestamp() + "Europa League Table Updated"
 
 updateSidebar()
-#updateEuropa()

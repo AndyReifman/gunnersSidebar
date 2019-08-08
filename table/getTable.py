@@ -19,6 +19,7 @@ def getSprite(teamName):
     return {
          "AFC Bournemouth": "(#sprite1-p218)",
          "Arsenal": "(#sprite1-p1)",
+         "Aston Villa": "(#sprite1-p19)",
          "Brighton & Hove Albion":"(#sprite1-p103)",
          "Burnley": "(#sprite1-p156)",
          "Cardiff City": "(#sprite1-p80)",

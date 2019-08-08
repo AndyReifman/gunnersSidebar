@@ -54,11 +54,8 @@ def loginBot():
         print getTimestamp() + "OAuth session opened as /u/" + r.user.me().name
         return r,admin,username,password,subreddit,user_agent,id,secret,redirect
     except Exception, e:
-        if str(e) == 'invalid_grant error processing request':
-            loginBot()
-            return
         print getTimestamp() + "Setup error \n"
-        sleep(10)
+        sleep(5)
 
 def buildSidebar():
 	injUrl = "http://www.arsenal.com/first-team/players/"

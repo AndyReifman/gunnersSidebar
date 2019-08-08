@@ -25,7 +25,8 @@ def loginBot():
         fkey = open('/root/reddit/sidebar/2fakey.txt')
         admin,username,password,subreddit,user_agent,id,secret,redirect = f.readline().split('||',8)
         key = fkey.readline().rstrip()
-        password += ':'+pyotp.TOTP(key).now()
+        totp = pyotp.TOTP(key)
+        password += ':'+totp.now()
         f.close()
         fkey.close()
         r = praw.Reddit(client_id=id,
@@ -37,8 +38,9 @@ def loginBot():
         return r,admin,username,password,subreddit,user_agent,id,secret,redirect
     except Exception, e:
         print getTimestamp() + str(e)
-        print getTimestamp() + "Setup error \n"
-        sleep(10)
+        print getTimestamp() + "Setup error in statistics\n"
+        sleep(5)
+        exit()
 
 def buildGoalSidebar():
     body = "[//]: # (Goals Table)\n"
