@@ -23,7 +23,7 @@ def loginBot():
     try:
         f = open('/root/reddit/sidebar/login.txt')
         fkey = open('/root/reddit/sidebar/2fakey.txt')
-        admin,username,password,subreddit,user_agent,id,secret,redirect = f.readline().split('||',8)
+        admin,username,password,subreddit,user_agent,id,secret,redirect,refresh = f.readline().split('||',8)
         key = fkey.readline().rstrip()
         totp = pyotp.TOTP(key)
         password += ':'+totp.now()
@@ -31,9 +31,8 @@ def loginBot():
         fkey.close()
         r = praw.Reddit(client_id=id,
              client_secret=secret,
-             password=password,
-             user_agent=user_agent,
-             username=username)
+             refresh_token=refresh.strip(),
+             user_agent=user_agent)
         print(getTimestamp() + "OAuth session opened as /u/" + r.user.me().name)
         return r,admin,username,password,subreddit,user_agent,id,secret,redirect
     except (Exception, e):
@@ -67,7 +66,8 @@ def main():
     contents = settings['description']
     #update Timer#
     contents = re.sub('>>>>>.*>>>>>',body,contents,flags=re.DOTALL)
-    r.subreddit(subreddit).mod.update(description=contents)
+    #r.subreddit(subreddit).mod.update(description=contents)
+    r.subreddit(subreddit).wiki['config/sidebar'].edit(contents)
 
 
 

@@ -9,6 +9,9 @@ import datetime
 import time
 import re
 import pyotp
+import socket, sys
+import prawcore
+from base64 import b64decode
 from time import sleep
 
 
@@ -23,7 +26,7 @@ def loginBot():
     try:
         f = open('/root/reddit/sidebar/login.txt')
         fkey = open('/root/reddit/sidebar/2fakey.txt')
-        admin,username,password,subreddit,user_agent,id,secret,redirect = f.readline().split('||',8)
+        admin,username,password,subreddit,user_agent,id,secret,redirect,refresh = f.readline().split('||',8)
         key = fkey.readline().rstrip()
         totp = pyotp.TOTP(key)
         password += ':'+totp.now()
@@ -31,16 +34,17 @@ def loginBot():
         fkey.close()
         r = praw.Reddit(client_id=id,
              client_secret=secret,
-             password=password,
-             user_agent=user_agent,
-             username=username)
+             refresh_token=refresh.strip(),
+             user_agent=user_agent)
+
         print getTimestamp() + "OAuth session opened as /u/" + r.user.me().name
-        return r,admin,username,password,subreddit,user_agent,id,secret,redirect
     except Exception, e:
         print getTimestamp() + str(e)
         print getTimestamp() + "Setup error in Results \n"
-        sleep(5)
+        sleep(1)
         exit()
+
+    return r,admin,username,password,subreddit,user_agent,id,secret,redirect
 
 def buildSidebar():
     body = "[//]: # (Fixtures Table)\n"
@@ -58,6 +62,7 @@ def updateResults():
     contents = re.sub('\[\/\/\]: # \(Fixtures Table\).*\[\/\/\]: # \(End Fixtures Table\)',results,contents,flags=re.DOTALL)
     #r.update_settings(r.get_subreddit("jacktest"),description=contents)
     r.subreddit(subreddit).mod.update(description=contents)
+
 
 
 
