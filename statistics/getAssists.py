@@ -42,15 +42,22 @@ def printPlayer(p):
 
 def getStats(html,comp):
     soup = BeautifulSoup(html, "lxml")
-    table = soup.findAll("tbody",{"class":"Table2__tbody"})[1]
-    #assists = totalAssists[i]
-    player = ""
-    for row in table.findAll("tr"):
-        found = 0
-        cells = row.findAll("td")
-        name = cells[1].find(text=True)
-        assists = cells[3].find(text=True)
+    table = soup.find("table",{"class":"items"})
+    stats = table.find("tbody")
+    for row in stats.findAll("tr",{"class":['odd','even']}):
+        player = ""
+        #First up, get the name
+        name = row.find("td",{"class":"posrela"}).findAll("a",{"class":"spielprofil_tooltip"})[0].getText()
+        columns = row.findAll("td",{"class":"zentriert"})
+        try:
+            assists = columns[6].getText()
+        except:
+            assists = 0
+        if (assists == "-"):
+            assists = 0
+        #assists = totalAssists[i]
         #League 
+        found = 0
         if comp == 0:
             player = Player(name,assists,0,0,0,int(assists))
             updateTable(player)
@@ -62,6 +69,7 @@ def getStats(html,comp):
                     p.europa = assists
                     p.total += int(assists)
                     found = 1
+                    updateTable(p)
                     break
             #If the player doesn't exist we need to create them.
             if not found:
@@ -75,10 +83,12 @@ def getStats(html,comp):
                     p.facup = assists
                     p.total += int(assists)
                     found = 1
+                    updateTable(p)
                     break
             #If the player doesn't exist we need to create them.
             if not found:
                 player = Player(name,0,0,assists,0,int(assists))
+                updateTable(player)
         #EFL Cup
         if comp == 3:
             #Check to see if player already exists in the table
@@ -87,10 +97,12 @@ def getStats(html,comp):
                     p.eflcup = assists
                     p.total += int(assists)
                     found = 1
+                    updateTable(p)
                     break
             #If the player doesn't exist we need to create them.
             if not found:
                 player = Player(name,0,0,0,assists,int(assists))
+                updateTable(player)
     return 
 
 def updateTable(player):
@@ -103,16 +115,17 @@ def updateTable(player):
 
 def parseStats():
     body = ""
-    premierLeague = "http://www.espn.com/soccer/team/stats/_/id/359/league/ENG.1"
-    faCup = "http://www.espn.com/soccer/team/stats/_/id/359/league/ENG.FA"
-    europaLeague = "http://www.espn.com/soccer/team/stats/_/id/359/league/UEFA.EUROPA"
-    eflCup = "http://www.espn.com/soccer/team/stats/_/id/359/league/ENG.LEAGUE_CUP"
-    premierLeagueWebsite = requests.get(premierLeague, timeout=15)
-    faCupWebsite = requests.get(faCup, timeout=15)
-    europaLeagueWebsite = requests.get(europaLeague, timeout=15)
-    eflCupWebsite = requests.get(eflCup, timeout=15)
+    total = "https://www.transfermarkt.us/arsenal-fc/leistungsdaten/verein/11/plus/1?reldata=%262019"
+    premierLeague = "https://www.transfermarkt.us/arsenal-fc/leistungsdaten/verein/11/plus/1?reldata=GB1%262019"
+    #faCup = ""
+    europaLeague = "https://www.transfermarkt.us/arsenal-fc/leistungsdaten/verein/11/plus/1?reldata=EL%262019"
+    eflCup = "https://www.transfermarkt.us/arsenal-fc/leistungsdaten/verein/11/plus/1?reldata=CGB%262019"
+    premierLeagueWebsite = requests.get(premierLeague,headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'})
+    #faCupWebsite = requests.get(faCup,headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'})
+    europaLeagueWebsite = requests.get(europaLeague,headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'})
+    eflCupWebsite = requests.get(eflCup,headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'})
     premier_html = premierLeagueWebsite.text
-    fa_html = faCupWebsite.text
+    #fa_html = faCupWebsite.text
     europa_html = europaLeagueWebsite.text
     efl_html = eflCupWebsite.text
     #Premier League
@@ -120,11 +133,10 @@ def parseStats():
     #Europa League
     getStats(europa_html,1)
     #FA Cup
-    #FA Cup starts in 2019
-    #EFL Cup
+    #FA Cup starts in 2020
     getStats(efl_html,3)
     #body += "|"+str(totalAssists[i])+"|\n"
-    players.sort(key=lambda x: x.total, reverse=True)
+    #players.sort(key=lambda x: x.total, reverse=True)
 
 def buildTable():
     body = ""
@@ -132,13 +144,19 @@ def buildTable():
         p = players[x]
         player = p.name
         temp = player.replace(' ','-').lower()
-        temp = unidecode(temp)
+        try:
+            temp = unidecode(temp)
+        except:
+            pass
         newLine = str(p.league)+"|"+str(p.europa)+"|"+str(p.facup)+"|"+str(p.eflcup)+"|"+str(p.total)+"|\n"
         if newLine == "":
             continue
         else:  
-            if unidecode(temp) == 'alexis-sanchez':
-                temp = "alexis"
+            try:
+                if unidecode(temp) == 'alexis-sanchez':
+                    temp = "alexis"
+            except:
+                pass
             body += "|["+player+"](http://www.arsenal.com/arsenal/players/"+temp+")|"
             body += newLine
     return body

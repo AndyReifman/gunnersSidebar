@@ -38,15 +38,15 @@ def parseWebsite():
     html = goalsWebsite.text
     soup = BeautifulSoup(html, "lxml")
     table = soup.find("div",{"class": "card__content"})
-    #Row: Name, Prem Apps, Goals, UEL Apps, Goals, FA Cup Apps, Goals, League Cup Apps, Goals, Total Apps, Goals
+    #Row: Name, Prem Apps, Goals, UCL Apps, Goals, UEL Apps, Goals, FA Cup Apps, Goals, League Cup Apps, Goals, Comm Shield Apps, Goals, Total Apps, Goals
     for row in table.findAll("tr")[2:]:
         cells = row.findAll("td")
         name = cells[0].find(text=True)
         league = cells[2].find(text=True)
-        europa = cells[4].find(text=True)
-        facup = cells[6].find(text=True)
-        eflcup = cells[8].find(text=True)
-        total = cells[10].find(text=True)
+        europa = cells[6].find(text=True)
+        facup = cells[8].find(text=True)
+        eflcup = cells[10].find(text=True)
+        total = cells[14].find(text=True)
         player = Player(name,league,europa,facup,eflcup,total)
         if player.total != 0:
             updateTable(player)
