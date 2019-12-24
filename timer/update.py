@@ -55,7 +55,6 @@ def main():
     #printEvents(service)
     #Get the countdown
     countdown = arsenal(service)
-    print(countdown)
     body = ">>>>>\n"
     body += "#### Next game in: " +countdown +"\n"
     body += ">>>>>"
@@ -89,6 +88,9 @@ def arsenal(service):
         diff = epoch - int(now.timestamp())
 
         date = datetime.timedelta(seconds=diff)
+        if '-1 day' in str(date):
+            return "Now!"
+
         return convert(str(date))
 
 def convert(timeStamp):
