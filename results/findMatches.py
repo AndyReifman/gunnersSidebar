@@ -76,6 +76,7 @@ def getSprite(teamName):
          "Huddersfield Town": "(#sprite1-p199)",
          "Hull City": "(#sprite1-p117)",
          "Lazio": "(#sprite1-p189)",
+         "Leeds": "(#sprite1-p27)",
          "Leicester City": "(#sprite1-p87)",
          "Liverpool": "(#sprite1-p3)",
          "Lyon": "(#sprite1-p106)",
