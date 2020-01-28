@@ -100,6 +100,7 @@ def buildTable():
 
 def updateSidebar():
     table = buildTable()
+    print(getTimestamp() +  table)
     r,admin,username,password,subreddit,user_agent,id,secret,redirect = loginBot()
     settings = r.subreddit(subreddit).mod.settings()
     contents = settings['description']
