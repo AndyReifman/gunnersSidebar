@@ -33,7 +33,7 @@ def getTimestamp():
         return dt + t
 
 def parseWebsite():
-    website = "https://www.arsenal.com/first-team/statistics"
+    website = "https://www.arsenal.com/men/statistics"
     goalsWebsite = requests.get(website,timeout=15)
     html = goalsWebsite.text
     soup = BeautifulSoup(html, "lxml")
