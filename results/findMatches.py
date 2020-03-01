@@ -92,6 +92,7 @@ def getSprite(teamName):
          "Nottingham Forest": "(#sprite1-p66)",
          "Olympiacos": "(#sprite1-p129)",
          "Ostersunds F": "(#sprite2-p48)",
+         "Portsmouth": "(#sprite1-p85)",
          "PSG":"(#sprite1-p35)",
          "Qarabag FK":"(#sprite4-p342)",
          "Real Madrid":"(#sprite1-p9)",
