@@ -7,6 +7,8 @@ from praw.models import Message
 from collections import Counter
 from itertools import groupby
 from time import sleep
+from bs4 import BeautifulSoup
+
 
 def getTimestamp():
         dt = str(datetime.datetime.now().month) + '/' + str(datetime.datetime.now().day) + ' '
@@ -45,6 +47,7 @@ def getSprite(teamName):
          "West Bromwich Albion": "(#sprite1-p78)",
          "West Ham United": "(#sprite1-p21)",
          "Wolverhampton Wanderers": "(#sprite1-p70)",
+         "Wolves": "(#sprite1-p70)",
         }[teamName]
 
 
@@ -58,60 +61,46 @@ def teamsAbove(table, index, i):
     if index < 0:
         return body
     elif index == 0:
-        team = re.findall('a href=".*">(.*)<\/a>',table[1])[0]
-        position = re.findall('<td class="pos">(.*)</td>',table[1])[0]
-        goalDiff = re.findall('<td class="gd">(.*)</td>',table[1])[0]
-        points = re.findall('<td class="pts">(.*)</td>',table[1])[0]
+        cells = table[1].findAll("td")
+        position = cells[0].getText()
+        team = cells[2].getText().strip().splitlines()[1]
+        goalDiff = cells[19].getText()
+        points = cells[20].getText()
         body += "|**"+position+"**|[]"+getSprite(team)+"|"+getSign(goalDiff)+"|"+points+"|\n"
     else:
         for x in range(index, i):
-            team = re.findall('a href=".*">(.*)<\/a>',table[x])[0]
-            position = re.findall('<td class="pos">(.*)</td>',table[x])[0]
-            goalDiff = re.findall('<td class="gd">(.*)</td>',table[x])[0]
-            points = re.findall('<td class="pts">(.*)</td>',table[x])[0]
+            cells = table[x].findAll("td")
+            position = cells[0].getText()
+            team = cells[2].getText().strip().splitlines()[1]
+            goalDiff = cells[19].getText()
+            points = cells[20].getText()
             body += "|**"+position+"**|[]"+getSprite(team)+"|"+getSign(goalDiff)+"|"+points+"|\n"
     return body
 
-def discordAbove(table, index, i):
-    body = ""
-    if index < 0:
-        return body
-    elif index == 0:
-        team = re.findall('a href=".*">(.*)<\/a>',table[1])[0]
-        position = re.findall('<td class="pos">(.*)</td>',table[1])[0]
-        goalDiff = re.findall('<td class="gd">(.*)</td>',table[1])[0]
-        points = re.findall('<td class="pts">(.*)</td>',table[1])[0]
-        body += "|**"+position+"**|"+team+"|"+getSign(goalDiff)+"|"+points+"|\n"
-    else:
-        for x in range(index, i):
-            team = re.findall('a href=".*">(.*)<\/a>',table[x])[0]
-            position = re.findall('<td class="pos">(.*)</td>',table[x])[0]
-            goalDiff = re.findall('<td class="gd">(.*)</td>',table[x])[0]
-            points = re.findall('<td class="pts">(.*)</td>',table[x])[0]
-            body += "|**"+position+"**|"+team+"|"+getSign(goalDiff)+"|"+points+"|\n"
-    return body
         
 def teamsBelow(table, index,i):
     body = ""
     if index < 5:
         index = 5
     for x in range(i+1, index+1):
-            team = re.findall('a href=".*">(.*)<\/a>',table[x])[0]
-            position = re.findall('<td class="pos">(.*)</td>',table[x])[0]
-            goalDiff = re.findall('<td class="gd">(.*)</td>',table[x])[0]
-            points = re.findall('<td class="pts">(.*)</td>',table[x])[0]
-            body += "|**"+position+"**|[]"+getSprite(team)+"|"+getSign(goalDiff)+"|"+points+"|\n"
+        cells = table[x].findAll("td")
+        position = cells[0].getText()
+        team = cells[2].getText().strip().splitlines()[1]
+        goalDiff = cells[19].getText()
+        points = cells[20].getText()
+        body += "|**"+position+"**|[]"+getSprite(team)+"|"+getSign(goalDiff)+"|"+points+"|\n"
     return body
     
 
 def findArsenal(table):
-    for index,pos in enumerate(table):
-        team = re.findall('a href=".*">(.*)<\/a>',pos)[0]
+    for index,row in enumerate(table):
+        cells = row.findAll("td")
+        position = cells[0].getText()
+        team = cells[2].getText().strip().splitlines()[1]
+        goalDiff = cells[19].getText()
+        points = cells[20].getText()
         if team == "Arsenal":
             i = index
-            position = re.findall('<td class="pos">(.*)</td>',pos)[0]
-            goalDiff = re.findall('<td class="gd">(.*)</td>',pos)[0]
-            points = re.findall('<td class="pts">(.*)</td>',pos)[0]
             body = "|**"+position+"**|[]"+getSprite(team)+"|**"+getSign(goalDiff)+"**|**"+points+"**|\n"
     topRange = i + 2
     botRange = i - 2
@@ -124,17 +113,15 @@ def findArsenal(table):
 
 
 def parseWebsite():
-    website = "http://www.espnfc.us/english-premier-league/23/table"
+    website = "https://www.arsenal.com/men/tables"
     tableWebsite = requests.get(website, timeout=15)
     table_html = tableWebsite.text
-    fullTable = table_html.split('<div class="responsive-table">')[1]
-    table = fullTable.split('<tr style="background-color:')
-    #fixtures[0] now holds the next match
-    return table
+    soup = BeautifulSoup(table_html, "lxml")
+    rows = soup.find("tbody").findAll("tr")
+    return rows
+
 
 def main():
     table = parseWebsite()
     body = findArsenal(table)
-    #return body
     return body
-
