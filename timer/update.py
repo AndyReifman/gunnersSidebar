@@ -5,11 +5,13 @@ import time
 import pyotp
 import praw
 import re
+import postThread
 from googleapiclient.discovery import build
 from httplib2 import Http
 from oauth2client import file, client, tools
 
 SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
+createThread = 0
 
 def getTimestamp():
     dt = str(datetime.datetime.now().month) + '/' + str(datetime.datetime.now().day) + ' '
@@ -67,6 +69,7 @@ def main():
     contents = re.sub('>>>>>.*>>>>>',body,contents,flags=re.DOTALL)
     #r.subreddit(subreddit).mod.update(description=contents)
     r.subreddit(subreddit).wiki['config/sidebar'].edit(contents)
+    return
 
 
 
@@ -82,14 +85,17 @@ def arsenal(service):
     if not events:
         print('No upcoming events found.')
     for event in events:
+        global summary
+        summary = event['summary']
         start = event['start'].get('dateTime', event['start'].get('date'))
         pattern = '%Y-%m-%dT%H:%M:%SZ'
         epoch = int(time.mktime(time.strptime(start,pattern)))
         diff = epoch - int(now.timestamp())
-
         date = datetime.timedelta(seconds=diff)
         if '-1 day' in str(date):
             return "Now!"
+        global matchDate 
+        matchDate = start.split('T')[0]
 
         return convert(str(date))
 
@@ -101,6 +107,23 @@ def convert(timeStamp):
         days = '0 days '
         temp = timeStamp
     hours = temp.split(':')[0].strip() + ' hours '
+    if days == '0 days ':
+        f = open('/root/reddit/sidebar/timer/lockfile')
+        status = f.readline().strip()
+        f.close
+        now = datetime.datetime.utcnow()
+        if now.hour == 8 and status == 'UNLOCKED':
+            #We want to create a thread assuming this is the first time around.
+            postThread.main(summary,matchDate)
+            print("Locking file")
+            f = open('/root/reddit/sidebar/timer/lockfile','w')
+            f.write('LOCKED')
+            f.close()
+    else:
+        print("Unlocking file")
+        f = open('/root/reddit/sidebar/timer/lockfile','w')
+        f.write('UNLOCKED')
+        f.close()
     minutes = temp.split(':')[1].strip() + ' minutes'
     
     return days + hours + minutes
