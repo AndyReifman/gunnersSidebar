@@ -60,21 +60,20 @@ def getStats(html,comp):
         found = 0
         if comp == 0:
             player = Player(name,assists,0,0,0,int(assists))
-            updateTable(player)
+            players.append(player)
         #Europa
         if comp == 1:
             #Check to see if player already exists in the table
-            for p in players:
+            for index,p in enumerate(players):
                 if p.name == name:
                     p.europa = assists
                     p.total += int(assists)
                     found = 1
-                    updateTable(p)
                     break
             #If the player doesn't exist we need to create them.
             if not found:
                 player = Player(name,0,assists,0,0,int(assists))
-                updateTable(player)
+                players.append(player)
         #FA Cup
         if comp == 2:
             #Check to see if player already exists in the table
@@ -83,12 +82,11 @@ def getStats(html,comp):
                     p.facup = assists
                     p.total += int(assists)
                     found = 1
-                    updateTable(p)
                     break
             #If the player doesn't exist we need to create them.
             if not found:
                 player = Player(name,0,0,assists,0,int(assists))
-                updateTable(player)
+                players.append(player)
         #EFL Cup
         if comp == 3:
             #Check to see if player already exists in the table
@@ -97,21 +95,12 @@ def getStats(html,comp):
                     p.eflcup = assists
                     p.total += int(assists)
                     found = 1
-                    updateTable(p)
                     break
             #If the player doesn't exist we need to create them.
             if not found:
                 player = Player(name,0,0,0,assists,int(assists))
-                updateTable(player)
+                players.append(player)
     return 
-
-def updateTable(player):
-    for index,p in enumerate(players):
-        if int(player.total) >= (p.total):
-            players.insert(index,player)
-            return
-    players.append(player)
-    return
 
 def parseStats():
     body = ""
@@ -136,10 +125,9 @@ def parseStats():
     getStats(fa_html,2)
     #EFL Cup
     getStats(efl_html,3)
-    #body += "|"+str(totalAssists[i])+"|\n"
-    #players.sort(key=lambda x: x.total, reverse=True)
 
 def buildTable():
+    players.sort(key=lambda x: x.total, reverse=True)
     body = ""
     for x in range(0, 5):
         p = players[x]
