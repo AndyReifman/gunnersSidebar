@@ -156,18 +156,6 @@ def parseResults():
     return matches
 
 
-def findNext(table, nextMatch):
-    fixtures = table.findAll("a")
-    for index,fixture in enumerate(fixtures):
-        date = fixture.find("div",{"class","date"}).text
-        if date == nextMatch.date:
-            i = index
-    results = findResults(fixtures, i)
-    matches = findMatches(fixtures, i)
-    body = results + matches
-    return body
-
-
 def findFixtures(matches):
     body = ""
     match = matches[0].find("div",{"class","fixture-match"})
@@ -184,7 +172,10 @@ def findFixtures(matches):
     else:
         team = getSprite(homeTeam) + " (A)"
     body += "| " + date + " | [](#icon-clock) " + time + " | []" + team +" | []" +getComp(comp)+"|\n"
-    for i in range(1,3):
+    x = 3
+    if len(matches) < 3:
+        x = len(matches)
+    for i in range(1,x):
         match = matches[i].find("div",{"class","card__content"})
         try:
             date = matches[i].find("time").text
