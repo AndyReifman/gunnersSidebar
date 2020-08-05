@@ -158,7 +158,10 @@ def parseResults():
 
 def findFixtures(matches):
     body = ""
-    match = matches[0].find("div",{"class","fixture-match"})
+    try:
+        match = matches[0].find("div",{"class","fixture-match"})
+    except IndexError:
+        return body
     date = matches[0].find("time").text
     time = date.split('-')[1].strip()
     date = date.split('-')[0][3:].strip()
