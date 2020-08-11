@@ -84,6 +84,7 @@ def arsenal(service):
 
     if not events:
         print('No upcoming events found.')
+        return "None Scheduled"
     for event in events:
         global summary
         summary = event['summary']
