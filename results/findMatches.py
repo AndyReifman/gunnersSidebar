@@ -187,10 +187,22 @@ def findFixtures(matches):
             comp = matches[i].find("div",{"class","event-info__extra"}).text
         except:
             time = "TBD"
-            date = matches[i].find("div",class_=False, id=False).text[3:].strip()
+            #date = matches[i].find("div",class_=False, id=False).text[3:].strip()
+            date = matches[i].find("div",class_=False, id=False).text.strip()
             comp = matches[i].find("div",{"class","event-info__extra"}).text
-        team = match.find("span",{"class","team-crest__name-value"}).text
-        location = match.find("div",{"class","location-icon"})['title']
+        try:
+            team = match.find("span",{"class","team-crest__name-value"}).text
+        except AttributeError:
+            team = match.find("div",{"class","team-crest__name-value"}).text
+        try:
+            location = match.find("div",{"class","location-icon"})['title']
+        except TypeError:
+            teams = match.findAll("div",{"class","fixture-match__team"})
+            homeAway = getLocation(teams)
+            if homeAway == 0:
+                location = "Home"
+            else:
+                location = "Away"
         if location == "Home":
             team = getSprite(team) + " (H)"
         else:
@@ -202,7 +214,12 @@ def findResults(matches):
     body = ""
     for i in range(2,0,-1):
         result = ""
-        match = matches[i].find("div",{"class","card__content"})
+        try:
+            match = matches[i].find("div",{"class","card__content"})
+        except:
+            if i == 0:
+                return body
+            break
         date = matches[i].find("time").text
         date = date.split('-')[0][3:].strip()
         comp = matches[i].find("div",{"class","event-info__extra"}).text
