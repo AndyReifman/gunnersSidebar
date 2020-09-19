@@ -86,6 +86,7 @@ def getSprite(teamName):
          "Manchester United": "(#sprite1-p2)",
          "Matchday One": "(#sprite1-p02)",
          "Middlesbrough": "(#sprite1-p91)",
+         "MK Dons": "(#sprite1-p332)",
          "Napoli": "(#sprite1-p75)",
          "Newcastle United": "(#sprite1-p11)",
          "Norwich": "(#sprite1-p44)",
