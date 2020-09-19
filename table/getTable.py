@@ -62,12 +62,12 @@ def teamsAbove(table, index, i):
     if index < 0:
         return body
     elif index == 0:
-        cells = table[1].findAll("td")
-        position = cells[0].getText()
-        team = cells[2].getText().strip().splitlines()[1]
-        goalDiff = cells[19].getText()
-        points = cells[20].getText()
-        body += "|**"+position+"**|[]"+getSprite(team)+"|"+getSign(goalDiff)+"|"+points+"|\n"
+        cells = table[0].findAll("td")
+        position = table[0].find("span",{"class","value"}).text
+        team = table[0].find("span",{"class","long"}).text
+        goalDiff = cells[9].text.strip()
+        points = table[0].find("td",{"class","points"}).text
+        body += "|**"+position+"**|[]"+getSprite(team)+"|"+goalDiff+"|"+points+"|\n"
     else:
         for x in range(index, i):
             cells = table[x].findAll("td")
@@ -78,31 +78,32 @@ def teamsAbove(table, index, i):
             body += "|**"+position+"**|[]"+getSprite(team)+"|"+getSign(goalDiff)+"|"+points+"|\n"
     return body
 
-        
 def teamsBelow(table, index,i):
     body = ""
-    if index < 5:
-        index = 5
-    for x in range(i+1, index+1):
+    if index < 10:
+        index = 10
+    for x in range(i+2, index+2,2):
         cells = table[x].findAll("td")
-        position = cells[0].getText()
-        team = cells[2].getText().strip().splitlines()[1]
-        goalDiff = cells[19].getText()
-        points = cells[20].getText()
-        body += "|**"+position+"**|[]"+getSprite(team)+"|"+getSign(goalDiff)+"|"+points+"|\n"
+        position = table[x].find("span",{"class","value"}).text
+        team = table[x].find("span",{"class","long"}).text
+        goalDiff = cells[9].text.strip()
+        points = table[x].find("td",{"class","points"}).text
+        body += "|**"+position+"**|[]"+getSprite(team)+"|"+goalDiff+"|"+points+"|\n"
     return body
     
 
 def findArsenal(table):
     for index,row in enumerate(table):
+        if index % 2 == 1:
+            continue
         cells = row.findAll("td")
-        position = cells[0].getText()
-        team = cells[2].getText().strip().splitlines()[1]
-        goalDiff = cells[19].getText()
-        points = cells[20].getText()
+        position = row.find("span",{"class","value"}).text
+        team = row.find("span",{"class","long"}).text
+        goalDiff = cells[9].text.strip()
+        points = row.find("td",{"class","points"}).text
         if team == "Arsenal":
             i = index
-            body = "|**"+position+"**|[]"+getSprite(team)+"|**"+getSign(goalDiff)+"**|**"+points+"**|\n"
+            body = "|**"+position+"**|[]"+getSprite(team)+"|**"+goalDiff+"**|**"+points+"**|\n"
     topRange = i + 2
     botRange = i - 2
     if botRange <= 1:
@@ -114,7 +115,7 @@ def findArsenal(table):
 
 
 def parseWebsite():
-    website = "https://www.arsenal.com/men/tables"
+    website = "https://www.premierleague.com/tables"
     tableWebsite = requests.get(website, timeout=15)
     table_html = tableWebsite.text
     soup = BeautifulSoup(table_html, "lxml")
