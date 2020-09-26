@@ -146,7 +146,7 @@ def buildTable():
                     temp = "alexis"
             except:
                 pass
-            body += "|["+player+"](http://www.arsenal.com/arsenal/players/"+temp+")|"
+            body += "|["+player+"](http://www.arsenal.com/men/players/"+temp+")|"
             body += newLine
     return body
 
