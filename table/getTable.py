@@ -61,7 +61,7 @@ def teamsAbove(table, index, i):
     body = ""
     if index < 0:
         return body
-    elif index == 0:
+    elif index == 2:
         cells = table[0].findAll("td")
         position = table[0].find("span",{"class","value"}).text
         team = table[0].find("span",{"class","long"}).text
@@ -69,20 +69,20 @@ def teamsAbove(table, index, i):
         points = table[0].find("td",{"class","points"}).text
         body += "|**"+position+"**|[]"+getSprite(team)+"|"+goalDiff+"|"+points+"|\n"
     else:
-        for x in range(index, i):
+        for x in range(index, i,2):
             cells = table[x].findAll("td")
-            position = cells[0].getText()
-            team = cells[2].getText().strip().splitlines()[1]
-            goalDiff = cells[19].getText()
-            points = cells[20].getText()
-            body += "|**"+position+"**|[]"+getSprite(team)+"|"+getSign(goalDiff)+"|"+points+"|\n"
+            position = table[x].find("span",{"class","value"}).text
+            team = table[x].find("span",{"class","long"}).text
+            goalDiff = cells[9].text.strip()
+            points = table[x].find("td",{"class","points"}).text
+            body += "|**"+position+"**|[]"+getSprite(team)+"|"+goalDiff+"|"+points+"|\n"
     return body
 
 def teamsBelow(table, index,i):
     body = ""
     if index < 10:
         index = 10
-    for x in range(i+2, index+2,2):
+    for x in range(i+2, index,2):
         cells = table[x].findAll("td")
         position = table[x].find("span",{"class","value"}).text
         team = table[x].find("span",{"class","long"}).text
@@ -104,10 +104,10 @@ def findArsenal(table):
         if team == "Arsenal":
             i = index
             body = "|**"+position+"**|[]"+getSprite(team)+"|**"+goalDiff+"**|**"+points+"**|\n"
-    topRange = i + 2
-    botRange = i - 2
-    if botRange <= 1:
-        topRange += 1
+    topRange = i + 4
+    botRange = i - 4
+    if botRange < 0:
+        topRange += 2
     above = teamsAbove(table, botRange, i)
     below = teamsBelow(table, topRange, i)
     body = above + body + below
