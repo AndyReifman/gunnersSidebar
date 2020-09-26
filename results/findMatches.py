@@ -182,7 +182,7 @@ def findFixtures(matches):
     for i in range(1,x):
         match = matches[i].find("div",{"class","card__content"})
         try:
-            date = matches[i].find("time").text
+            date = matches[i].find("div",class_=False, id=False).text.strip()
             time = date.split('-')[1].strip()
             date = date.split('-')[0][3:].strip()
             comp = matches[i].find("div",{"class","event-info__extra"}).text
