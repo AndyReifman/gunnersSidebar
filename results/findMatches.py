@@ -163,7 +163,10 @@ def findFixtures(matches):
         match = matches[0].find("div",{"class","fixture-match"})
     except IndexError:
         return body
-    date = matches[0].find("time").text
+    try:
+        date = matches[0].find("time").text
+    except:
+        date = matches[0].find("div",class_=False, id=False).text.strip()
     time = date.split('-')[1].strip()
     date = date.split('-')[0][3:].strip()
     comp = matches[0].find("div",{"class","event-info__extra"}).text
@@ -221,7 +224,10 @@ def findResults(matches):
             if i == 0:
                 return body
             break
-        date = matches[i].find("time").text
+        try: 
+            date = matches[i].find("time").text
+        except:
+            date = matches[i].find("div",class_=False, id=False).text.strip()
         date = date.split('-')[0][3:].strip()
         comp = matches[i].find("div",{"class","event-info__extra"}).text
         team = match.find("span",{"class","team-crest__name-value"}).text
