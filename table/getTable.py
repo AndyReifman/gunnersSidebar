@@ -32,6 +32,7 @@ def getSprite(teamName):
          "Fulham": "(#sprite1-p29)",
          "Huddersfield Town":"(#sprite1-p199)",
          "Hull City": "(#sprite1-p117)",
+         "Leeds United": "(#sprite1-p27)",
          "Leicester City": "(#sprite1-p87)",
          "Liverpool": "(#sprite1-p3)",
          "Manchester City": "(#sprite1-p10)",
@@ -82,7 +83,7 @@ def teamsBelow(table, index,i):
     body = ""
     if index < 10:
         index = 10
-    for x in range(i+2, index,2):
+    for x in range(i+2, index+2,2):
         cells = table[x].findAll("td")
         position = table[x].find("span",{"class","value"}).text
         team = table[x].find("span",{"class","long"}).text
