@@ -34,10 +34,17 @@ def getTimestamp():
 def printPlayers():
     for x in range(len(players)):
         p = players[x]
+<<<<<<< HEAD
         print(p.name+": "+str(p.league)+" "+str(p.europa)+" "+str(p.facup)+" "+str(p.eflcup)+" "+str(p.total))
 
 def printPlayer(p):
     print(p.name+": "+str(p.league)+" "+str(p.europa)+" "+str(p.facup)+" "+str(p.eflcup)+" "+str(p.total))
+=======
+        print p.name+": "+str(p.league)+" "+str(p.europa)+" "+str(p.facup)+" "+str(p.eflcup)+" "+str(p.total)
+
+def printPlayer(p):
+    print p.name+": "+str(p.league)+" "+str(p.europa)+" "+str(p.facup)+" "+str(p.eflcup)+" "+str(p.total)
+>>>>>>> 61e6abb36adb514e96c35aae000e0c759b797321
  
 
 def getStats(html,comp):

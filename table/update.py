@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #!/usr/bin/python3
+=======
+#!/usr/bin/python2.7
+>>>>>>> 61e6abb36adb514e96c35aae000e0c759b797321
 import getTable
 import europaTable
 from unidecode import unidecode
@@ -11,6 +15,10 @@ import re
 import praw
 import sys
 import traceback
+<<<<<<< HEAD
+=======
+import pyotp
+>>>>>>> 61e6abb36adb514e96c35aae000e0c759b797321
 
 
 def getTimestamp():
@@ -22,18 +30,37 @@ def getTimestamp():
 
 def loginBot():
     try:
+<<<<<<< HEAD
         f = open('/home/andy/reddit/sidebar/login.txt')
         admin,username,password,subreddit,user_agent,id,secret,redirect,refresh = f.readline().split('||',8)
         f.close()
+=======
+        f = open('/root/reddit/sidebar/login.txt')
+        fkey = open('/root/reddit/sidebar/2fakey.txt')
+        admin,username,password,subreddit,user_agent,id,secret,redirect,refresh = f.readline().split('||',8)
+        key = fkey.readline().rstrip()
+        totp = pyotp.TOTP(key)
+        password += ':'+totp.now()
+        f.close()
+        fkey.close()
+>>>>>>> 61e6abb36adb514e96c35aae000e0c759b797321
         r = praw.Reddit(client_id=id,
              client_secret=secret,
              refresh_token=refresh.strip(),
              user_agent=user_agent)
+<<<<<<< HEAD
         print(getTimestamp() + "OAuth session opened as /u/" + r.user.me().name)
         return r,admin,username,password,subreddit,user_agent,id,secret,redirect
     except Exception as e:
         print(getTimestamp() + str(e))
         print(getTimestamp() + "Setup error in Table \n")
+=======
+        print getTimestamp() + "OAuth session opened as /u/" + r.user.me().name
+        return r,admin,username,password,subreddit,user_agent,id,secret,redirect
+    except Exception, e:
+        print getTimestamp() + str(e)
+        print getTimestamp() + "Setup error in Table \n"
+>>>>>>> 61e6abb36adb514e96c35aae000e0c759b797321
         time.sleep(5)
         exit()
 
@@ -65,7 +92,11 @@ def updateSidebar():
 	#We want to update current sidebar to where injury table goes
     contents = re.sub('\[\/\/\]: # \(Premier Table\).*\[\/\/\]: # \(End Premier Table\)',eplTable,contents,flags=re.DOTALL)
     r.subreddit(subreddit).mod.update(description=contents)
+<<<<<<< HEAD
     print(getTimestamp() + "Premier League Table Updated")
+=======
+    print getTimestamp() + "Premier League Table Updated"
+>>>>>>> 61e6abb36adb514e96c35aae000e0c759b797321
 #    contents = re.sub('\[\/\/\]: # \(Europa Table\).*\[\/\/\]: # \(End Europa Table\)',europaTable,contents,flags=re.DOTALL)
 #    r.subreddit(subreddit).mod.update(description=contents)
 #    print getTimestamp() + "Europa League Table Updated"
