@@ -2,10 +2,6 @@
 from __future__ import print_function
 import datetime
 import time
-<<<<<<< HEAD
-=======
-import pyotp
->>>>>>> 61e6abb36adb514e96c35aae000e0c759b797321
 import praw
 import re
 import postThread
@@ -26,20 +22,9 @@ def getTimestamp():
 
 def loginBot():
     try:
-<<<<<<< HEAD
         f = open('/home/andy/reddit/sidebar/login.txt')
         admin,username,password,subreddit,user_agent,id,secret,redirect,refresh = f.readline().split('||',8)
         f.close()
-=======
-        f = open('/root/reddit/sidebar/login.txt')
-        fkey = open('/root/reddit/sidebar/2fakey.txt')
-        admin,username,password,subreddit,user_agent,id,secret,redirect,refresh = f.readline().split('||',8)
-        key = fkey.readline().rstrip()
-        totp = pyotp.TOTP(key)
-        password += ':'+totp.now()
-        f.close()
-        fkey.close()
->>>>>>> 61e6abb36adb514e96c35aae000e0c759b797321
         r = praw.Reddit(client_id=id,
              client_secret=secret,
              refresh_token=refresh.strip(),
@@ -57,17 +42,10 @@ def loginBot():
 
 
 def main():
-<<<<<<< HEAD
     store = file.Storage('/home/andy/reddit/sidebar/timer/token.json')
     creds = store.get()
     if not creds or creds.invalid:
         flow = client.flow_from_clientsecrets('/home/andy/reddit/sidebar/timer/credentials.json', SCOPES)
-=======
-    store = file.Storage('/root/reddit/sidebar/timer/token.json')
-    creds = store.get()
-    if not creds or creds.invalid:
-        flow = client.flow_from_clientsecrets('/root/reddit/sidebar/timer/credentials.json', SCOPES)
->>>>>>> 61e6abb36adb514e96c35aae000e0c759b797321
         creds = tools.run_flow(flow, store)
     service = build('calendar', 'v3', http=creds.authorize(Http()))
     #printEvents(service)
@@ -125,11 +103,7 @@ def convert(timeStamp):
         temp = timeStamp
     hours = temp.split(':')[0].strip() + ' hours '
     if days == '0 days ':
-<<<<<<< HEAD
         f = open('/home/andy/reddit/sidebar/timer/lockfile')
-=======
-        f = open('/root/reddit/sidebar/timer/lockfile')
->>>>>>> 61e6abb36adb514e96c35aae000e0c759b797321
         status = f.readline().strip()
         f.close
         now = datetime.datetime.utcnow()
@@ -137,20 +111,12 @@ def convert(timeStamp):
             #We want to create a thread assuming this is the first time around.
             postThread.main(summary,matchDate)
             print("Locking file")
-<<<<<<< HEAD
             f = open('/home/andy/reddit/sidebar/timer/lockfile','w')
-=======
-            f = open('/root/reddit/sidebar/timer/lockfile','w')
->>>>>>> 61e6abb36adb514e96c35aae000e0c759b797321
             f.write('LOCKED')
             f.close()
     else:
         print("Unlocking file")
-<<<<<<< HEAD
         f = open('/home/andy/reddit/sidebar/timer/lockfile','w')
-=======
-        f = open('/root/reddit/sidebar/timer/lockfile','w')
->>>>>>> 61e6abb36adb514e96c35aae000e0c759b797321
         f.write('UNLOCKED')
         f.close()
     minutes = temp.split(':')[1].strip() + ' minutes'
