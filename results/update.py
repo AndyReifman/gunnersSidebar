@@ -54,8 +54,8 @@ def updateResults():
     settings = r.subreddit(subreddit).mod.settings()
     contents = settings['description']
     contents = re.sub('\[\/\/\]: # \(Fixtures Table\).*\[\/\/\]: # \(End Fixtures Table\)',results,contents,flags=re.DOTALL)
-    #r.update_settings(r.get_subreddit("jacktest"),description=contents)
-    r.subreddit(subreddit).mod.update(description=contents)
+    #r.subreddit(subreddit).mod.update(description=contents)
+    r.subreddit(subreddit).wiki['config/sidebar'].edit(contents)
 
 
 

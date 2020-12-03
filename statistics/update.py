@@ -60,7 +60,7 @@ def updateGoals():
     contents = settings['description']
     contents = re.sub('\[\/\/\]: # \(Goals Table\).*\[\/\/\]: # \(End Goals Table\)',goals,contents,flags=re.DOTALL)
     contents = re.sub('\[\/\/\]: # \(Assists Table\).*\[\/\/\]: # \(End Assists Table\)',assists,contents,flags=re.DOTALL)
-    r.subreddit(subreddit).mod.update(description=contents)
+    r.subreddit(subreddit).wiki['config/sidebar'].edit(contents)
 
 
 

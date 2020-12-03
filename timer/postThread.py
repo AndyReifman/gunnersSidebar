@@ -27,7 +27,7 @@ def getTimestamp():
 
 def loginBot():
     try:
-        f = open('/root/reddit/sidebar/login.txt')
+        f = open('/home/andy/reddit/sidebar/login.txt')
         admin,username,password,subreddit,user_agent,id,secret,redirect,refresh = f.readline().split('||',8)
         f.close()
         r = praw.Reddit(client_id = id,
@@ -36,7 +36,7 @@ def loginBot():
                 user_agent=user_agent)
         print(getTimestamp() + "OAuth session opened as /u/" + r.user.me().name)
         return r,admin,username,password,subreddit,user_agent,id,secret,redirect
-    except (Exception, e):
+    except Exception as e:
         print(getTimestamp() + str(e))
         return
 

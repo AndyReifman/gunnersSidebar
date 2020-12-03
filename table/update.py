@@ -64,10 +64,7 @@ def updateSidebar():
     contents = settings['description']
 	#We want to update current sidebar to where injury table goes
     contents = re.sub('\[\/\/\]: # \(Premier Table\).*\[\/\/\]: # \(End Premier Table\)',eplTable,contents,flags=re.DOTALL)
-    r.subreddit(subreddit).mod.update(description=contents)
+    r.subreddit(subreddit).wiki['config/sidebar'].edit(contents)
     print(getTimestamp() + "Premier League Table Updated")
-#    contents = re.sub('\[\/\/\]: # \(Europa Table\).*\[\/\/\]: # \(End Europa Table\)',europaTable,contents,flags=re.DOTALL)
-#    r.subreddit(subreddit).mod.update(description=contents)
-#    print getTimestamp() + "Europa League Table Updated"
 
 updateSidebar()
