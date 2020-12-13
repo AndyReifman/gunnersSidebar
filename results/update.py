@@ -24,7 +24,7 @@ def getTimestamp():
 def loginBot():
     try:
         f = open('/home/andy/reddit/sidebar/login.txt')
-        admin,username,password,subreddit,user_agent,id,secret,redirect,refresh = f.readline().split('||',8)
+        subreddit,user_agent,id,secret,refresh = f.readline().split('||',5)
         f.close()
         r = praw.Reddit(client_id=id,
              client_secret=secret,
@@ -38,7 +38,7 @@ def loginBot():
         sleep(1)
         exit()
 
-    return r,admin,username,password,subreddit,user_agent,id,secret,redirect
+    return r,subreddit
 
 def buildSidebar():
     body = "[//]: # (Fixtures Table)\n"
@@ -50,7 +50,7 @@ def buildSidebar():
 
 def updateResults():
     results = buildSidebar()
-    r,admin,username,password,subreddit,user_agent,id,secret,redirect = loginBot()
+    r,subreddit = loginBot()
     settings = r.subreddit(subreddit).mod.settings()
     contents = settings['description']
     contents = re.sub('\[\/\/\]: # \(Fixtures Table\).*\[\/\/\]: # \(End Fixtures Table\)',results,contents,flags=re.DOTALL)

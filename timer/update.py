@@ -23,7 +23,7 @@ def getTimestamp():
 def loginBot():
     try:
         f = open('/home/andy/reddit/sidebar/login.txt')
-        admin,username,password,subreddit,user_agent,id,secret,redirect,refresh = f.readline().split('||',8)
+        subreddit,user_agent,id,secret,refresh = f.readline().split('||',5)
         f.close()
         r = praw.Reddit(client_id=id,
              client_secret=secret,
@@ -55,7 +55,7 @@ def main():
     body += "#### Next game in: " +countdown +"\n"
     body += ">>>>>"
     #Login
-    r,admin,username,password,subreddit,user_agent,id,secret,redirect = loginBot()
+    r,subreddit = loginBot()
     settings = r.subreddit(subreddit).mod.settings()
     #Get Sidebar
     contents = settings['description']

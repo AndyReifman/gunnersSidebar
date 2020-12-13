@@ -15,19 +15,14 @@ def getTimestamp():
 def loginBot():
     try:
         f = open('/root/reddit/sidebar/login.txt')
-        #fkey = open('/root/reddit/sidebar/2fakey.txt')
-        admin,username,password,subreddit,user_agent,id,secret,redirect,refresh = f.readline().split('||',8)
-        #key = fkey.readline().rstrip()
-        #totp = pyotp.TOTP(key)
-        #password += ':'+totp.now()
+        subreddit,user_agent,id,secret,refresh = f.readline().split('||',5)
         f.close()
-        #fkey.close()
         r = praw.Reddit(client_id=id,
              client_secret=secret,
              refresh_token=refresh.strip(),
              user_agent=user_agent)
         print(getTimestamp() + "OAuth session opened as /u/" + r.user.me().name)
-        return r,admin,username,password,subreddit,user_agent,id,secret,redirect
+        return r,sidebar
     except (Exception, e):
         print(getTimestamp() + str(e))
         if str(e) == 'invalid_grant error processing request':
@@ -101,7 +96,7 @@ def buildTable():
 def updateSidebar():
     table = buildTable()
     print(getTimestamp() +  table)
-    r,admin,username,password,subreddit,user_agent,id,secret,redirect = loginBot()
+    r,subreddit = loginBot()
     settings = r.subreddit(subreddit).mod.settings()
     contents = settings['description']
     contents = re.sub('\[\/\/\]: # \(Injury Table\).*\[\/\/\]: # \(End Injury Table\)',table,contents,flags=re.DOTALL)
