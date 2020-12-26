@@ -30,8 +30,8 @@ def loginBot():
              refresh_token=refresh.strip(),
              user_agent=user_agent)
         print(getTimestamp() + "OAuth session opened as /u/" + r.user.me().name)
-        return r,admin,username,password,subreddit,user_agent,id,secret,redirect
-    except (Exception, e):
+        return r,subreddit
+    except Exception as e:
         print(getTimestamp() + str(e))
         if str(e) == 'invalid_grant error processing request':
             print(getTimestamp() + 'Attempting to log in again.\n')
