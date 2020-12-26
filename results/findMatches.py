@@ -120,6 +120,7 @@ def getSprite(teamName):
          "Vitoria": "(#sprite2-p99)",
          "Watford": "(#sprite1-p112)",
          "West Brom": "(#sprite1-p78)",
+         "West Bromwich Albion" : "(#sprite1-p78)",
          "West Ham United": "(#sprite1-p21)",
          "Wolves": "(#sprite1-p70)",
         }[teamName]
