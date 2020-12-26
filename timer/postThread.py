@@ -28,20 +28,20 @@ def getTimestamp():
 def loginBot():
     try:
         f = open('/home/andy/reddit/sidebar/login.txt')
-        admin,username,password,subreddit,user_agent,id,secret,redirect,refresh = f.readline().split('||',8)
+        subreddit,user_agent,id,secret,refresh = f.readline().split('||',5)
         f.close()
         r = praw.Reddit(client_id = id,
                 client_secret = secret,
                 refresh_token=refresh.strip(),
                 user_agent=user_agent)
         print(getTimestamp() + "OAuth session opened as /u/" + r.user.me().name)
-        return r,admin,username,password,subreddit,user_agent,id,secret,redirect
+        return r,subreddit
     except Exception as e:
         print(getTimestamp() + str(e))
         return
 
 def main(summary, date):
-    r,admin,username,password,subreddit,user_agent,id,secret,redirect = loginBot()
+    r,subreddit = loginBot()
     date = date.split('-')
     date = date[2] + " " + calendar.month_abbr[int(date[1])] + " " + date[0]
     title = "Tactics & Analysis Thread: " + summary + " [" + date + "]"
