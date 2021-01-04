@@ -30,7 +30,7 @@ def loginBot():
         print(getTimestamp() + "Setup error in discussion threads.\n")
         exit()
 
-    return r,'eabryt'
+    return r,subreddit
 
 def createBody():
     body = "Use this thread for general daily football discussion.\n\n"
@@ -47,15 +47,17 @@ def pinnedComment():
 def createTitle():
     date = datetime.date.today().strftime('%B %d, %Y')
     title = date + " Daily Discussion & Transfers Thread"
-    return title
+    return title,(datetime.datetime.now().isoweekday() in range(1,6))
 
 def main():
-    title = createTitle()
+    title,weekday = createTitle()
     body = createBody()
     comment = pinnedComment()
     r,subreddit = loginBot()
     post = r.subreddit(subreddit).submit(title,selftext=body,send_replies=False)
     post.comment_sort = "new"
+    if weekday:
+        post.mod.sticky()
     comment = post.reply(comment)
     comment.mod.distinguish(sticky=True)
 
