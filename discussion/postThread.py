@@ -41,7 +41,7 @@ def createBody():
 
 def pinnedComment():
     body = "Reminder: These threads are to help promote discussion and varying points of view. Low-effort comments or jokes can & will be removed with no reason necessary.\n\n"
-    body += "*I am a \"bot\", and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/Gunners) if you have any questions or concerns.*"
+    body += "*I am a \"bot\", and this action was performed automatically. This account is not monitored. Please [contact the moderators of this subreddit](/message/compose/?to=/r/Gunners) if you have any questions or concerns.*"
     return body
 
 def createTitle():
@@ -55,7 +55,7 @@ def main():
     comment = pinnedComment()
     r,subreddit = loginBot()
     post = r.subreddit(subreddit).submit(title,selftext=body,send_replies=False)
-    post.comment_sort = "new"
+    post.mod.suggested_sort(sort = "new")
     if weekday:
         post.mod.sticky()
     comment = post.reply(comment)
