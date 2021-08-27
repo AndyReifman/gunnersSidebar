@@ -22,6 +22,7 @@ def getSprite(teamName):
          "AFC Bournemouth": "(#sprite1-p218)",
          "Arsenal": "(#sprite1-p1)",
          "Aston Villa": "(#sprite1-p19)",
+         "Brentford":"(#sprite1-p198)",
          "Brighton and Hove Albion" : "(#sprite1-p103)",
          "Brighton & Hove Albion":"(#sprite1-p103)",
          "Brighton":"(#sprite1-p103)",
@@ -39,6 +40,7 @@ def getSprite(teamName):
          "Manchester City": "(#sprite1-p10)",
          "Manchester United": "(#sprite1-p2)",
          "Newcastle United": "(#sprite1-p11)",
+         "Norwich City": "(#sprite1-p44)",
          "Middlesbrough": "(#sprite1-p91)",
          "Sheffield United": "(#sprite1-p159)",
          "Southampton": "(#sprite1-p38)",
@@ -91,6 +93,9 @@ def teamsBelow(table, index,i):
         goalDiff = cells[9].text.strip()
         points = table[x].find("td",{"class","points"}).text
         body += "|**"+position+"**|[]"+getSprite(team)+"|"+goalDiff+"|"+points+"|\n"
+        #Needed in case Arsenal are in 19th
+        if x >= 38:
+            return body
     return body
     
 
@@ -129,3 +134,6 @@ def main():
     table = parseWebsite()
     body = findArsenal(table)
     return body
+
+if __name__== "__main__":
+    main()
