@@ -65,7 +65,7 @@ def teamsAbove(table, index, i):
     body = ""
     if index < 0:
         return body
-    elif index == 2:
+    elif index == 0:
         cells = table[0].findAll("td")
         position = table[0].find("span",{"class","value"}).text
         team = table[0].find("span",{"class","long"}).text
@@ -111,6 +111,7 @@ def findArsenal(table):
         if team == "Arsenal":
             i = index
             body = "|**"+position+"**|[]"+getSprite(team)+"|**"+goalDiff+"**|**"+points+"**|\n"
+            break
     topRange = i + 4
     botRange = i - 4
     if botRange < 0:
