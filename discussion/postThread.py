@@ -6,12 +6,14 @@
 #   we take advantage of in /r/gunners. Creating this script to accomplish
 #   what we need on our own without relying on them.
 
-import datetime,praw,time
+import praw,time
+from fotmob import fotmob
+from datetime import datetime
 
 def getTimestamp():
-    dt = str(datetime.datetime.now().month) + '/' + str(datetime.datetime.now().day) + ' '
-    hr = str(datetime.datetime.now().hour) if len(str(datetime.datetime.now().hour)) > 1 else '0' + str(datetime.datetime.now().hour)
-    min = str(datetime.datetime.now().minute) if len(str(datetime.datetime.now().minute)) > 1 else '0' + str(datetime.datetime.now().minute)
+    dt = str(datetime.now().month) + '/' + str(datetime.now().day) + ' '
+    hr = str(datetime.now().hour) if len(str(datetime.now().hour)) > 1 else '0' + str(datetime.now().hour)
+    min = str(datetime.now().minute) if len(str(datetime.now().minute)) > 1 else '0' + str(datetime.now().minute)
     t = '[' + hr + ':' + min + '] '
     return dt + t
 
@@ -44,22 +46,36 @@ def pinnedComment():
     body += "*I am a \"bot\", and this action was performed automatically. This account is not monitored. Please [contact the moderators of this subreddit](/message/compose/?to=/r/Gunners) if you have any questions or concerns.*"
     return body
 
+def matchComments():
+    comments = []
+    today = datetime.today().strftime('%Y%m%d')
+    matches = fotmob.getLeague(50,"overview","league","UTC","20210612")
+    for match in matches:
+        comment = match.getHomeTeam() + " vs " + match.getAwayTeam()
+        if match.getKickOff():
+            comment = match.getKickOff() + ": " + comment
+        comments.append(comment)
+    return comments
+
 def createTitle():
-    date = datetime.date.today().strftime('%B %d, %Y')
+    date = datetime.today().strftime('%B %d, %Y')
     title = date + " Daily Discussion & Transfers Thread"
-    return title,(datetime.datetime.now().isoweekday() in range(1,6))
+    return title,(datetime.now().isoweekday() in range(1,6))
 
 def main():
     title,weekday = createTitle()
     body = createBody()
     comment = pinnedComment()
+    #comments = matchComments()
     r,subreddit = loginBot()
     post = r.subreddit(subreddit).submit(title,selftext=body,send_replies=False)
     post.mod.suggested_sort(sort = "new")
-    if weekday:
-        post.mod.sticky()
+    #if weekday:
+    post.mod.sticky()
     comment = post.reply(comment)
     comment.mod.distinguish(sticky=True)
+    #for comment in comments:
+    #    comment = post.reply(comment)
 
 if __name__ == '__main__':
     main()
