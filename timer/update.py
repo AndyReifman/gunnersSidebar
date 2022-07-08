@@ -102,23 +102,6 @@ def convert(timeStamp):
         days = '0 days '
         temp = timeStamp
     hours = temp.split(':')[0].strip() + ' hours '
-    if days == '0 days ':
-        f = open('/home/andy/reddit/sidebar/timer/lockfile')
-        status = f.readline().strip()
-        f.close
-        now = datetime.datetime.utcnow()
-        if now.hour == 8 and status == 'UNLOCKED':
-            #We want to create a thread assuming this is the first time around.
-            postThread.main(summary,matchDate)
-            print("Locking file")
-            f = open('/home/andy/reddit/sidebar/timer/lockfile','w')
-            f.write('LOCKED')
-            f.close()
-    else:
-        print("Unlocking file")
-        f = open('/home/andy/reddit/sidebar/timer/lockfile','w')
-        f.write('UNLOCKED')
-        f.close()
     minutes = temp.split(':')[1].strip() + ' minutes'
     
     return days + hours + minutes
