@@ -41,6 +41,7 @@ def getLocation(line):
 
 def getSprite(teamName):
     return {
+         "1. FC Nürnberg": "(#sprite1-p176)",
          "AC Milan": "(#sprite1-p13)",
          "AFC Bournemouth": "(#sprite1-p218)",
          "AFC Wimbledon" : "(#sprite1-p145)",
@@ -58,6 +59,7 @@ def getSprite(teamName):
          "Bournemouth": "(#sprite1-p218)",
          "BATE":"(#sprite4-p43)",
          "BATE Borisov": "(#sprite4-p43)",
+         "Bodø/Glimt" : "(#sprite1-p423)",
          "Brentford":"(#sprite1-p198)",
          "Brentford FC":"(#sprite1-p198)",
          "Brighton":"(#sprite1-p103)",
@@ -72,7 +74,9 @@ def getSprite(teamName):
          "Doncaster": "(#sprite1-p252)",
          "Dundalk": "(#sprite2-p143)",
          "Everton": "(#sprite1-p15)",
+         "FK Bodø / Glimt": "(#sprite1-p423)",
          "FC Vorskla": "(#sprite4-p133)",
+         "FC Zürich": "(#sprite3-p5)",
          "Final":"(#sprite1-p02)",
          "Fiorentina": "(#sprite1-p149)",
          "Frankfurt": "(#sprite1-p86)",
@@ -104,6 +108,7 @@ def getSprite(teamName):
          "Ostersunds F": "(#sprite2-p48)",
          "Portsmouth": "(#sprite1-p85)",
          "PSG":"(#sprite1-p35)",
+         "PSV Eindhoven":"(#sprite1-p120)",
          "Qarabag FK":"(#sprite4-p342)",
          "Rangers": "(#sprite1-p40)",
          "Rapid Vienna": "(#sprite1-p193)",
@@ -112,6 +117,7 @@ def getSprite(teamName):
          "Rennes":"(#sprite2-p13)",
          "Second Round": "(#sprite1-1)",
          "Sevilla": "(#sprite1-p229)",
+         "Sevilla FC":"(#sprite1-p229)",
          "Semi-Final 1L": "(#sprite1-1)",
          "Semi-Final 2L": "(#sprite1-1)",
          "Sheffield United":"(#sprite1-p159)",
