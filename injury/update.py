@@ -71,6 +71,9 @@ def getInjuries():
     html = website.text
     soup = BeautifulSoup(html,"lxml")
     table = soup.findAll('tbody')[0]
+    row = table.findAll('tr')[0]
+    if 'Injuries' not in row.getText():
+        return body
     for x in range(1,len(table.findAll('tr')),3):
         row = table.findAll('tr')[x]
         if 'extrarow bg_blau_20 hauptlink' in str(row):
