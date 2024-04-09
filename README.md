@@ -7,7 +7,7 @@ These scripts update the Fixtures & Results, Premier League, Goals, Assists, and
 You will need an understanding of reddit PRAW and be set up to log in. I use a file called login.txt which looks like
 
 ```bash
-<your username>:<bot account username>:<bot account password>:<subreddit>:<user agent>
+<subreddit>:<user_agent>:<id>:<secret>:<refresh_token>
 ```
 
 # Usage

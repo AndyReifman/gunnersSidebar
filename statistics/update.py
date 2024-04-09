@@ -1,32 +1,31 @@
 #!/usr/bin/python3
-'''
+"""
 ' Andrew Reifman-Packett
 ' May 2017
-'''
+"""
 import getGoals
 import getAssists
 import praw
 import datetime
-import time
 import re
 from time import sleep
 
 def getTimestamp():
     dt = str(datetime.datetime.now().month) + '/' + str(datetime.datetime.now().day) + ' '
     hr = str(datetime.datetime.now().hour) if len(str(datetime.datetime.now().hour)) > 1 else '0' + str(datetime.datetime.now().hour)
-    min = str(datetime.datetime.now().minute) if len(str(datetime.datetime.now().minute)) > 1 else '0' + str(datetime.datetime.now().minute)
-    t = '[' + hr + ':' + min + '] '
+    minute = str(datetime.datetime.now().minute) if len(str(datetime.datetime.now().minute)) > 1 else '0' + str(datetime.datetime.now().minute)
+    t = '[' + hr + ':' + minute + '] '
     return dt + t
 
 def loginBot():
     try:
         f = open('/home/andy/reddit/sidebar/login.txt')
-        subreddit,user_agent,id,secret,refresh = f.readline().split('||',8)
+        subreddit,user_agent,client_id,secret,refresh = f.readline().split('||', 8)
         f.close()
-        r = praw.Reddit(client_id=id,
-             client_secret=secret,
-             refresh_token=refresh.strip(),
-             user_agent=user_agent)
+        r = praw.Reddit(client_id=client_id,
+                        client_secret=secret,
+                        refresh_token=refresh.strip(),
+                        user_agent=user_agent)
         print(getTimestamp() + "OAuth session opened as /u/" + r.user.me().name)
         return r,subreddit
     except Exception as e:
