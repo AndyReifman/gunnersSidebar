@@ -6,30 +6,29 @@
 import findMatches
 import praw
 import datetime
-import time
 import re
-import socket, sys
-import prawcore
-from base64 import b64decode
 from time import sleep
 
 
 def getTimestamp():
     dt = str(datetime.datetime.now().month) + '/' + str(datetime.datetime.now().day) + ' '
-    hr = str(datetime.datetime.now().hour) if len(str(datetime.datetime.now().hour)) > 1 else '0' + str(datetime.datetime.now().hour)
-    min = str(datetime.datetime.now().minute) if len(str(datetime.datetime.now().minute)) > 1 else '0' + str(datetime.datetime.now().minute)
-    t = '[' + hr + ':' + min + '] '
+    hr = str(datetime.datetime.now().hour) if len(str(datetime.datetime.now().hour)) > 1 else '0' + str(
+        datetime.datetime.now().hour)
+    minute = str(datetime.datetime.now().minute) if len(str(datetime.datetime.now().minute)) > 1 else '0' + str(
+        datetime.datetime.now().minute)
+    t = '[' + hr + ':' + minute + '] '
     return dt + t
+
 
 def loginBot():
     try:
-        f = open('/home/andy/reddit/sidebar/login.txt')
-        subreddit,user_agent,id,secret,refresh = f.readline().split('||',5)
+        f = open('../login.txt')
+        subreddit, user_agent, client_id, secret, refresh = f.readline().split('||', 5)
         f.close()
-        r = praw.Reddit(client_id=id,
-             client_secret=secret,
-             refresh_token=refresh.strip(),
-             user_agent=user_agent)
+        r = praw.Reddit(client_id=client_id,
+                        client_secret=secret,
+                        refresh_token=refresh.strip(),
+                        user_agent=user_agent)
 
         print(getTimestamp() + "OAuth session opened as /u/" + r.user.me().name)
     except Exception as e:
@@ -38,7 +37,8 @@ def loginBot():
         sleep(1)
         exit()
 
-    return r,subreddit
+    return r, subreddit
+
 
 def buildSidebar():
     body = "[//]: # (Fixtures Table)\n"
@@ -48,16 +48,16 @@ def buildSidebar():
     body += "[//]: # (End Fixtures Table)"
     return body
 
+
 def updateResults():
     results = buildSidebar()
-    r,subreddit = loginBot()
+    r, subreddit = loginBot()
     settings = r.subreddit(subreddit).mod.settings()
     contents = settings['description']
-    contents = re.sub('\[\/\/\]: # \(Fixtures Table\).*\[\/\/\]: # \(End Fixtures Table\)',results,contents,flags=re.DOTALL)
-    #r.subreddit(subreddit).mod.update(description=contents)
+    contents = re.sub('\[\/\/\]: # \(Fixtures Table\).*\[\/\/\]: # \(End Fixtures Table\)', results, contents,
+                      flags=re.DOTALL)
+    # r.subreddit(subreddit).mod.update(description=contents)
     r.subreddit(subreddit).wiki['config/sidebar'].edit(contents)
-
-
 
 
 updateResults()
