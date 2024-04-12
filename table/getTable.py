@@ -2,12 +2,10 @@
 # -*- coding: utf-8 -*-
 
 
-import re,logging,logging.handlers,datetime,requests,requests.auth,sys,json,unicodedata
-from praw.models import Message
-from collections import Counter
-from itertools import groupby
-from time import sleep
+import requests
+import requests.auth
 from bs4 import BeautifulSoup
+
 
 def getSprite(teamName):
     return {

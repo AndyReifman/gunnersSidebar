@@ -1,9 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from unidecode import unidecode
-import requests,re,datetime
+import requests
 from bs4 import BeautifulSoup
+from unidecode import unidecode
 
 players = []
 
