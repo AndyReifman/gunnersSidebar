@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import datetime, requests, requests.auth, re
-from bs4 import BeautifulSoup
+import requests, requests.auth
+from bs4 import BeautifulSoup, ResultSet
 
 i = 0
 
@@ -20,16 +20,6 @@ class Match(object):
         self.awayTeam = awayTeam
         self.timeResult = timeResult
         self.comp = comp
-
-
-def getTimestamp():
-    dt = str(datetime.datetime.now().month) + '/' + str(datetime.datetime.now().day) + ' '
-    hr = str(datetime.datetime.now().hour) if len(str(datetime.datetime.now().hour)) > 1 else '0' + str(
-        datetime.datetime.now().hour)
-    min = str(datetime.datetime.now().minute) if len(str(datetime.datetime.now().minute)) > 1 else '0' + str(
-        datetime.datetime.now().minute)
-    t = '[' + hr + ':' + min + '] '
-    return dt + t
 
 
 def getLocation(line):
@@ -183,39 +173,25 @@ def parseResults():
     fixture_html = fixtureWebsite.text
     soup = BeautifulSoup(fixture_html, "lxml")
     table = soup.find("div", {"class", "accordions"})
-    matches = table.findAll("article" )
+    matches = table.findAll("article")
     return matches
 
 
-def findFixtures(matches):
+def findFixtures(matches: ResultSet):
+    """
+    Grab the next 3 fixtures for the team
+    :param matches: ResultSet
+    :return:
+    """
     body = ""
-    try:
-        match = matches[0].find("div", {"class", "card__content"})
-    except IndexError:
-        return body
-    try:
-        date = matches[0].find("time").text
-    except:
-        date = matches[0].find("div", class_=False, id=False).text.strip()
-    time = date.split('-')[1].strip()
-    date = date.split('-')[0][3:].strip()
-    comp = matches[0].find("div", {"class", "event-info__extra"}).text
-    teams = match.findAll("div", {"class", "fixture-match__team"})
-    homeTeam = teams[0].find("div", {"class", "team-crest__name-value"}).text
-    awayTeam = teams[1].find("div", {"class", "team-crest__name-value"}).text
-    homeAway = getLocation(teams)
-    if homeAway == 0:
-        team = getSprite(awayTeam) + " (H)"
-    else:
-        team = getSprite(homeTeam) + " (A)"
-    body += "| " + date + " | [](#icon-clock) " + time + " | []" + team + " | []" + getComp(comp) + "|\n"
     x = 3
     if len(matches) < 3:
         x = len(matches)
-    for i in range(1, x):
+    for i in range(x):
+        # Will need to update this to work with a shadow box for next fixture the next time I see that.
         match = matches[i].find("div", {"class", "card__content"})
         try:
-            date = matches[i].find("div", class_=False, id=False).text.strip()
+            date = matches[i].find("div", {"class","event-info__date"}).text.strip()
             time = date.split('-')[1].strip()
             date = date.split('-')[0][3:].strip()
             comp = matches[i].find("div", {"class", "event-info__extra"}).text
@@ -227,7 +203,11 @@ def findFixtures(matches):
         try:
             team = match.find("span", {"class", "team-crest__name-value"}).text
         except AttributeError:
-            team = match.find("div", {"class", "team-crest__name-value"}).text
+            if len(match.find("div", {"class", "team-crest__name-value"}).text) > 1:
+                # We're returning Arsenal as well, so make sure we grab the other one.
+                team = next(team_name.text for team_name in match.findAll("div", {"class", "team-crest__name-value"}) if team_name.text != 'Arsenal')
+            else:
+                team = match.find("div", {"class", "team-crest__name-value"}).text
         try:
             location = match.find("div", {"class", "location-icon"})['title']
         except TypeError:
@@ -333,6 +313,7 @@ def main():
     body = findResults(results)
     body += findFixtures(matches)
     return body
+
 
 if __name__ == '__main__':
     print(main())

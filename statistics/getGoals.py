@@ -1,9 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from unidecode import unidecode
-import requests,re,datetime
+import requests
 from bs4 import BeautifulSoup
+from unidecode import unidecode
 
 players = []
 
@@ -22,14 +22,6 @@ class Player(object):
         self.facup = facup
         self.eflcup = eflcup
         self.total = total
-
-
-def getTimestamp():
-        dt = str(datetime.datetime.now().month) + '/' + str(datetime.datetime.now().day) + ' '
-        hr = str(datetime.datetime.now().hour) if len(str(datetime.datetime.now().hour)) > 1 else '0' + str(datetime.datetime.now().hour)
-        min = str(datetime.datetime.now().minute) if len(str(datetime.datetime.now().minute)) > 1 else '0' + str(datetime.datetime.now().minute)
-        t = '[' + hr + ':' + min + '] '
-        return dt + t
 
 def printPlayers():
     for x in range(len(players)):
