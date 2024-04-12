@@ -1,30 +1,10 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import praw, re, datetime, requests
+import re, requests
 from bs4 import BeautifulSoup
 
-
-def getTimestamp():
-    dt = str(datetime.datetime.now().month) + '/' + str(datetime.datetime.now().day) + ' '
-    hr = str(datetime.datetime.now().hour) if len(str(datetime.datetime.now().hour)) > 1 else '0' + str(
-        datetime.datetime.now().hour)
-    minute = str(datetime.datetime.now().minute) if len(str(datetime.datetime.now().minute)) > 1 else '0' + str(
-        datetime.datetime.now().minute)
-    t = '[' + hr + ':' + minute + '] '
-    return dt + t
-
-
-def loginBot():
-    f = open('../login.txt')
-    subreddit, user_agent, client_id, secret, refresh = f.readline().split('||', 5)
-    f.close()
-    r = praw.Reddit(client_id=client_id,
-                    client_secret=secret,
-                    refresh_token=refresh.strip(),
-                    user_agent=user_agent)
-    print(getTimestamp() + "OAuth session opened as /u/" + r.user.me().name)
-    return r, 'gunners'
+from helpers import getTimestamp, loginBot
 
 
 def getNum(name):
