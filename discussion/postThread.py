@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+import os.path
 # ANDREW REIFMAN-PACKETT
 # December 2020
 # The new reddit AutoScheduler lacks several very basic functionality that
@@ -8,7 +8,7 @@
 
 from datetime import datetime
 
-from helpers import loginBot
+from onebag import login_bot
 
 
 def createBody():
@@ -18,27 +18,31 @@ def createBody():
     body += "Join our [Discord](https://discord.gg/gunners) for live discussion and don't forget to follow us on [twitter](https://twitter.com/rslashgunners).\n\n"
     return body
 
+
 def pinnedComment():
     body = "Reminder: These threads are to help promote discussion and varying points of view. Low-effort comments or jokes can & will be removed with no reason necessary.\n\n"
     body += "*I am a \"bot\", and this action was performed automatically. This account is not monitored. Please [contact the moderators of this subreddit](/message/compose/?to=/r/Gunners) if you have any questions or concerns.*"
     return body
 
+
 def createTitle():
     date = datetime.today().strftime('%B %d, %Y')
     title = date + " Daily Discussion & Transfers Thread"
-    return title,(datetime.now().isoweekday() in range(1,6))
+    return title, (datetime.now().isoweekday() in range(1, 6))
+
 
 def main():
-    title,weekday = createTitle()
+    title, weekday = createTitle()
     body = createBody()
     comment = pinnedComment()
-    r,subreddit = loginBot()
-    post = r.subreddit(subreddit).submit(title,selftext=body,send_replies=False)
-    post.mod.suggested_sort(sort = "new")
-    #if weekday:
+    r, subreddit = login_bot(os.path.dirname(os.path.dirname(__file__)))
+    post = r.subreddit(subreddit).submit(title, selftext=body, send_replies=False)
+    post.mod.suggested_sort(sort="new")
+    # if weekday:
     post.mod.sticky()
     comment = post.reply(comment)
     comment.mod.distinguish(sticky=True)
+
 
 if __name__ == '__main__':
     main()

@@ -1,10 +1,9 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-
+import os
 import re, requests
 from bs4 import BeautifulSoup
-
-from helpers import getTimestamp, loginBot
+from onebag import get_timestamp, login_bot
 
 
 def getNum(name):
@@ -74,14 +73,14 @@ def buildTable():
 
 def updateSidebar():
     table = buildTable()
-    print(getTimestamp() + table)
-    r, subreddit = loginBot()
+    print(get_timestamp() + table)
+    r, subreddit = login_bot(os.path.dirname(os.path.dirname(__file__)))
     settings = r.subreddit(subreddit).mod.settings()
     contents = settings['description']
     contents = re.sub('\[\/\/\]: # \(Injury Table\).*\[\/\/\]: # \(End Injury Table\)', table, contents,
                       flags=re.DOTALL)
     r.subreddit(subreddit).mod.update(description=contents)
-    print(getTimestamp() + "Injury Table Updated")
+    print(get_timestamp() + "Injury Table Updated")
 
 
 def main():
