@@ -1,10 +1,11 @@
 #!/usr/bin/python3
+import os
+
+from onebag import login_bot, get_timestamp
+
 import getTable
 import europaTable
 import re
-
-
-from helpers import getTimestamp, loginBot
 
 
 def buildSidebar():
@@ -29,14 +30,14 @@ def buildEuropa():
 def updateSidebar():
     eplTable = buildSidebar()
     # europaTable = buildEuropa()
-    r, subreddit = loginBot()
+    r, subreddit = login_bot(os.path.dirname(os.path.dirname(__file__)))
     settings = r.subreddit(subreddit).mod.settings()
     contents = settings['description']
     # We want to update current sidebar to where injury table goes
     contents = re.sub('\[\/\/\]: # \(Premier Table\).*\[\/\/\]: # \(End Premier Table\)', eplTable, contents,
                       flags=re.DOTALL)
     r.subreddit(subreddit).wiki['config/sidebar'].edit(contents)
-    print(getTimestamp() + "Premier League Table Updated")
+    print(get_timestamp() + "Premier League Table Updated")
 
 
 updateSidebar()

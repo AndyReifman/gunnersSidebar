@@ -3,11 +3,12 @@
 ' Andrew Reifman-Packett
 ' May 2017
 """
+import os
+
+from onebag import login_bot, get_timestamp
 
 import findMatches
 import re
-
-from helpers import getTimestamp, loginBot
 
 
 def buildSidebar():
@@ -21,7 +22,7 @@ def buildSidebar():
 
 def updateResults():
     results = buildSidebar()
-    r, subreddit = loginBot()
+    r, subreddit = login_bot(os.path.dirname(os.path.dirname(__file__)))
     settings = r.subreddit(subreddit).mod.settings()
     contents = settings['description']
     contents = re.sub('\[\/\/\]: # \(Fixtures Table\).*\[\/\/\]: # \(End Fixtures Table\)', results, contents,
@@ -31,4 +32,4 @@ def updateResults():
 
 
 updateResults()
-print(getTimestamp() + "Fixtures & Results Table Updated")
+print(get_timestamp() + "Fixtures & Results Table Updated")

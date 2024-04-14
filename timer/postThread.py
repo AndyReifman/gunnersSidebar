@@ -2,7 +2,11 @@
 # Andrew Reifman-Packett
 # June 2020
 # Post the Ask Adrian Analysis thread in advance of a match
-import datetime,time,praw,re,calendar
+import calendar
+import os
+
+from onebag import login_bot
+
 
 def createBody(team):
     body = "Good morning everyone, welcome to the Tactics & Analysis Thread for our game against " + team.strip() + ".\n\n"
@@ -18,30 +22,9 @@ def findTeam(summary):
         if 'Arsenal' not in team:
             return team
 
-def getTimestamp():
-    dt = str(datetime.datetime.now().month) + '/' + str(datetime.datetime.now().day) + ' '
-    hr = str(datetime.datetime.now().hour) if len(str(datetime.datetime.now().hour)) > 1 else '0' + str(datetime.datetime.now().hour)
-    min = str(datetime.datetime.now().minute) if len(str(datetime.datetime.now().minute)) > 1 else '0' + str(datetime.datetime.now().minute)
-    t = '[' + hr + ':' + min + '] '
-    return dt + t
-
-def loginBot():
-    try:
-        f = open('/home/andy/reddit/sidebar/login.txt')
-        subreddit,user_agent,id,secret,refresh = f.readline().split('||',5)
-        f.close()
-        r = praw.Reddit(client_id = id,
-                client_secret = secret,
-                refresh_token=refresh.strip(),
-                user_agent=user_agent)
-        print(getTimestamp() + "OAuth session opened as /u/" + r.user.me().name)
-        return r,subreddit
-    except Exception as e:
-        print(getTimestamp() + str(e))
-        return
 
 def main(summary, date):
-    r,subreddit = loginBot()
+    r,subreddit = login_bot(os.path.dirname(os.path.dirname(__file__)))
     date = date.split('-')
     date = date[2] + " " + calendar.month_abbr[int(date[1])] + " " + date[0]
     title = "Tactics & Analysis Thread: " + summary + " [" + date + "]"
