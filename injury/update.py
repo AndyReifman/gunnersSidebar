@@ -55,7 +55,7 @@ def getInjuries():
         injury = row.find('td', {'class', 'links hauptlink img-vat'}).getText()
 
         date = row.findAll('td', {'class', 'zentriert'})[2].getText()
-        if date == '?':
+        if date == '?' or date == '':
             date = 'Unknown'
         num = getNum(name)
         body += '|' + num + '|' + name + '|' + injury + '|' + date + '|\n'
