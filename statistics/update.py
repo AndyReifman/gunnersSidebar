@@ -3,12 +3,13 @@
 ' Andrew Reifman-Packett
 ' May 2017
 """
+import os
+
+from onebag import login_bot, get_timestamp
+
 import getGoals
 import getAssists
 import re
-
-from helpers import getTimestamp, loginBot
-
 
 def buildGoalSidebar():
     body = "[//]: # (Goals Table)\n"
@@ -31,7 +32,7 @@ def buildAssistsSidebar():
 def updateGoals():
     goals = buildGoalSidebar()
     assists = buildAssistsSidebar()
-    r, subreddit = loginBot()
+    r, subreddit = login_bot(os.path.dirname(os.path.dirname(__file__)))
     settings = r.subreddit(subreddit).mod.settings()
     contents = settings['description']
     contents = re.sub('\[\/\/\]: # \(Goals Table\).*\[\/\/\]: # \(End Goals Table\)', goals, contents, flags=re.DOTALL)
@@ -41,5 +42,5 @@ def updateGoals():
 
 
 updateGoals()
-print(getTimestamp() + "Goals Table Updated")
-print(getTimestamp() + "Assists Table Updated")
+print(get_timestamp() + "Goals Table Updated")
+print(get_timestamp() + "Assists Table Updated")
