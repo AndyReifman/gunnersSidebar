@@ -3,6 +3,7 @@
 
 import requests, requests.auth
 from bs4 import BeautifulSoup, ResultSet
+import re
 
 i = 0
 
@@ -158,22 +159,19 @@ def getComp(comp):
 
 def parseFixtures():
     website = "https://www.arsenal.com/fixtures"
-    fixtureWebsite = requests.get(website, timeout=15)
-    fixture_html = fixtureWebsite.text
+    fixture_website = requests.get(website, timeout=15)
+    fixture_html = fixture_website.text
     soup = BeautifulSoup(fixture_html, "lxml")
-    table = soup.find("div", {"class", "accordions"})
-    # matches = table.findAll("article", attrs={'role': 'article'})
-    matches = table.findAll("article")
+    matches = soup.find_all("article", about=re.compile(r'/fixture/.*'))
     return matches
 
 
 def parseResults():
     website = "https://www.arsenal.com/results"
-    fixtureWebsite = requests.get(website, timeout=15)
-    fixture_html = fixtureWebsite.text
+    fixture_website = requests.get(website, timeout=15)
+    fixture_html = fixture_website.text
     soup = BeautifulSoup(fixture_html, "lxml")
-    table = soup.find("div", {"class", "accordions"})
-    matches = table.findAll("article")
+    matches = soup.find_all("article", about=re.compile(r'/fixture/.*'))
     return matches
 
 
@@ -227,6 +225,8 @@ def findFixtures(matches: ResultSet):
 
 def findResults(matches):
     body = ""
+    if not matches:
+        return body
     for i in range(2, 0, -1):
         result = ""
         try:
