@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import os.path
 
 import bs4.element
@@ -105,8 +106,7 @@ def build_tables():
     return arrivals, departures
 def updateSidebar():
     arrivals, departures = build_tables()
-    # r, subreddit = login_bot(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-    r, subreddit = login_bot('C:\\Users\Andrew\Documents\Programming\\repos\gunnersSidebar')
+    r, subreddit = login_bot(os.path.dirname(os.path.dirname(__file__)))
     settings = r.subreddit(subreddit).mod.settings()
     contents = settings['description']
     contents = re.sub('\[\/\/]: # \(Mens Arrivals\).*\[\/\/]: # \(End Mens Arrivals\)', arrivals, contents,
@@ -115,17 +115,6 @@ def updateSidebar():
                       flags=re.DOTALL)
     r.subreddit(subreddit).mod.update(description=contents)
     print(get_timestamp() + "Men's Transfer Tables Updated")
-
-def login():
-    f = open("C:\\Users\Andrew\Documents\Programming\\repos\\login.txt", 'r')
-    subreddit, user_agent, client_id, secret, refresh = f.readline().split('||', 5)
-    f.close()
-    r = praw.Reddit(client_id=client_id,
-                    client_secret=secret,
-                    refresh_token=refresh.strip(),
-                    user_agent=user_agent)
-    print(get_timestamp() + "OAuth session opened as /u/" + r.user.me().name)
-    return r, subreddit
 
 def main():
     updateSidebar()
