@@ -45,6 +45,7 @@ def getSprite(teamName):
         "Barcelona": "(#sprite1-p6)",
         "Barnet": "(#sprite1-p245)",
         "Bayern Munich": "(#sprite1-p8)",
+        "Bayer 04 Leverkusen": "(#sprite1-p132)",
         "Blackpool": "(#sprite1-p146)",
         "Blackpool FC": "(#sprite1-p146)",
         "Boreham Wood": "(#sprite4-p375)",
@@ -97,6 +98,7 @@ def getSprite(teamName):
         "Nottm Forest": "(#sprite1-p66)",
         "Nottingham Forest": "(#sprite1-p66)",
         "Olympiacos": "(#sprite1-p129)",
+        "Olympique Lyonnais": "(#sprite1-p106)",
         "Orlando City": "(#sprite1-p94)",
         "Ostersunds F": "(#sprite2-p48)",
         "Portsmouth": "(#sprite1-p85)",
@@ -139,6 +141,7 @@ def getComp(comp):
     return {
         "CC": "(#logo-eflcup)",
         "Carabao Cup": "(#logo-eflcup)",
+        "Club Friendlies": "(#icon-ball)",
         "Emirates Cup": "(#icon-ball)",
         "Emirates Cup 2019": "(#icon-ball)",
         "English Carabao Cup": "(#logo-eflcup)",
