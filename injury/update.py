@@ -45,7 +45,10 @@ def getInjuries():
     website = requests.get(address, headers={'User-Agent': 'Custom'})
     html = website.text
     soup = BeautifulSoup(html, "lxml")
-    table = soup.find("table", {"class", "items"}).find("tbody")
+    table = soup.find("table", {"class", "items"})
+    if not table:
+        return body
+    table = table.find("tbody")
     rows = table.findAll("tr", {"class", "odd","even"})
 
     for row in rows:
