@@ -24,14 +24,14 @@ class Match(object):
 
 
 def getLocation(line):
-    homeTeam = line[0].text.strip()
-    if 'Arsenal' in homeTeam:
+    home_team = line[0].text.strip()
+    if 'Arsenal' in home_team:
         return 0
     else:
         return 1
 
 
-def getSprite(teamName):
+def getSprite(team_name):
     return {
         "1. FC Nürnberg": "(#sprite1-p176)",
         "AC Milan": "(#sprite1-p13)",
@@ -134,7 +134,7 @@ def getSprite(teamName):
         "West Bromwich Albion": "(#sprite1-p78)",
         "West Ham United": "(#sprite1-p21)",
         "Wolves": "(#sprite1-p70)",
-    }[teamName]
+    }[team_name]
 
 
 def getComp(comp):
@@ -244,18 +244,18 @@ def findResults(matches):
             date = matches[i].find("div", class_=False, id=False).text.strip()
         date = date.split('-')[0][3:].strip()
         comp = matches[i].find("div", {"class", "event-info__extra"}).text
-        team = match.find("span", {"class", "team-crest__name-value"}).text
-        location = match.find("div", {"class", "location-icon"})['title']
+        # team = match.find("span", {"class", "team-crest__name-value"}).text
+        # location = match.find("div", {"class", "location-icon"})['title']
+        teams = match.findAll("div", {"class", "fixture-match__team"})
+        homeTeam = teams[0].find("div", {"class", "team-crest__name-value"}).text
+        awayTeam = teams[1].find("div", {"class", "team-crest__name-value"}).text
+        homeAway = getLocation(teams)
+        location = matches[i].find("div", {"class", "event-info__venue"}).text
         homeScore = match.findAll("span", {"class", "scores__score"})[0].text
         awayScore = match.findAll("span", {"class", "scores__score"})[1].text
         if homeScore > awayScore:
-            if location == "Home":
+            if homeAway == 0:
                 result += "[](#icon-win) "
-            elif location == "Neutral":
-                if team == "Arsenal":
-                    result += "[](#icon-loss) "
-                else:
-                    result += "[](#icon-win) "
             else:
                 result += "[](#icon-loss) "
         elif homeScore < awayScore:
@@ -271,10 +271,10 @@ def findResults(matches):
         else:
             result += "[](#icon-draw) "
         result += homeScore + " - " + awayScore
-        if location == "Home":
-            team = getSprite(team) + " (H)"
+        if homeAway == 0:
+            team = getSprite(awayTeam) + " (H)"
         else:
-            team = getSprite(team) + " (A)"
+            team = getSprite(homeTeam) + " (A)"
         body += "| " + date + " | " + result + " | []" + team + " | []" + getComp(comp) + "|\n"
     result = ""
     date = matches[0].find("time").text
