@@ -26,10 +26,10 @@ class Player(object):
 def printPlayers():
     for x in range(len(players)):
         p = players[x]
-        print(p.name+": "+str(p.league)+" "+str(p.europa)+" "+str(p.facup)+" "+str(p.eflcup)+" "+str(p.total))
+        print(p.name +": " + str(p.league) +" " + str(p.champions) + " " + str(p.facup) + " " + str(p.eflcup) + " " + str(p.total))
 
 def printPlayer(p):
-    print(p.name+": "+str(p.league)+" "+str(p.europa)+" "+str(p.facup)+" "+str(p.eflcup)+" "+str(p.total))
+    print(p.name +": " + str(p.league) +" " + str(p.champions) + " " + str(p.facup) + " " + str(p.eflcup) + " " + str(p.total))
  
 
 def getStats(html,comp):
@@ -54,12 +54,12 @@ def getStats(html,comp):
         if comp == 0:
             player = Player(name,goals,0,0,0,int(goals))
             players.append(player)
-        #Europa
+        #Champions League
         if comp == 1:
             #Check to see if player already exists in the table
             for index,p in enumerate(players):
                 if p.name == name:
-                    p.europa = goals
+                    p.champions = goals
                     p.total += int(goals)
                     found = 1
                     break
@@ -100,20 +100,20 @@ def parseStats():
     total = "https://www.transfermarkt.us/arsenal-fc/leistungsdaten/verein/11/plus/1?reldata=%262024"
     premierLeague = "https://www.transfermarkt.us/arsenal-fc/leistungsdaten/verein/11/plus/1?reldata=GB1%262024"
     faCup = "https://www.transfermarkt.us/arsenal-fc/leistungsdaten/verein/11/plus/1?reldata=FAC%262024"
-    europaLeague = "https://www.transfermarkt.us/arsenal-fc/leistungsdaten/verein/11/plus/1?reldata=EL%262024"
+    champions_league = "https://www.transfermarkt.us/arsenal-fc/leistungsdaten/verein/11/plus/1?reldata=CL%262024"
     eflCup = "https://www.transfermarkt.us/arsenal-fc/leistungsdaten/verein/11/plus/1?reldata=CGB%262024"
     premierLeagueWebsite = requests.get(premierLeague,headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'})
     faCupWebsite = requests.get(faCup,headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'})
-    europaLeagueWebsite = requests.get(europaLeague,headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'})
+    champions_league_website = requests.get(champions_league,headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'})
     eflCupWebsite = requests.get(eflCup,headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'})
     premier_html = premierLeagueWebsite.text
     fa_html = faCupWebsite.text
-    europa_html = europaLeagueWebsite.text
+    champions_html = champions_league_website.text
     efl_html = eflCupWebsite.text
     #Premier League
     getStats(premier_html,0)
     #Europa League
-    getStats(europa_html,1)
+    getStats(champions_html,1)
     #FA Cup
     getStats(fa_html,2)
     #EFL Cup
@@ -130,7 +130,7 @@ def buildTable():
             temp = unidecode(temp)
         except:
             pass
-        newLine = str(p.league)+"|"+str(p.europa)+"|"+str(p.facup)+"|"+str(p.eflcup)+"|"+str(p.total)+"|\n"
+        newLine = str(p.league) +"|" + str(p.champions) + "|" + str(p.facup) + "|" + str(p.eflcup) + "|" + str(p.total) + "|\n"
         if newLine == "":
             continue
         else:  
