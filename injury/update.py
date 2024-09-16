@@ -21,6 +21,7 @@ def getNum(name):
         "Pierre-Emerick Aubameyang": "14",
         "Ainsley Maitland-Niles": "15",
         "Rob Holding": "16",
+        "Oleksandr Zinchenko": "17",
         "Takehiro Tomiyasu": "18",
         "Nicolas Pepe": "19",
         "Shkodran Mustafi": "20",
