@@ -117,6 +117,7 @@ def getSprite(team_name):
         "Sevilla FC": "(#sprite1-p229)",
         "Semi-Final 1L": "(#sprite1-1)",
         "Semi-Final 2L": "(#sprite1-1)",
+        "Shakhtar Donetsk": "(#sprite1-p294)",
         "Sheffield United": "(#sprite1-p159)",
         "SL Benfica": "(#sprite1-p26)",
         "Slavia Prague": "(#sprite2-p21)",
