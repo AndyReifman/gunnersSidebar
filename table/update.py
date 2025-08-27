@@ -29,7 +29,6 @@ def buildEuropa():
 # Update the sidebar
 def updateSidebar():
     eplTable = buildSidebar()
-    # europaTable = buildEuropa()
     r, subreddit = login_bot(os.path.dirname(os.path.dirname(__file__)))
     settings = r.subreddit(subreddit).mod.settings()
     contents = settings['description']

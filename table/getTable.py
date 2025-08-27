@@ -4,7 +4,6 @@
 
 import requests
 import requests.auth
-from bs4 import BeautifulSoup
 
 
 def getSprite(teamName):
@@ -48,88 +47,54 @@ def getSprite(teamName):
     }[teamName]
 
 
-def getSign(goalDiff):
+def get_sign(goalDiff):
     if int(goalDiff) > 0:
-        return "+" + goalDiff
+        return f"+{goalDiff}"
     return goalDiff
 
-
-def teamsAbove(table, index, i):
-    body = ""
-    if index < 0:
-        return body
-    elif index == 0:
-        cells = table[0].findAll("td")
-        position = table[0].find("span", {"class", "league-table__value"}).text
-        team = table[0].find("span", {"class", "long"}).text
-        goalDiff = cells[9].text.strip()
-        points = table[0].find("td", {"class", "points"}).text
-        body += "|**" + position + "**|[]" + getSprite(team) + "|" + goalDiff + "|" + points + "|\n"
+def build_row(row, arsenal=False):
+    """
+    Build row string given a json row
+    :param row: The row containing all the details we want
+    :param arsenal: If this row is for Arsenal, bold all fields
+    :return: A string containing a row in the table
+    """
+    team = row.get('team').get('name')
+    overall = row.get('overall')
+    pos = overall.get('position')
+    goal_diff = overall.get('goalsFor') - overall.get('goalsAgainst')
+    points = overall.get('points')
+    if arsenal:
+        body = f"|**{pos}**|**[]{getSprite(team)}**|**{get_sign(goal_diff)}**|**{points}**|\n"
     else:
-        for x in range(index, i, 2):
-            cells = table[x].findAll("td")
-            position = table[x].find("span", {"class", "value"}).text
-            team = table[x].find("span", {"class", "long"}).text
-            goalDiff = cells[9].text.strip()
-            points = table[x].find("td", {"class", "points"}).text
-            body += "|**" + position + "**|[]" + getSprite(team) + "|" + goalDiff + "|" + points + "|\n"
+        body = f"|**{pos}**|[]{getSprite(team)}|{get_sign(goal_diff)}|{points}|\n"
     return body
 
-
-def teamsBelow(table, index, i):
-    body = ""
-    if index < 10:
-        index = 10
-    for x in range(i + 2, index + 2, 2):
-        cells = table[x].findAll("td")
-        position = table[x].find("span", {"class", "league-table__value"}).text
-        team = table[x].find("span", {"class", "long"}).text
-        goalDiff = cells[9].text.strip()
-        points = table[x].find("td", {"class", "points"}).text
-        body += "|**" + position + "**|[]" + getSprite(team) + "|" + goalDiff + "|" + points + "|\n"
-        # Needed in case Arsenal are in 19th
-        if x >= 38:
-            return body
-    return body
-
-
-def findArsenal(table):
-    for index, row in enumerate(table):
-        if index % 2 == 1:
-            continue
-        cells = row.findAll("td")
-        position = row.find("span", {"class", "league-table__value"}).text
-        team = row.find("span", {"class", "long"}).text
-        goalDiff = cells[9].text.strip()
-        points = row.find("td", {"class", "points"}).text
-        if team == "Arsenal":
-            i = index
-            body = "|**" + position + "**|[]" + getSprite(team) + "|**" + goalDiff + "**|**" + points + "**|\n"
-            break
-    topRange = i + 4
-    botRange = i - 4
-    if botRange < 0:
-        topRange += 2
-    above = teamsAbove(table, botRange, i)
-    below = teamsBelow(table, topRange, i)
-    body = above + body + below
+def build_table(table):
+    pos = next((i for i, d in enumerate(table) if d.get('team').get('name') == 'Arsenal'), -1)
+    start = max(0, pos - 2)
+    end = min(20, pos + 3)
+    if end - start < 5:
+        if start == 0:
+            end = 5
+        elif end == 20:
+            start = 15
+    table = list(enumerate(table))[start:end]
+    body = ''.join(build_row(row, arsenal=(i == pos)) for i, row in table)
     return body
 
 
 def parseWebsite():
-    website = "https://www.premierleague.com/en/tables?competition=8&season=2025"
+    website = "https://sdp-prem-prod.premier-league-prod.pulselive.com/api/v5/competitions/8/seasons/2025/standings?live=false"
     tableWebsite = requests.get(website, timeout=15)
-    table_html = tableWebsite.text
-    print(f"Table: {table_html}")
-    soup = BeautifulSoup(table_html, "lxml")
-    table = soup.find("table", {"class", "standings-table"})
-    rows = table.find("tbody").findAll("tr")
-    return rows
+    response_json = tableWebsite.json()
+    table = response_json.get('tables')[0].get('entries')
+    return table
 
 
 def main():
     table = parseWebsite()
-    body = findArsenal(table)
+    body = build_table(table)
     return body
 
 
