@@ -32,6 +32,7 @@ def getSprite(teamName):
         "Manchester United": "(#sprite1-p2)",
         "Newcastle United": "(#sprite1-p11)",
         "Norwich City": "(#sprite1-p44)",
+        "Nottingham Forest": "(#sprite1-p66)",
         "Middlesbrough": "(#sprite1-p91)",
         "Sheffield United": "(#sprite1-p159)",
         "Southampton": "(#sprite1-p38)",
@@ -116,11 +117,13 @@ def findArsenal(table):
 
 
 def parseWebsite():
-    website = "https://www.premierleague.com/tables"
+    website = "https://www.premierleague.com/en/tables?competition=8&season=2025"
     tableWebsite = requests.get(website, timeout=15)
     table_html = tableWebsite.text
+    print(f"Table: {table_html}")
     soup = BeautifulSoup(table_html, "lxml")
-    rows = soup.find("tbody").findAll("tr")
+    table = soup.find("table", {"class", "standings-table"})
+    rows = table.find("tbody").findAll("tr")
     return rows
 
 
