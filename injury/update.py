@@ -9,9 +9,11 @@ from onebag import get_timestamp, login_bot
 def getNum(name):
     return {
         "Bernd Leno": "1",
-        "Hector Bellerin": "2",
+        "William Saliba": "2",
         "Kieran Tierney": "3",
+        "Ben White": "4",
         "Sokratis": "5",
+        "Gabriel Magalhães": "6",
         "Henrikh Mkhitaryan": "7",
         "Martin Ødegaard": "8",
         "Gabriel Jesus": "9",
@@ -20,11 +22,11 @@ def getNum(name):
         "Jurrien Timber": "12",
         "Pierre-Emerick Aubameyang": "14",
         "Ainsley Maitland-Niles": "15",
-        "Rob Holding": "16",
+        "Christian Nørgaard": "16",
         "Oleksandr Zinchenko": "17",
         "Takehiro Tomiyasu": "18",
         "Nicolas Pepe": "19",
-        "Shkodran Mustafi": "20",
+        "Jorginho": "20",
         "Calum Chambers": "21",
         "Mikel Merino": "23",
         "Reiss Nelson": "24",
@@ -32,11 +34,12 @@ def getNum(name):
         "Emiliano Martinez": "26",
         "Konstantinos Mavropanos": "27",
         "Joe Willock": "28",
-        "Matteo Guendouzi": "29",
+        "Kai Havertz": "29",
         "Sead Kolasinac": "31",
         "Riccardo Calafiori": "33",
         "Granit Xhaka": "34",
         "Gabriel Martinelli": "35",
+        "Myles Lewis-Skelly": "49",
         "Bukayo Saka": "77",
     }[name]
 
@@ -78,7 +81,6 @@ def buildTable():
 
 def updateSidebar():
     table = buildTable()
-    print(get_timestamp() + table)
     r, subreddit = login_bot(os.path.dirname(os.path.dirname(__file__)))
     settings = r.subreddit(subreddit).mod.settings()
     contents = settings['description']
