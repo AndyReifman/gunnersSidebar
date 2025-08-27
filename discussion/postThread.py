@@ -15,7 +15,7 @@ def createBody():
     body = "Use this thread for general daily football discussion.\n\n"
     body += "This thread can also be used to discuss Transfer rumours and to post Tier 4 sources.\n\n"
     body += "As this may fill up please sort by new to try and avoid constantly repeating the same question.\n\n"
-    body += "Join our [Discord](https://discord.gg/gunners) for live discussion and don't forget to follow us on [twitter](https://twitter.com/rslashgunners).\n\n"
+    body += "Join our [Discord](https://discord.gg/gunners) for live discussion and don't forget to follow us on [bluesky](https://bsky.app/profile/rgunners.bsky.social).\n\n"
     return body
 
 
