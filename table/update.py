@@ -4,10 +4,8 @@ import os
 from onebag import login_bot, get_timestamp
 
 import getTable
-import europaTable
+import uefaTable
 import re
-
-from table import uefaTable
 
 
 def buildSidebar():
@@ -16,15 +14,6 @@ def buildSidebar():
     body += "|::|:-:|:--:|:--:|\n"
     body += getTable.main()
     body += "[//]: # (End Premier Table)"
-    return body
-
-
-def buildEuropa():
-    body = "[//]: # (Europa Table)\n"
-    body += "|\\#| Team | GD | Points \n"
-    body += "|::|:-:|:--:|:--:|\n"
-    body += europaTable.main()
-    body += "[//]: # (End Europa Table)"
     return body
 
 def build_uefa():
