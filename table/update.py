@@ -7,6 +7,8 @@ import getTable
 import europaTable
 import re
 
+from table import uefaTable
+
 
 def buildSidebar():
     body = "[//]: # (Premier Table)\n"
@@ -25,15 +27,26 @@ def buildEuropa():
     body += "[//]: # (End Europa Table)"
     return body
 
+def build_uefa():
+    body = "[//]: # (UEFA Table)\n"
+    body += "|\\#| Team | GD | Points \n"
+    body += "|::|:-:|:--:|:--:|\n"
+    body += uefaTable.main()
+    body += "[//]: # (End UEFA Table)"
+    return body
+
 
 # Update the sidebar
 def updateSidebar():
     eplTable = buildSidebar()
+    uefa = build_uefa()
     r, subreddit = login_bot(os.path.dirname(os.path.dirname(__file__)))
     settings = r.subreddit(subreddit).mod.settings()
     contents = settings['description']
     # We want to update current sidebar to where injury table goes
     contents = re.sub('\[\/\/\]: # \(Premier Table\).*\[\/\/\]: # \(End Premier Table\)', eplTable, contents,
+                      flags=re.DOTALL)
+    contents = re.sub('\[\/\/\]: # \(UEFA Table\).*\[\/\/\]: # \(End UEFA Table\)', uefa, contents,
                       flags=re.DOTALL)
     r.subreddit(subreddit).wiki['config/sidebar'].edit(contents)
     print(get_timestamp() + "Premier League Table Updated")
