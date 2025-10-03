@@ -1,30 +1,66 @@
 #!/usr/bin/python3
 from __future__ import print_function
 
-import datetime
 import os
 import re
-import time
+import requests
+import pytz
 
-from googleapiclient.discovery import build
-from httplib2 import Http
-from oauth2client import file, client, tools
+from datetime import datetime 
+from icalendar import Calendar
 from onebag import login_bot
 
-SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
+CALENDAR_URL = "https://calendar.google.com/calendar/ical/6umq7as3vved7j286f88lk7c14%40group.calendar.google.com/public/basic.ics"
+
 createThread = 0
+
+def get_next_events():
+    try:
+        print("Fetching eCal data...")
+        response = requests.get(CALENDAR_URL)
+        response.raise_for_status()
+
+        gcal = Calendar.from_ical(response.text)
+
+        events = []
+        now = datetime.now(pytz.utc)
+
+        for component in gcal.walk():
+            if component.name == "VEVENT":
+                start_dt = component.get('dtstart').dt
+
+                if isinstance(start_dt, datetime):
+                    if start_dt.tzinfo is None or start_dt.tzinfo.utcoffset(start_dt) is None:
+                        start_dt = pytz.utc.localize(start_dt)
+                end_dt = component.get('dtend').dt
+                if isinstance(end_dt, datetime):
+                    if end_dt.tzinfo is None or end_dt.tzinfo.utcoffset(end_dt) is None:
+                        end_dt = pytz.utc.localize(end_dt)
+                        end_dt_utc = end_dt.astimezone(pytz.utc)
+
+                summary = str(component.get('summary'))
+                if (start_dt > now) or (now < end_dt):
+                    events.append({
+                        'start': start_dt,
+                        'end': end_dt,
+                        'summary': summary
+                        })
+        if not events:
+            print("No upcoming events found in calendar feed.")
+            return
+
+        events.sort(key=lambda x: x['start'])
+
+        return events[:10]
+
+    except requests.exceptions.HTTPError as e:
+        print(f"Error fetching calendar data: HTTP {e.response.status_code}. Is the URL correct?")
+    except Exception as e:
+        print(f"An error occurred during parsing: {e}")
 
 
 def main():
-    store = file.Storage('/home/andy/reddit/sidebar/timer/token.json')
-    creds = store.get()
-    if not creds or creds.invalid:
-        flow = client.flow_from_clientsecrets('/home/andy/reddit/sidebar/timer/credentials.json', SCOPES)
-        creds = tools.run_flow(flow, store)
-    service = build('calendar', 'v3', http=creds.authorize(Http()))
-    # printEvents(service)
-    # Get the countdown
-    countdown = arsenal(service)
+    countdown = arsenal()
     body = ">>>>>\n"
     body += "#### Next game in: " + countdown + "\n"
     body += ">>>>>"
@@ -40,15 +76,10 @@ def main():
     return
 
 
-def arsenal(service):
-    now = datetime.datetime.utcnow().isoformat() + 'Z'
-    events_result = service.events().list(calendarId='6umq7as3vved7j286f88lk7c14@group.calendar.google.com',
-                                          timeMin=now,
-                                          maxResults=1, singleEvents=True,
-                                          orderBy='startTime').execute()
-    events = events_result.get('items', [])
+def arsenal():
+    events = get_next_events()
 
-    now = datetime.datetime.utcnow()
+    now = datetime.now(pytz.utc)
 
     if not events:
         print('No upcoming events found.')
@@ -56,31 +87,18 @@ def arsenal(service):
     for event in events:
         global summary
         summary = event['summary']
-        start = event['start'].get('dateTime', event['start'].get('date'))
-        pattern = '%Y-%m-%dT%H:%M:%SZ'
-        epoch = int(time.mktime(time.strptime(start, pattern)))
-        diff = epoch - int(now.timestamp())
-        date = datetime.timedelta(seconds=diff)
-        if '-1 day' in str(date):
+        start = event['start']
+        end = event['end']
+        if now >= start:
             return "Now!"
-        global matchDate
-        matchDate = start.split('T')[0]
-
-        return convert(str(date))
-
-
-def convert(timeStamp):
-    try:
-        days = timeStamp.split(' ')[0] + ' days '
-        temp = timeStamp.split(',')[1].strip()
-    except:
-        days = '0 days '
-        temp = timeStamp
-    hours = temp.split(':')[0].strip() + ' hours '
-    minutes = temp.split(':')[1].strip() + ' minutes'
-
-    return days + hours + minutes
-
+        time_remaining = start - now
+        days = time_remaining.days
+        seconds = time_remaining.seconds
+        hours = seconds // 3600
+        minutes = (seconds % 3600) // 60
+        print(f"Next event:\n{start} {summary}")
+        print(f"Remaining: {days} days, {hours} hours, and {minutes} minutes.")
+        return f'{days} days {hours} hours {minutes} minutes'
 
 if __name__ == '__main__':
     main()
