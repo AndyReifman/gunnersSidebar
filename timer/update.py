@@ -3,17 +3,11 @@ from __future__ import print_function
 
 import os
 import re
-import time
-import pathlib
 import requests
 import pytz
 
-from datetime import datetime, timezone
-from google.oauth2 import service_account
-from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
+from datetime import datetime 
 from icalendar import Calendar
-from httplib2 import Http
 from onebag import login_bot
 
 CALENDAR_URL = "https://calendar.google.com/calendar/ical/6umq7as3vved7j286f88lk7c14%40group.calendar.google.com/public/basic.ics"
