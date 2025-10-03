@@ -5,6 +5,7 @@ import requests
 import requests.auth
 
 def get_sprite(team):
+    # "Team Name" : "(#sprite1-p0)",
     return {
         "Ajax": "(#sprite1-p22)",
         "Arsenal": "(#sprite1-p1)",
@@ -12,6 +13,17 @@ def get_sprite(team):
         "Athletic Club": "(#sprite1-p171)",
         "Atleti": "(#sprite1-p76)",
         "B. Dortmund": "(#sprite1-p12)",
+        "Barcelona" : "(#sprite1-p6)",
+        "Bayern Munchen" : "(#sprite1-p8)",
+        "Bayern München" : "(#sprite1-p8)",
+        "Benfica" : "(#sprite1-p26)",
+        "Inter" : "(#sprite1-p25)",
+        "Man City" : "(#sprite1-p10)",
+        "Manchester City" : "(#sprite1-p10)",
+        "Paris" : "(#sprite1-p35)",
+        "Qarabag" : "(#sprite4-p342)",
+        "Qarabağ" : "(#sprite4-p342)",
+        "Union SG" : "(#sprite2-p306)",
     }[team]
 
 def get_sign(goal_diff):

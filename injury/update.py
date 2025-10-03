@@ -26,7 +26,7 @@ def getNum(name):
         "Oleksandr Zinchenko": "17",
         "Takehiro Tomiyasu": "18",
         "Nicolas Pepe": "19",
-        "Jorginho": "20",
+        "Noni Madueke": "20",
         "Calum Chambers": "21",
         "Mikel Merino": "23",
         "Reiss Nelson": "24",
