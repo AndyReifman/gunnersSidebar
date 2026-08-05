@@ -18,11 +18,14 @@ def get_sprite(team):
         "Bayern München" : "(#sprite1-p8)",
         "Benfica" : "(#sprite1-p26)",
         "Inter" : "(#sprite1-p25)",
+        "Liverpool" : "(#sprite1-p3)",
         "Man City" : "(#sprite1-p10)",
         "Manchester City" : "(#sprite1-p10)",
         "Paris" : "(#sprite1-p35)",
+        "Tottenham" : "(#sprite1-p5)",
         "Qarabag" : "(#sprite4-p342)",
         "Qarabağ" : "(#sprite4-p342)",
+        "Real Madrid": "(#sprite1-p9)",
         "Union SG" : "(#sprite2-p306)",
     }[team]
 
