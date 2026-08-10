@@ -1,11 +1,11 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 
-import requests, requests.auth
-from bs4 import BeautifulSoup, ResultSet
+import datetime
 import re
 
-i = 0
+import requests
+import requests.auth
+from bs4 import BeautifulSoup, ResultSet, Tag
 
 
 class Match(object):
@@ -25,7 +25,7 @@ class Match(object):
 
 def getLocation(line):
     home_team = line[0].text.strip()
-    if 'Arsenal' in home_team:
+    if "Arsenal" in home_team:
         return 0
     else:
         return 1
@@ -59,6 +59,7 @@ def getSprite(team_name):
         "BATE": "(#sprite4-p43)",
         "BATE Borisov": "(#sprite4-p43)",
         "Bodø/Glimt": "(#sprite1-p423)",
+        "Borussia Dortmund": "(#sprite1-p12)",
         "Brentford": "(#sprite1-p198)",
         "Brentford FC": "(#sprite1-p198)",
         "Brighton": "(#sprite1-p103)",
@@ -71,6 +72,8 @@ def getSprite(team_name):
         "Club Atlético de Madrid": "(#sprite1-p76)",
         "Cologne": "(#sprite1-p125)",
         "Colorado Rapids": "(#sprite1-p93)",
+        "Como": "(#sprite5-p341)",
+        "Coventry City": "(#sprite1-p136)",
         "CSKA Moscow": "(#sprite1-p220)",
         "Doncaster": "(#sprite1-p252)",
         "Dundalk": "(#sprite2-p143)",
@@ -176,6 +179,7 @@ def getComp(comp):
         "English Carabao Cup": "(#logo-eflcup)",
         "Europa League": "(#logo-el)",
         "FA Community Shield": "(#logo-communityshield)",
+        "Community Shield": "(#logo-communityshield)",
         "Florida Cup Series": "(#icon-ball)",
         "Florida Cup": "(#icon-ball)",
         "Friendly Match": "(#icon-ball)",
@@ -186,167 +190,241 @@ def getComp(comp):
         "The Emirates FA Cup": "(#logo-facup)",
         "English FA Cup": "(#logo-facup)",
         "FA Cup": "(#logo-facup)",
-        "UEFA Champions League": "(#logo-ucl)"
+        "UEFA Champions League": "(#logo-ucl)",
     }[comp]
 
 
-def parseFixtures():
-    website = "https://www.arsenal.com/fixtures"
-    fixture_website = requests.get(website, timeout=15)
+def get_matches() -> ResultSet[Tag]:
+    """Retrieve all Arsenal matches this season."""
+    website = "https://www.arsenal.com/fixtures/men/printable/20262027"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/58.0.3029.110 Safari/537.3"
+    }
+    fixture_website = requests.get(website, timeout=15, headers=headers)
     fixture_html = fixture_website.text
     soup = BeautifulSoup(fixture_html, "lxml")
-    matches = soup.find_all("article", about=re.compile(r'/fixture/.*'))
+    matches = soup.find_all(
+        "div", class_=re.compile("printable_printable_hero_box__.*")
+    )
     return matches
 
 
-def parseResults():
-    website = "https://www.arsenal.com/results"
-    fixture_website = requests.get(website, timeout=15)
-    fixture_html = fixture_website.text
-    soup = BeautifulSoup(fixture_html, "lxml")
-    matches = soup.find_all("article", about=re.compile(r'/fixture/.*'))
-    return matches
+def parse_opponent(match: Tag) -> tuple:
+    """Find the opponent and match location
+
+    Args:
+        match: Bs4 Tag containing match participants
+
+    Returns:
+        a tuple containing the opponent name and if the match is Home or Away
+    """
+    details = match.find("div", class_="printable_printable_hero_box_details__JTszY")
+    if not details:
+        raise ValueError(f"Unable to parse teams for fixture: {match}")
+    home = details.find(
+        "div", class_=re.compile("printable_printable_hero_box_details_comp1.*")
+    )
+    away = details.find(
+        "div", class_=re.compile("printable_printable_hero_box_details_comp2.*")
+    )
+    if home:
+        home = home.text
+    if away:
+        away = away.text
+    if home == "Arsenal":
+        return (away, "Home")
+    else:
+        return (home, "Away")
 
 
-def findFixtures(matches: ResultSet):
+def parse_result(match: Tag) -> str:
+    """Grabs the scoreline from a match
+
+    Args:
+        match: bs4 tag of a match
+    Returns:
+        A basic scoreline matching x - x format
+    """
+    result = match.find(
+        "div", class_=re.compile("printable_printable_hero_box_details__.*")
+    )
+    if not result:
+        raise ValueError(f"Unable to parse scoreline from match '{match}'")
+    scores = result.find(
+        "div", class_=re.compile("printable_printable_hero_box_details_result__.*")
+    )
+    if scores:
+        return scores.text
+
+
+def get_won_or_lost(scoreline, location):
+    """Determine if Arsenal won, lost or drew the result"""
+    home_score, away_score = map(int, scoreline.split(" - "))
+    if location == "Home":
+        if home_score > away_score:
+            return "W"
+        elif home_score < away_score:
+            return "L"
+    else:
+        if home_score > away_score:
+            return "L"
+        elif home_score < away_score:
+            return "W"
+    return "D"
+
+
+def find_fixtures(matches: ResultSet, next_match_index: int):
     """
     Grab the next 3 fixtures for the team
     :param matches: ResultSet
     :return:
     """
     body = ""
-    x = 3
-    if len(matches) < 3:
-        x = len(matches)
-    for i in range(x):
-        # Will need to update this to work with a shadow box for next fixture the next time I see that.
-        match = matches[i].find("div", {"class", "card__content"})
-        try:
-            date = matches[i].find("div", {"class","event-info__date"}).text.strip()
-            time = date.split('-')[1].strip()
-            date = date.split('-')[0][3:].strip()
-            comp = matches[i].find("div", {"class", "event-info__extra"}).text
-        except:
-            time = "TBD"
-            # date = matches[i].find("div",class_=False, id=False).text[3:].strip()
-            date = matches[i].find("div", class_=False, id=False).text.strip()
-            comp = matches[i].find("div", {"class", "event-info__extra"}).text
-        try:
-            team = match.find("span", {"class", "team-crest__name-value"}).text
-        except AttributeError:
-            if len(match.find("div", {"class", "team-crest__name-value"}).text) > 1:
-                # We're returning Arsenal as well, so make sure we grab the other one.
-                team = next(team_name.text for team_name in match.findAll("div", {"class", "team-crest__name-value"}) if team_name.text != 'Arsenal')
-            else:
-                team = match.find("div", {"class", "team-crest__name-value"}).text
-        try:
-            location = match.find("div", {"class", "location-icon"})['title']
-        except TypeError:
-            teams = match.findAll("div", {"class", "fixture-match__team"})
-            homeAway = getLocation(teams)
-            if homeAway == 0:
-                location = "Home"
-            else:
-                location = "Away"
-        if location == "Home":
-            team = getSprite(team) + " (H)"
-        else:
-            team = getSprite(team) + " (A)"
-        body += "| " + date + " | [](#icon-clock) " + time + " | []" + team + " | []" + getComp(comp) + "|\n"
+    x = 0
+    for match in matches[next_match_index:]:
+        if x > 2:
+            return body
+        date = parse_date(match)
+        time = date.strftime("%H:%M")
+        (opponent, location) = parse_opponent(match)
+        team = f"{getSprite(opponent)} ({location[0]})"
+        competition_parsed = match.find(
+            "div", class_="printable_printable_hero_box_type__JkjSv"
+        )
+        if competition_parsed:
+            comp = competition_parsed.text
+        body += (
+            "| "
+            + date.strftime("%b %d")
+            + " | [](#icon-clock) "
+            + time
+            + " | []"
+            + team
+            + " | []"
+            + getComp(comp)
+            + "|\n"
+        )
+        x += 1
     return body
 
 
-def findResults(matches):
+def find_results(matches: ResultSet, next_match_index: int) -> str:
+    """Takes the matches and returns previous results
+
+    Args:
+        matches: ResultSet list of all matches in the season
+        next_match_index: int index of the next unplayed match in matches
+
+    Returns:
+        Markdown formatted string with a table of recent result limited to a maximum of 3 results
+    """
     body = ""
-    if not matches:
-        return body
-    for i in range(2, 0, -1):
-        result = ""
-        try:
-            match = matches[i].find("div", {"class", "card__content"})
-        except:
-            if i == 0:
-                return body
-            break
-        try:
-            date = matches[i].find("time").text
-        except:
-            date = matches[i].find("div", class_=False, id=False).text.strip()
-        date = date.split('-')[0][3:].strip()
-        comp = matches[i].find("div", {"class", "event-info__extra"}).text
-        # team = match.find("span", {"class", "team-crest__name-value"}).text
-        # location = match.find("div", {"class", "location-icon"})['title']
-        teams = match.findAll("div", {"class", "fixture-match__team"})
-        homeTeam = teams[0].find("div", {"class", "team-crest__name-value"}).text
-        awayTeam = teams[1].find("div", {"class", "team-crest__name-value"}).text
-        homeAway = getLocation(teams)
-        location = matches[i].find("div", {"class", "event-info__venue"}).text
-        homeScore = match.findAll("span", {"class", "scores__score"})[0].text
-        awayScore = match.findAll("span", {"class", "scores__score"})[1].text
-        if homeScore > awayScore:
-            if homeAway == 0:
-                result += "[](#icon-win) "
-            else:
-                result += "[](#icon-loss) "
-        elif homeScore < awayScore:
-            if location == "Home":
-                result += "[](#icon-loss) "
-            elif location == "Neutral":
-                if team == "Arsenal":
-                    result += "[](#icon-loss)"
-                else:
-                    result += "[](#icon-win)"
-            else:
-                result += "[](#icon-win) "
-        else:
-            result += "[](#icon-draw) "
-        result += homeScore + " - " + awayScore
-        if homeAway == 0:
-            team = getSprite(awayTeam) + " (H)"
-        else:
-            team = getSprite(homeTeam) + " (A)"
-        body += "| " + date + " | " + result + " | []" + team + " | []" + getComp(comp) + "|\n"
-    result = ""
-    date = matches[0].find("time").text
-    date = date.split('-')[0][3:].strip()
-    match = matches[0].find("div", {"class", "fixture-match"})
-    comp = matches[0].find("div", {"class", "event-info__extra"}).text
-    teams = match.findAll("div", {"class", "fixture-match__team"})
-    homeTeam = teams[0].find("div", {"class", "team-crest__name-value"}).text
-    awayTeam = teams[1].find("div", {"class", "team-crest__name-value"}).text
-    homeAway = getLocation(teams)
-    homeScore = match.findAll("span", {"class", "scores__score"})[0].text
-    awayScore = match.findAll("span", {"class", "scores__score"})[1].text
-    if homeScore > awayScore:
-        if homeAway == 0:
-            result += "[](#icon-win) "
-        else:
-            result += "[](#icon-loss) "
-    elif homeScore < awayScore:
-        if homeAway == 0:
-            result += "[](#icon-loss) "
-        else:
-            result += "[](#icon-win) "
-    else:
-        result += "[](#icon-draw) "
-    result += homeScore + " - " + awayScore
-    if homeAway == 0:
-        team = getSprite(awayTeam) + " (H)"
-    else:
-        team = getSprite(homeTeam) + " (A)"
-    body += "| " + date + " | " + result + " | []" + team + " | []" + getComp(comp) + "|\n"
+    matches = ResultSet(source=None, result=matches[:next_match_index])
+    for match in matches[-3:]:
+        date = parse_date(match)
+        (opponent, location) = parse_opponent(match)
+        team = f"{getSprite(opponent)} ({location[0]})"
+        competition_parsed = match.find(
+            "div", class_=re.compile("printable_printable_hero_box_type__.*")
+        )
+        if competition_parsed:
+            comp = competition_parsed.text
+        scoreline = parse_result(match)
+        result = get_won_or_lost(scoreline, location)
+        result += f" {scoreline}"
+        body += (
+            "| "
+            + date.strftime("%b %d")
+            + " | "
+            + result
+            + " | []"
+            + team
+            + " | []"
+            + getComp(comp)
+            + "|\n"
+        )
 
     body += "|||\n"
     return body
 
 
-def main():
-    matches = parseFixtures()
-    results = parseResults()
-    body = findResults(results)
-    body += findFixtures(matches)
+def clean_date_string(date_str: str) -> str:
+    """Cleans up months abbreviated in ways we don't expect
+
+    Args:
+        String representing a date following the Weekday Month Day - HH:MM format
+
+    Returns:
+        The same string but with properly abbreviated month.
+    """
+    # Stupid UK abbreviations
+    month_map = {"sept": "Sep"}
+
+    def replace_month(match):
+        word = match.group(0)
+        return month_map.get(word.lower(), word)
+
+    return re.sub(r"[A-Za-z]+", replace_month, date_str)
+
+
+def parse_date(match):
+    """Return a datetime for the given match
+
+    Args:
+        match: A specific match from the Resultset
+    Returns:
+        Datetimeobject of the match date
+    """
+    date_string = match.find(
+        "div", class_=re.compile("printable_printable_hero_box_date.*")
+    ).text
+    date_string = clean_date_string(date_string)
+    parsed = datetime.datetime.strptime(date_string, "%a %b %d - %H:%M").replace(
+        tzinfo=datetime.UTC
+    )
+    current_year = datetime.datetime.now(tz=datetime.UTC).year
+    target_year = current_year if parsed.month >= 7 else current_year + 1
+    date = parsed.replace(year=target_year)
+    return date
+
+
+def find_next_match(matches: ResultSet) -> int:
+    """Return the index of the next match without a result.
+
+    Args:
+        matches: ResultSet containing all matches of the season
+
+    Returns:
+        Index in matches of the next fixture to be played
+    """
+    today = datetime.datetime.now(tz=datetime.UTC)
+    for i, match in enumerate(matches):
+        date = parse_date(match)
+        if date >= today:
+            return i
+    # If we get here then the season is over and there are no more fixtures
+    return -1
+
+
+def build_body(matches: ResultSet):
+    """
+    Build the body markdown containing previous results and upcoming fixtures
+    """
+    # Find index of next match
+    next_match_index = find_next_match(matches)
+    body = find_results(matches, next_match_index)
+    if next_match_index != -1:
+        body += find_fixtures(matches, next_match_index)
     return body
 
 
-if __name__ == '__main__':
+def main():
+    matches = get_matches()
+    body = build_body(matches)
+    return body
+
+
+if __name__ == "__main__":
     print(main())
