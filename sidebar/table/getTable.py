@@ -52,6 +52,7 @@ def get_sign(goalDiff):
         return f"+{goalDiff}"
     return goalDiff
 
+
 def build_row(row, arsenal=False):
     """
     Build row string given a json row
@@ -59,19 +60,28 @@ def build_row(row, arsenal=False):
     :param arsenal: If this row is for Arsenal, bold all fields
     :return: A string containing a row in the table
     """
-    team = row.get('team').get('name')
-    overall = row.get('overall')
-    pos = overall.get('position')
-    goal_diff = overall.get('goalsFor') - overall.get('goalsAgainst')
-    points = overall.get('points')
+    team = row.get("team").get("name")
+    overall = row.get("overall")
+    pos = overall.get("position")
+    goal_diff = overall.get("goalsFor") - overall.get("goalsAgainst")
+    points = overall.get("points")
     if arsenal:
         body = f"|**{pos}**|**[]{getSprite(team)}**|**{get_sign(goal_diff)}**|**{points}**|\n"
     else:
         body = f"|**{pos}**|[]{getSprite(team)}|{get_sign(goal_diff)}|{points}|\n"
     return body
 
+
 def build_table(table):
-    pos = next((i for i, d in enumerate(table) if d.get('team').get('name') == 'Arsenal'), -1)
+    sorted_table = sorted(table, key=lambda x: x["overall"]["position"])
+    pos = next(
+        (
+            i
+            for i, d in enumerate(sorted_table)
+            if d.get("team").get("name") == "Arsenal"
+        ),
+        -1,
+    )
     start = max(0, pos - 2)
     end = min(20, pos + 3)
     if end - start < 5:
@@ -79,23 +89,26 @@ def build_table(table):
             end = 5
         elif end == 20:
             start = 15
-    table = list(enumerate(table))[start:end]
-    body = ''.join(build_row(row, arsenal=(i == pos)) for i, row in table)
+    table = list(enumerate(sorted_table))[start:end]
+    body = "".join(build_row(row, arsenal=(i == pos)) for i, row in table)
     return body
 
 
 def parseWebsite():
-    website = "https://sdp-prem-prod.premier-league-prod.pulselive.com/api/v5/competitions/8/seasons/2025/standings?live=false"
+    website = "https://sdp-prem-prod.premier-league-prod.pulselive.com/api/v5/competitions/8/seasons/2026/standings?live=false"
     tableWebsite = requests.get(website, timeout=15)
     response_json = tableWebsite.json()
-    table = response_json.get('tables')[0].get('entries')
+    table = response_json.get("tables")[0].get("entries")
     return table
 
 
-def main():
+def build_prem_table():
     table = parseWebsite()
-    body = build_table(table)
-    return body
+    return build_table(table)
+
+
+def main():
+    return build_prem_table()
 
 
 if __name__ == "__main__":

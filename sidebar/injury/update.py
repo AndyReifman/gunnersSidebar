@@ -1,9 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-import os
-import re, requests
+import re
+
+import requests
 from bs4 import BeautifulSoup
 from onebag import get_timestamp, login_bot
+
+from sidebar.constants import REPO_ROOT
 
 
 def getNum(name):
@@ -46,28 +49,30 @@ def getNum(name):
 
 
 def getInjuries():
-    body = ''
-    address = 'https://www.transfermarkt.com/arsenal-fc/sperrenundverletzungen/verein/11'
-    website = requests.get(address, headers={'User-Agent': 'Custom'})
+    body = ""
+    address = (
+        "https://www.transfermarkt.com/arsenal-fc/sperrenundverletzungen/verein/11"
+    )
+    website = requests.get(address, headers={"User-Agent": "Custom"})
     html = website.text
     soup = BeautifulSoup(html, "lxml")
     table = soup.find("table", {"class", "items"})
     if not table:
         return body
     table = table.find("tbody")
-    rows = table.findAll("tr", {"class", "odd","even"})
+    rows = table.findAll("tr", {"class", "odd", "even"})
 
     for row in rows:
-        if 'extrarow bg_blau_20 hauptlink' in str(row):
+        if "extrarow bg_blau_20 hauptlink" in str(row):
             return body
-        name = row.find('td', {'class', 'hauptlink'}).text.strip()
-        injury = row.find('td', {'class', 'links hauptlink img-vat'}).getText()
+        name = row.find("td", {"class", "hauptlink"}).text.strip()
+        injury = row.find("td", {"class", "links hauptlink img-vat"}).getText()
 
-        date = row.findAll('td', {'class', 'zentriert'})[2].getText()
-        if date == '?' or date == '':
-            date = 'Unknown'
+        date = row.findAll("td", {"class", "zentriert"})[2].getText()
+        if date == "?" or date == "":
+            date = "Unknown"
         num = getNum(name)
-        body += '|' + num + '|' + name + '|' + injury + '|' + date + '|\n'
+        body += "|" + num + "|" + name + "|" + injury + "|" + date + "|\n"
     return body
 
 
@@ -82,11 +87,15 @@ def buildTable():
 
 def updateSidebar():
     table = buildTable()
-    r, subreddit = login_bot(os.path.dirname(os.path.dirname(__file__)))
+    r, subreddit = login_bot(str(REPO_ROOT))
     settings = r.subreddit(subreddit).mod.settings()
-    contents = settings['description']
-    contents = re.sub('\[\/\/\]: # \(Injury Table\).*\[\/\/\]: # \(End Injury Table\)', table, contents,
-                      flags=re.DOTALL)
+    contents = settings["description"]
+    contents = re.sub(
+        "\[\/\/\]: # \(Injury Table\).*\[\/\/\]: # \(End Injury Table\)",
+        table,
+        contents,
+        flags=re.DOTALL,
+    )
     r.subreddit(subreddit).mod.update(description=contents)
     print(get_timestamp() + "Injury Table Updated")
 
@@ -95,5 +104,5 @@ def main():
     updateSidebar()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

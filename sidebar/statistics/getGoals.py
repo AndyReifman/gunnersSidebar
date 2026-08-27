@@ -1,8 +1,7 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 
-import requests
 from bs4 import BeautifulSoup
+from curl_cffi import requests
 from unidecode import unidecode
 
 players = []
@@ -127,12 +126,14 @@ def getStats(html, comp):
 
 def parseStats():
     body = ""
-    total = "https://www.transfermarkt.us/arsenal-fc/leistungsdaten/verein/11/plus/1?reldata=%262025"
-    premierLeague = "https://www.transfermarkt.us/arsenal-fc/leistungsdaten/verein/11/plus/1?reldata=GB1%262025"
-    faCup = "https://www.transfermarkt.us/arsenal-fc/leistungsdaten/verein/11/plus/1?reldata=FAC%262025"
-    champions_league = "https://www.transfermarkt.us/arsenal-fc/leistungsdaten/verein/11/plus/1?reldata=CL%262025"
-    eflCup = "https://www.transfermarkt.us/arsenal-fc/leistungsdaten/verein/11/plus/1?reldata=CGB%262025"
+    total = "https://fbref.com/en/squads/18bb7c10/2026-2027/all_comps/Arsenal-Stats-All-Competitions"
+    premierLeague = "https://www.transfermarkt.us/arsenal-fc/leistungsdaten/verein/11/plus/1?reldata=GB1%262026"
+    faCup = "https://www.transfermarkt.us/arsenal-fc/leistungsdaten/verein/11/plus/1?reldata=FAC%262026"
+    champions_league = "https://www.transfermarkt.us/arsenal-fc/leistungsdaten/verein/11/plus/1?reldata=CL%262026"
+    eflCup = "https://www.transfermarkt.us/arsenal-fc/leistungsdaten/verein/11/plus/1?reldata=CGB%262026"
     # Previous user-agent Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36
+    totalWebsite = requests.get(total, impersonate="chrome")
+    total_html = totalWebsite.text
     premierLeagueWebsite = requests.get(premierLeague, headers={"User-Agent": "*"})
     faCupWebsite = requests.get(faCup, headers={"User-Agent": "*"})
     champions_league_website = requests.get(
@@ -191,10 +192,13 @@ def buildTable():
     return body
 
 
-def main():
+def get_goals():
     parseStats()
-    body = buildTable()
-    return body
+    return buildTable()
+
+
+def main():
+    return get_goals()
 
 
 if __name__ == "__main__":
